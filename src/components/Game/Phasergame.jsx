@@ -9,8 +9,8 @@ const PhaserGame = () => {
   useEffect(() => {
     const config = {
       type: Phaser.AUTO,
-      width: 800,
-      height: 600,
+      width: 1400,
+      height: 1200,
       parent: 'game-container',
       scene: {
         preload,
@@ -25,11 +25,11 @@ const PhaserGame = () => {
       // Preload assets like sprites, tilesets
 
       // Load tilesheets (png name: 'tileset-png', json name: 'office-level-1')
-        this.load.image('tileset-png', 'assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_32x32.png');
-        this.load.tilemapTiledJSON('office-level-1', 'assets/tiles/corporate-conquest.json')
+        this.load.image('tileset-png', '../../assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_32x32.png');
+        this.load.tilemapTiledJSON('office-level-1', '../../assets/tiles/corporate-conquest.json')
     
       // Load spritesheet (name: 'office-dude', png and json loaded together)
-        this.load.atlas('office-dude', 'assets/office_dude_spritesheet.png', 'assets/office_dude_sprite.json')
+        this.load.atlas('office-dude', '../../assets/office_dude_spritesheet.png', '../../assets/office_dude_sprite.json')
     }
 
     function create() {
