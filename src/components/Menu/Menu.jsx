@@ -4,7 +4,7 @@ export default function Menu() {
   return (
     <section className="Main-menu">
       <div>
-        <Link to="/start-game">
+        <Link to="/level-selection">
           <button>Start</button>
         </Link>
         <Link to="/login">

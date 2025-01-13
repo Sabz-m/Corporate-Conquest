@@ -5,6 +5,8 @@ import Login from "./LogIn-SignUp/Login";
 import Settings from "./Settings";
 import Leaderboards from "./Leaderboards";
 import SignUp from "./LogIn-SignUp/SignUp";
+import CharacterSelection from "./Game/CharacterSelection";
+import LevelSelection from "./Game/LevelSelection";
 
 const App = () => {
   return (
@@ -12,20 +14,15 @@ const App = () => {
       <p>in app</p>
       <Routes>
         <Route path="/" element={<Menu />}></Route>
-      </Routes>
-      <Routes>
         <Route path="/start-game" element={<StartGame />}></Route>
-      </Routes>
-      <Routes>
+        <Route path="/level-selection" element={<LevelSelection />}></Route>
+        <Route
+          path="/character-selection"
+          element={<CharacterSelection />}
+        ></Route>
         <Route path="/login" element={<Login />}></Route>
-      </Routes>
-      <Routes>
         <Route path="/settings" element={<Settings />}></Route>
-      </Routes>
-      <Routes>
         <Route path="/leaderboard" element={<Leaderboards />}></Route>
-      </Routes>
-      <Routes>
         <Route path="/sign-up" element={<SignUp />}></Route>
       </Routes>
     </section>
