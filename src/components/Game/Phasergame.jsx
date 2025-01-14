@@ -42,14 +42,8 @@ const PhaserGame = () => {
       // Preload assets like sprites, tilesets
 
       // Load tilesheets (png name: 'tileset-img', json name: 'office-level-1')
-      this.load.image(
-        "tiles-img",
-        "src/assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_32x32.png"
-      );
-      this.load.tilemapTiledJSON(
-        "level-1-map",
-        "src/assets/tiles/bathroom-floor1.json"
-      );
+        this.load.image('tiles-img', 'src/assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_32x32.png');
+        this.load.tilemapTiledJSON('level-1-map', 'src/assets/tiles/bathroom-floor1.json')
 
       // Load spritesheet (name: 'office-dude', png and json loaded together)
       this.load.atlas(
