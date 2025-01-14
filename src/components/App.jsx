@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Menu from "./Menu/Menu";
 import StartGame from "./Game/GameLoop";
 import Login from "./LogIn-SignUp/Login";
-import Settings from "./Settings";
+import Settings from "./Settings/Settings";
 import Leaderboards from "./Leaderboards";
 import SignUp from "./LogIn-SignUp/SignUp";
 import CharacterSelection from "./Game/CharacterSelection";

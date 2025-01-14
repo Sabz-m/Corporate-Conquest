@@ -1,7 +1,9 @@
+import PhaserGame from "./Phasergame";
+
 export default function StartGame() {
   return (
-    <div>
-      <p>game here</p>
-    </div>
+    <section>
+      <PhaserGame />
+    </section>
   );
 }

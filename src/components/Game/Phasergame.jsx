@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import Phaser from 'phaser';
-import Player from './Player';
-import Map from './Map';
-import Pathfinding from './Pathfinding';
-import FOV from './FOV';
+import React, { useEffect } from "react";
+import Phaser from "phaser";
+// import Player from "./Player";
+// import Map from "./Map";
+// import Pathfinding from "./Pathfinding";
+// import FOV from './FOV';
 
 const PhaserGame = () => {
   useEffect(() => {
@@ -11,7 +11,7 @@ const PhaserGame = () => {
       type: Phaser.AUTO,
       width: 1400,
       height: 1200,
-      parent: 'game-container',
+      parent: "game-container",
       scene: {
         preload,
         create,
@@ -23,19 +23,24 @@ const PhaserGame = () => {
 
     function preload() {
       // Preload assets like sprites, tilesets
-
+      
       // Load tilesheets (png name: 'tileset-img', json name: 'office-level-1')
         this.load.image('tiles-img', 'assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_32x32.png');
         this.load.tilemapTiledJSON('office-level-1', 'assets/tiles/corporate-conquest.json')
     
       // Load spritesheet (name: 'office-dude', png and json loaded together)
-        this.load.atlas('office-dude', '../../assets/office_dude_spritesheet.png', '../../assets/office_dude_sprite.json')
+      this.load.atlas(
+        "office-dude",
+        "../../assets/office_dude_spritesheet.png",
+        "../../assets/office_dude_sprite.json"
+      );
     }
 
     var officedude;
 
     function create() {
       // Set up Phaser game scene, including player, map, etc.
+
      
       const map = this.make.tilemap({key: 'office-level-1'})
       const tileset = map.addTilesetImage('tileset', 'tiles-img')
@@ -68,6 +73,8 @@ const PhaserGame = () => {
       officedude.body.setOffset(0, 66); // Offset to feet area
       officedude.play('down-idle') // default animation
 
+
+
       cursors = this.input.keyboard.createCursorKeys(); // set up cursor keys
 
         this.anims.create({
@@ -97,48 +104,37 @@ const PhaserGame = () => {
             frameRate: 10,
             repeat: -1
         })
-
     }
 
     function update() {
       // Update the game loop (movement, AI, etc.)
 
-      if (cursors.left.isDown)
-        {
-            officedude.setVelocityX(-160);
+      if (cursors.left.isDown) {
+        officedude.setVelocityX(-160);
 
-            officedude.anims.play('left-walk', true);
+        officedude.anims.play("left-walk", true);
 
-            officedude.setFlipX(false)
-        }
-        else if (cursors.right.isDown)
-        {
-            officedude.setVelocityX(160);
+        officedude.setFlipX(false);
+      } else if (cursors.right.isDown) {
+        officedude.setVelocityX(160);
 
-            officedude.anims.play('left-walk', true);
+        officedude.anims.play("left-walk", true);
 
-            officedude.setFlipX(true)
-        }
-        else if (cursors.up.isDown)
-        {
-            officedude.setVelocityY(-160);
+        officedude.setFlipX(true);
+      } else if (cursors.up.isDown) {
+        officedude.setVelocityY(-160);
 
-            officedude.anims.play('up-walk', true);
-        }
-        else if (cursors.down.isDown)
-        {
-            officedude.setVelocityY(160);
+        officedude.anims.play("up-walk", true);
+      } else if (cursors.down.isDown) {
+        officedude.setVelocityY(160);
 
-            officedude.anims.play('down-walk', true);
-        }
-        else
-        {
-            officedude.setVelocityX(0);
-            officedude.setVelocityY(0);
+        officedude.anims.play("down-walk", true);
+      } else {
+        officedude.setVelocityX(0);
+        officedude.setVelocityY(0);
 
-            officedude.anims.play('down-idle', true);
-        }
-      
+        officedude.anims.play("down-idle", true);
+      }
     }
 
     return () => {
