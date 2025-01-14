@@ -8,6 +8,7 @@ import { startTimer, stopTimer, togglePause } from '../../actions/gameActions';
 const GameLoop = () => {
   const dispatch = useDispatch();
   const { gamePaused, timer } = useSelector((state) => state.game);
+  const {score} = useSelector((state) => state.player) //access score from redux
 
   useEffect(() => {
     if (!gamePaused) {
@@ -27,6 +28,11 @@ const GameLoop = () => {
     dispatch(togglePause()); // Toggle the game pause state
   };
 
+  const increaseScore = () => {
+    const newScore = score + 100; //this will need to be tied to game logic not yet defined.
+    dispatch(updatePlayerScore(newScore));
+  }
+
   return (
     <div>
       <PhaserGame />
@@ -37,6 +43,7 @@ const GameLoop = () => {
       {/* Show the timer status */}
       <p>Game is {gamePaused ? 'Paused' : 'Running'}</p>
       <p>Time: {timer.time}s</p>
+      <p>Score: {score}</p> {/*display score */}
     </div>
   );
 };
@@ -51,7 +58,7 @@ Note: GameLoop.js is responsible for rendering the game itself, but it might del
 
 import PhaserGame from "./Phasergame";
 
-export default function StartGame() {
+export function StartGame() {
   return (
     <section>
       <PhaserGame />

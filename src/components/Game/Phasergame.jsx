@@ -1,11 +1,19 @@
 import React, { useEffect } from "react";
 import Phaser from "phaser";
-// import Player from "./Player";
-// import Map from "./Map";
-// import Pathfinding from "./Pathfinding";
-// import FOV from './FOV';
+import Player from "./Player";
+import { useDispatch } from "react-redux";
+import { updatePlayerScore } from "../../Actions/PlayerActions";
+import Map from "./Map";
+import Pathfinding from "./Pathfinding";
+import FOV from './FOV';
 
 const PhaserGame = () => {
+//adding player score
+  const dispatch = useDispatch(); //hook used to dispatch actions to the redux store so it updates globally.
+  let currentScore = 0;
+  let officedude;
+  let cursors;
+
   useEffect(() => {
     const config = {
       type: Phaser.AUTO,
@@ -106,6 +114,20 @@ const PhaserGame = () => {
             frames: this.anims.generateFrameNames('office-dude', {prefix: '_down_walk_f', start: 1, end: 6}),
             frameRate: 10,
             repeat: -1
+
+        });
+
+
+        //setting up collisions for the scoring system
+
+        //const enemy = this.physics.add.sprite(700, 400, 'enemy-sprite-placeholder')
+          //enemy.setTint(0xff000); 
+
+        //const collectible = this.physics.add.sprite(500,500, 'collectable-sprite-placeholder')
+
+
+        //health logic here.
+
         })
         
         // Add player and animations (sprite)        
