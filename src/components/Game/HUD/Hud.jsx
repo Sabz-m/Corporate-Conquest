@@ -1,5 +1,7 @@
 import React from 'react';
 import Timer from './Timer';
+import Score from './Score';
+
 
 const HUD = () => {
   return (
@@ -7,7 +9,7 @@ const HUD = () => {
       <Timer /> {/* Display the timer */}
       {/*<HealthBar />*/}
       {/*<Inventory />*/}
-      {/*<Stats />*/}
+      <Score/>{/*<Stats />*/}
     </div>
   );
 };

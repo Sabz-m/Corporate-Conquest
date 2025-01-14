@@ -4,11 +4,12 @@ import PhaserGame from './PhaserGame';
 import HUD from './HUD/HUD';
 import { useDispatch, useSelector } from 'react-redux';
 import { startTimer, stopTimer, togglePause } from '../../actions/gameActions';
+import { updatePlayerHealth, updatePlayerScore } from '../../Actions/PlayerActions';
 
 const GameLoop = () => {
   const dispatch = useDispatch();
   const { gamePaused, timer } = useSelector((state) => state.game);
-  const {score} = useSelector((state) => state.player) //access score from redux
+  const {health, score} = useSelector((state) => state.player) //access score from redux
 
   useEffect(() => {
     if (!gamePaused) {
@@ -28,10 +29,15 @@ const GameLoop = () => {
     dispatch(togglePause()); // Toggle the game pause state
   };
 
+  //score increase - could be moved to combat logic file.
   const increaseScore = () => {
     const newScore = score + 100; //this will need to be tied to game logic not yet defined.
     dispatch(updatePlayerScore(newScore));
   }
+
+  //health decrease from combat logic file
+  handlePlayerDamage();
+  
 
   return (
     <div>
@@ -44,6 +50,7 @@ const GameLoop = () => {
       <p>Game is {gamePaused ? 'Paused' : 'Running'}</p>
       <p>Time: {timer.time}s</p>
       <p>Score: {score}</p> {/*display score */}
+      <p>Health: {health}/100</p>
     </div>
   );
 };
@@ -57,6 +64,7 @@ Example: It could render the Phaser game, handle game pause/resume, and monitor 
 Note: GameLoop.js is responsible for rendering the game itself, but it might delegate specific tasks to other components (e.g., PhaserGame.js for initializing the Phaser game). */
 
 import PhaserGame from "./Phasergame";
+import handlePlayerDamage from '../Combat/CombatLogic';
 
 export function StartGame() {
   return (

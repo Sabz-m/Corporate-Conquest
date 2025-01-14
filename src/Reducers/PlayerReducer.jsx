@@ -8,16 +8,23 @@ const initialState = {
     score: 0, //score property added to player state
 };
 
-const playerReducer = (state = initialState, action) => {
+const PlayerReducer = (state = initialState, action) => {
     switch(action.type) {
         case 'UPDATE_PLAYER_SCORE':
             return {
                 ...state,
                 score: action.payload, //update score with the value passed in the action
             };
+        
+        case 'UPDATE_PLAYER_HEALTH':
+            return{
+                ...state,
+                health: action.payload,
+            }
+
             default:
                 return state;
     }
 };
 
-export default playerReducer;
+export default PlayerReducer;

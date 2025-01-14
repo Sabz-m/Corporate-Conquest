@@ -8,7 +8,7 @@ const initialState = {
   gamePaused: false, // New state to track if the game is paused
 };
 
-const gameReducer = (state = initialState, action) => {
+const GameReducer = (state = initialState, action) => {
   switch (action.type) {
     case START_TIMER:
       return {
@@ -52,7 +52,7 @@ const gameReducer = (state = initialState, action) => {
   }
 };
 
-export default gameReducer;
+export default GameReducer;
 
 /*Role: Handles game-related state.
 Purpose: Manages the global game state, including the timer, pause state, and any other global settings like level progression or game over conditions.

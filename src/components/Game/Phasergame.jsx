@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Phaser from "phaser";
 import Player from "./Player";
 import { useDispatch } from "react-redux";
-import { updatePlayerScore } from "../../Actions/PlayerActions";
+import { updatePlayerScore, updatePlayerHealth } from "../../Actions/PlayerActions";
 import Map from "./Map";
 import Pathfinding from "./Pathfinding";
 import FOV from './FOV';
@@ -10,11 +10,12 @@ import FOV from './FOV';
 const PhaserGame = () => {
 //adding player score
   const dispatch = useDispatch(); //hook used to dispatch actions to the redux store so it updates globally.
+  const {health, score} = useSelector((state) => state.player); //get health from the redux store
   let currentScore = 0;
   let officedude;
   let cursors;
 
-  useEffect(() => {
+  useEffect (() => {
     const config = {
       type: Phaser.AUTO,
       width: 1400,
@@ -118,7 +119,7 @@ const PhaserGame = () => {
         });
 
 
-        //setting up collisions for the scoring system
+        //setting up collisions for the scoring system may be best to have this in our combat logic file.
 
         //const enemy = this.physics.add.sprite(700, 400, 'enemy-sprite-placeholder')
           //enemy.setTint(0xff000); 
@@ -127,8 +128,10 @@ const PhaserGame = () => {
 
 
         //health logic here.
+        //const onPlayerCollisionWithEnemy = () => 
+         
 
-        })
+        //})
         
         // Add player and animations (sprite)        
         officedude = this.physics.add.sprite(600, 300, 'office-dude');
