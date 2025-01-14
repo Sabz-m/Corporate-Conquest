@@ -16,7 +16,7 @@ const PhaserGame = () => {
         default: 'arcade',
         arcade: {
           gravity: { y: 0 },
-          debug: false
+          debug: true
         }
       },
       scene: {
@@ -33,7 +33,7 @@ const PhaserGame = () => {
       
       // Load tilesheets (png name: 'tileset-img', json name: 'office-level-1')
         this.load.image('tiles-img', 'src/assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_32x32.png');
-        this.load.tilemapTiledJSON('level-1-map', 'src/assets/tiles/corporate-conquest-new.json')
+        this.load.tilemapTiledJSON('level-1-map', 'src/assets/tiles/bathroom-floor1.json')
     
       // Load spritesheet (name: 'office-dude', png and json loaded together)
         this.load.atlas(
@@ -117,6 +117,9 @@ const PhaserGame = () => {
         //colliders
         
         this.physics.add.collider(officedude, wallsLayer)
+
+        //cameras
+        this.cameras.main.startFollow(officedude, true)
     }
 
     function update() {
