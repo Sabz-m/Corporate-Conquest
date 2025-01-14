@@ -1,13 +1,24 @@
-import React, { useEffect } from "react";
-import PhaserGame from "./PhaserGame";
-import HUD from "./HUD/HUD";
-import { useDispatch, useSelector } from "react-redux";
+
+
+import React, { useEffect } from 'react';
+import PhaserGame from './PhaserGame';
+import HUD from './HUD/HUD';
+import { useDispatch, useSelector } from 'react-redux';
 import { startTimer, stopTimer, togglePause } from "../../Actions/GameActions";
+import { updatePlayerHealth, updatePlayerScore } from '../../Actions/PlayerActions';
+import handlePlayerDamage from '../Combat/CombatLogic';
+
+
+
+
+
+
 
 const GameLoop = () => {
   const dispatch = useDispatch();
   const { gamePaused, timer } = useSelector((state) => state.game);
-  const { score } = useSelector((state) => state.player); //access score from redux
+  const {health, score} = useSelector((state) => state.player) //access score from redux
+
 
   useEffect(() => {
     if (!gamePaused) {
@@ -27,10 +38,15 @@ const GameLoop = () => {
     dispatch(togglePause()); // Toggle the game pause state
   };
 
+  //score increase - could be moved to combat logic file.
   const increaseScore = () => {
     const newScore = score + 100; //this will need to be tied to game logic not yet defined.
     dispatch(updatePlayerScore(newScore));
   };
+
+  //health decrease from combat logic file
+  handlePlayerDamage();
+  
 
   return (
     <div>
@@ -43,6 +59,7 @@ const GameLoop = () => {
       <p>Game is {gamePaused ? "Paused" : "Running"}</p>
       <p>Time: {timer.time}s</p>
       <p>Score: {score}</p> {/*display score */}
+      <p>Health: {health}/100</p>
     </div>
   );
 };
@@ -53,3 +70,14 @@ export default GameLoop;
 Purpose: This is the component where the overall game logic is managed. It might start and stop the game, manage the game’s state, and render other components like the HUD or the Phaser game itself.
 Example: It could render the Phaser game, handle game pause/resume, and monitor the game state.
 Note: GameLoop.js is responsible for rendering the game itself, but it might delegate specific tasks to other components (e.g., PhaserGame.js for initializing the Phaser game). */
+
+
+
+export function StartGame() {
+  return (
+    <section>
+      <PhaserGame />
+    </section>
+  );
+}
+

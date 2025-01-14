@@ -9,3 +9,10 @@ export const updatePlayerScore = (score) => {
         payload: score, //new score value to update
     }
 }
+
+export const updatePlayerHealth = (health) => {
+    return {
+        type: 'UPDATE_PLAYER_HEALTH',
+        payload: health,
+    }
+}
