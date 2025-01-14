@@ -25,8 +25,8 @@ const PhaserGame = () => {
         arcade: {
           gravity: { y: 0 },
 
-          debug: true
-        }
+          debug: true,
+        },
       },
       scene: {
         preload,
@@ -41,15 +41,21 @@ const PhaserGame = () => {
       // Preload assets like sprites, tilesets
 
       // Load tilesheets (png name: 'tileset-img', json name: 'office-level-1')
-        this.load.image('tiles-img', 'src/assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_32x32.png');
-        this.load.tilemapTiledJSON('level-1-map', 'src/assets/tiles/bathroom-floor1.json'
+      this.load.image(
+        "tiles-img",
+        "src/assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_32x32.png"
+      );
+      this.load.tilemapTiledJSON(
+        "level-1-map",
+        "src/assets/tiles/bathroom-floor1.json"
+      );
 
       // Load spritesheet (name: 'office-dude', png and json loaded together)
-        this.load.atlas(
-          "office-dude",
-          "src/assets/sprites/office_dude_spritesheet.png",
-          "src/assets/sprites/office_dude_sprite.json"
-        );
+      this.load.atlas(
+        "office-dude",
+        "src/assets/sprites/office_dude_spritesheet.png",
+        "src/assets/sprites/office_dude_sprite.json"
+      );
 
       let officedude;
       let cursors;
@@ -118,24 +124,28 @@ const PhaserGame = () => {
         });
 
         this.anims.create({
-            key: 'down-walk',
-            frames: this.anims.generateFrameNames('office-dude', {prefix: '_down_walk_f', start: 1, end: 6}),
-            frameRate: 10,
-            repeat: -1
-        })
-        
-        // Add player and animations (sprite)        
-        officedude = this.physics.add.sprite(600, 300, 'office-dude');
+          key: "down-walk",
+          frames: this.anims.generateFrameNames("office-dude", {
+            prefix: "_down_walk_f",
+            start: 1,
+            end: 6,
+          }),
+          frameRate: 10,
+          repeat: -1,
+        });
+
+        // Add player and animations (sprite)
+        officedude = this.physics.add.sprite(600, 300, "office-dude");
         officedude.body.setSize(39, 15); // Set size for feet area for accurate collision
         officedude.body.setOffset(0, 66); // Offset to feet area
-        officedude.play('down-idle') // default animation
+        officedude.play("down-idle"); // default animation
 
         //colliders
-        
-        this.physics.add.collider(officedude, wallsLayer)
+
+        this.physics.add.collider(officedude, wallsLayer);
 
         //cameras
-        this.cameras.main.startFollow(officedude, true)
+        this.cameras.main.startFollow(officedude, true);
 
         //setting up collisions for the scoring system
 
