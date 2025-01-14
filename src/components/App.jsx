@@ -1,3 +1,8 @@
+import React from "react";
+import { Provider } from "react-redux";
+import store from "../Store/Store";
+import GameLoop from './Game/GameLoop'
+import Score from './Game/HUD/Score'
 import { Routes, Route } from "react-router-dom";
 import Menu from "./Menu/Menu";
 import StartGame from "./Game/GameLoop";
@@ -10,6 +15,7 @@ import LevelSelection from "./Game/LevelSelection";
 
 const App = () => {
   return (
+    <Provider store = {store}>
     <section>
       <p>in app</p>
       <Routes>
@@ -26,7 +32,13 @@ const App = () => {
         <Route path="/sign-up" element={<SignUp />}></Route>
       </Routes>
     </section>
+    </Provider>
   );
 };
 
 export default App;
+
+
+/*Role: The main entry point of the application.
+Purpose: Renders the overall structure of the app, including the game or login/signup screen based on the user’s authentication state.
+Example: It could conditionally render the login/signup components or the game loop depending on whether the user is logged in. */
