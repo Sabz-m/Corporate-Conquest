@@ -30,3 +30,8 @@ const App = () => {
 };
 
 export default App;
+
+
+/*Role: The main entry point of the application.
+Purpose: Renders the overall structure of the app, including the game or login/signup screen based on the user’s authentication state.
+Example: It could conditionally render the login/signup components or the game loop depending on whether the user is logged in. */

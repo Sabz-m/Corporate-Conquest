@@ -146,3 +146,9 @@ const PhaserGame = () => {
 };
 
 export default PhaserGame;
+
+
+/*Role: Manages the Phaser game instance.
+Purpose: Initialises and runs the Phaser game engine. It configures the game, handles updates, renders the game scene, and connects it with the game loop (via Phaser’s update method).
+Example: This file initialises the Phaser game and sets up the main game scene (e.g., loading assets, configuring player controls, handling collisions).*/
+
