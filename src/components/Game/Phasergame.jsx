@@ -23,17 +23,11 @@ const PhaserGame = () => {
 
     function preload() {
       // Preload assets like sprites, tilesets
-
-      // Load tilesheets (png name: 'tileset-png', json name: 'office-level-1')
-      this.load.image(
-        "tileset-png",
-        "../../assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_32x32.png"
-      );
-      this.load.tilemapTiledJSON(
-        "office-level-1",
-        "../../assets/tiles/corporate-conquest.json"
-      );
-
+      
+      // Load tilesheets (png name: 'tileset-img', json name: 'office-level-1')
+        this.load.image('tiles-img', 'assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_32x32.png');
+        this.load.tilemapTiledJSON('office-level-1', 'assets/tiles/corporate-conquest.json')
+    
       // Load spritesheet (name: 'office-dude', png and json loaded together)
       this.load.atlas(
         "office-dude",
@@ -42,86 +36,74 @@ const PhaserGame = () => {
       );
     }
 
+    var officedude;
+
     function create() {
       // Set up Phaser game scene, including player, map, etc.
 
-      const map = this.make.tilemap({ key: "office-level-1" });
-      const tileset = map.addTilesetImage(
-        "office-asset-pack-tileset",
-        "tileset-png"
-      );
+     
+      const map = this.make.tilemap({key: 'office-level-1'})
+      const tileset = map.addTilesetImage('tileset', 'tiles-img')
 
-      const groundLayer = map.createStaticLayer("Ground", tileset);
-      const wallsLayer = map.createStaticLayer("Walls", tileset);
+      map.createStaticLayer('ground', tileset)
+      const wallsLayer = map.createStaticLayer('walls', tileset)
 
-      wallsLayer.setCollisionByProperty({ collides: true });
 
-      // Walls collision Debugging
-      const debugGraphics = this.add.graphics().setAlpha(0.7);
+      // Workaround - Should be able to write: wallsLayer.setCollisionByProperty({collides: true}) - Can't get Tiled to create neccesary JSON structure/data for this so instead having to iterate and manually add collides property to correct tiles
+      wallsLayer.layer.data.map((x) => {
+        x.map((y)=>{
+            y.index > 1 ? // On this layer, different wall tiles have indexes above 1, empty tiles have an index of 0
+            y.properties = {collides: true}
+            : y.properties = {collides: false}
+        })
+      })
+
+      // Walls collision Debugging (highlights collision properties with yellow highlight)
+      const debugGraphics = this.add.graphics().setAlpha(0.7)
       wallsLayer.renderDebug(debugGraphics, {
-        tileColor: null,
-        collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
-        faceColor: new Phaser.Display.Color(40, 39, 37, 255),
-      });
+                tileColor: null,
+                collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
+                faceColor: new Phaser.Display.Color(40,39,37,255)
+              })
+              
+              
+      // Add player and animations (sprite)        
+      officedude = this.physics.add.sprite(600, 300, 'office-dude');
+      officedude.body.setSize(39, 15); // Set size for feet area for accurate collision
+      officedude.body.setOffset(0, 66); // Offset to feet area
+      officedude.play('down-idle') // default animation
 
-      console.log(wallsLayer.layer.data[10][5].properties);
 
-      /*  wallsLayer.layer.data.map((x) => {
-                x.map((y)=>{
-                    console.log(y.collides)
-                })
-            }) */
 
-      // Add player and animations (sprite)
+      cursors = this.input.keyboard.createCursorKeys(); // set up cursor keys
 
-      cursors = this.input.keyboard.createCursorKeys();
+        this.anims.create({
+            key: 'down-idle',
+            frames: this.anims.generateFrameNames('office-dude', { prefix: '_down_idle_f', start: 1, end: 6 }),
+            frameRate: 10,
+            repeat: -1
+        });
 
-      this.anims.create({
-        key: "down-idle",
-        frames: this.anims.generateFrameNames("office-dude", {
-          prefix: "_down_idle_f",
-          start: 1,
-          end: 6,
-        }),
-        frameRate: 10,
-        repeat: -1,
-      });
+        this.anims.create({
+            key: 'left-walk',
+            frames: this.anims.generateFrameNames('office-dude', {prefix: '_side_walk_f', start: 1, end: 6}),
+            frameRate: 10,
+            repeat: -1
+        })
 
-      this.anims.create({
-        key: "left-walk",
-        frames: this.anims.generateFrameNames("office-dude", {
-          prefix: "_side_walk_f",
-          start: 1,
-          end: 6,
-        }),
-        frameRate: 10,
-        repeat: -1,
-      });
+        this.anims.create({
+            key: 'up-walk',
+            frames: this.anims.generateFrameNames('office-dude', {prefix: '_up_walk_f', start: 1, end: 6}),
+            frameRate: 10,
+            repeat: -1
+        })
 
-      this.anims.create({
-        key: "up-walk",
-        frames: this.anims.generateFrameNames("office-dude", {
-          prefix: "_up_walk_f",
-          start: 1,
-          end: 6,
-        }),
-        frameRate: 10,
-        repeat: -1,
-      });
-
-      this.anims.create({
-        key: "down-walk",
-        frames: this.anims.generateFrameNames("office-dude", {
-          prefix: "_down_walk_f",
-          start: 1,
-          end: 6,
-        }),
-        frameRate: 10,
-        repeat: -1,
-      });
-
-      officedude = this.physics.add.sprite(100, 450, "office-dude");
-      officedude.play("down-idle");
+        this.anims.create({
+            key: 'down-walk',
+            frames: this.anims.generateFrameNames('office-dude', {prefix: '_down_walk_f', start: 1, end: 6}),
+            frameRate: 10,
+            repeat: -1
+        })
     }
 
     function update() {
