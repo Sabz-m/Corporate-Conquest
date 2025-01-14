@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import PhaserGame from './PhaserGame';
 import HUD from './HUD/HUD';
@@ -47,3 +48,14 @@ export default GameLoop;
 Purpose: This is the component where the overall game logic is managed. It might start and stop the game, manage the game’s state, and render other components like the HUD or the Phaser game itself.
 Example: It could render the Phaser game, handle game pause/resume, and monitor the game state.
 Note: GameLoop.js is responsible for rendering the game itself, but it might delegate specific tasks to other components (e.g., PhaserGame.js for initializing the Phaser game). */
+
+import PhaserGame from "./Phasergame";
+
+export default function StartGame() {
+  return (
+    <section>
+      <PhaserGame />
+    </section>
+  );
+}
+

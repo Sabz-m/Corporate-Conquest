@@ -1,3 +1,4 @@
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -162,3 +163,6 @@ Summary of Key Components:
     HUD Components: Display the user interface elements like health, inventory, and stats.
     CombatLogic.js: Manages combat logic and player combat interactions.
     LoginSignup Components: Handle user authentication (login, signup).
+
+- planning - https://excalidraw.com/#room=1c3284f1e43bc390e9e3,faDlz7hd8ta3TnYcmM1vhw
+
