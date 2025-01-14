@@ -12,6 +12,13 @@ const PhaserGame = () => {
       width: 1400,
       height: 1200,
       parent: "game-container",
+      physics: {
+        default: 'arcade',
+        arcade: {
+          gravity: { y: 0 },
+          debug: false
+        }
+      },
       scene: {
         preload,
         create,
@@ -25,57 +32,53 @@ const PhaserGame = () => {
       // Preload assets like sprites, tilesets
       
       // Load tilesheets (png name: 'tileset-img', json name: 'office-level-1')
-        this.load.image('tiles-img', 'assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_32x32.png');
-        this.load.tilemapTiledJSON('office-level-1', 'assets/tiles/corporate-conquest.json')
+        this.load.image('tiles-img', 'src/assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_32x32.png');
+        this.load.tilemapTiledJSON('level-1-map', 'src/assets/tiles/corporate-conquest-new.json')
     
       // Load spritesheet (name: 'office-dude', png and json loaded together)
-      this.load.atlas(
-        "office-dude",
-        "../../assets/office_dude_spritesheet.png",
-        "../../assets/office_dude_sprite.json"
-      );
+        this.load.atlas(
+          "office-dude",
+          "src/assets/sprites/office_dude_spritesheet.png",
+          "src/assets/sprites/office_dude_sprite.json"
+        );
     }
 
-    var officedude;
+    let officedude;
+    let cursors;
 
     function create() {
       // Set up Phaser game scene, including player, map, etc.
 
      
-      const map = this.make.tilemap({key: 'office-level-1'})
+      const map = this.make.tilemap({key: 'level-1-map'})
       const tileset = map.addTilesetImage('tileset', 'tiles-img')
 
-      map.createStaticLayer('ground', tileset)
-      const wallsLayer = map.createStaticLayer('walls', tileset)
+      map.createLayer('ground', tileset)
+      const wallsLayer = map.createLayer('walls', tileset)
 
 
       // Workaround - Should be able to write: wallsLayer.setCollisionByProperty({collides: true}) - Can't get Tiled to create neccesary JSON structure/data for this so instead having to iterate and manually add collides property to correct tiles
-      wallsLayer.layer.data.map((x) => {
-        x.map((y)=>{
-            y.index > 1 ? // On this layer, different wall tiles have indexes above 1, empty tiles have an index of 0
-            y.properties = {collides: true}
-            : y.properties = {collides: false}
-        })
-      })
+      // wallsLayer.layer.data.map((x) => {
+      //   x.map((y)=>{
+      //       y.index > 1 ? // On this layer, different wall tiles have indexes above 1, empty tiles have an index of 0
+      //       y.properties = {collides: true}
+      //       : y.properties = {collides: false}
+      //   })
+      // })
+
+      wallsLayer.setCollisionByProperty({collides: true})
 
       // Walls collision Debugging (highlights collision properties with yellow highlight)
-      const debugGraphics = this.add.graphics().setAlpha(0.7)
+     /*  const debugGraphics = this.add.graphics().setAlpha(0.7)
       wallsLayer.renderDebug(debugGraphics, {
                 tileColor: null,
                 collidingTileColor: new Phaser.Display.Color(243, 234, 48, 255),
                 faceColor: new Phaser.Display.Color(40,39,37,255)
-              })
+              }) */
               
               
-      // Add player and animations (sprite)        
-      officedude = this.physics.add.sprite(600, 300, 'office-dude');
-      officedude.body.setSize(39, 15); // Set size for feet area for accurate collision
-      officedude.body.setOffset(0, 66); // Offset to feet area
-      officedude.play('down-idle') // default animation
-
-
-
-      cursors = this.input.keyboard.createCursorKeys(); // set up cursor keys
+              
+              cursors = this.input.keyboard.createCursorKeys(); // set up cursor keys
 
         this.anims.create({
             key: 'down-idle',
@@ -83,9 +86,9 @@ const PhaserGame = () => {
             frameRate: 10,
             repeat: -1
         });
-
+        
         this.anims.create({
-            key: 'left-walk',
+          key: 'left-walk',
             frames: this.anims.generateFrameNames('office-dude', {prefix: '_side_walk_f', start: 1, end: 6}),
             frameRate: 10,
             repeat: -1
@@ -104,6 +107,16 @@ const PhaserGame = () => {
             frameRate: 10,
             repeat: -1
         })
+        
+        // Add player and animations (sprite)        
+        officedude = this.physics.add.sprite(600, 300, 'office-dude');
+        officedude.body.setSize(39, 15); // Set size for feet area for accurate collision
+        officedude.body.setOffset(0, 66); // Offset to feet area
+        officedude.play('down-idle') // default animation
+
+        //colliders
+        
+        this.physics.add.collider(officedude, wallsLayer)
     }
 
     function update() {
