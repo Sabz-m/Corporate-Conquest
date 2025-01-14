@@ -1,3 +1,8 @@
+import React from "react";
+import { Provider } from "react-redux";
+import store from "../Store/Store";
+import GameLoop from './Game/GameLoop'
+import Score from './Game/HUD/Score'
 import { Routes, Route } from "react-router-dom";
 import Menu from "./Menu/Menu";
 import StartGame from "./Game/GameLoop";
@@ -10,6 +15,7 @@ import LevelSelection from "./Game/LevelSelection";
 
 const App = () => {
   return (
+    <Provider store = {store}>
     <section>
       <p>in app</p>
       <Routes>
@@ -26,6 +32,7 @@ const App = () => {
         <Route path="/sign-up" element={<SignUp />}></Route>
       </Routes>
     </section>
+    </Provider>
   );
 };
 
