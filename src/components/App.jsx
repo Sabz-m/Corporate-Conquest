@@ -11,7 +11,6 @@ import LevelSelection from "./Game/LevelSelection";
 const App = () => {
   return (
     <section>
-      <p>in app</p>
       <Routes>
         <Route path="/" element={<Menu />}></Route>
         <Route path="/start-game" element={<StartGame />}></Route>
