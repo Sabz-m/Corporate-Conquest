@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import Phaser from "phaser";
-import Player from "./Player";
+//import Player from "./Player";
 import { useDispatch } from "react-redux";
 import { updatePlayerScore, updatePlayerHealth } from "../../Actions/PlayerActions";
-import Map from "./Map";
-import Pathfinding from "./Pathfinding";
-import FOV from "./FOV";
+//import Map from "./Map";
+//import Pathfinding from "./Pathfinding";
+//import FOV from "./FOV";
 
 const PhaserGame = () => {
   //adding player score

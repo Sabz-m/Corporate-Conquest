@@ -29,3 +29,4 @@ export const updateTime = () => ({
 /*Role: Contains actions related to the game’s global state.
 Purpose: Actions for controlling the game’s timer, paused state, and other global game features.
 Example: Actions like startTimer, stopTimer, togglePause, and resetGame.*/
+
