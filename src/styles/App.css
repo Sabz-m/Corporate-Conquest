@@ -1,4 +1,13 @@
-body {
+html, body {
+  margin: 0px;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
   background-color: #232646;
   font-family: 'Arial', sans-serif;
+}
+
+#game-container{
+  display: flex;
+  justify-content: center;
 }
