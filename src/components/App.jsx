@@ -17,7 +17,6 @@ const App = () => {
   return (
     <Provider store = {store}>
     <section>
-      <p>in app</p>
       <Routes>
         <Route path="/" element={<Menu />}></Route>
         <Route path="/start-game" element={<StartGame />}></Route>
