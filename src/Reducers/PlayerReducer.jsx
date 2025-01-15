@@ -6,6 +6,7 @@ const initialState = {
     health: 100,
     position: { x: 0, y:0}, //update this to fit into the game discuss with team.
     score: 0, //score property added to player state
+    
 };
 
 const PlayerReducer = (state = initialState, action) => {

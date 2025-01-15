@@ -10,7 +10,7 @@ import { updatePlayerScore, updatePlayerHealth } from "../../Actions/PlayerActio
 const PhaserGame = () => {
   //adding player score
   const dispatch = useDispatch(); //hook used to dispatch actions to the redux store so it updates globally.
-  const {health, score} = useSelector((state) => state.player); //get health from the redux store
+  //const {health, score} = useSelector((state) => state.player); //get health from the redux store
   let currentScore = 0;
   let officedude;
   let cursors;
