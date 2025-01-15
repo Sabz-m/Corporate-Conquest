@@ -1,4 +1,4 @@
-import { START_TIMER, STOP_TIMER, RESET_TIMER, UPDATE_TIME, TOGGLE_PAUSE } from '../actions/gameActions';
+import { START_TIMER, STOP_TIMER, RESET_TIMER, UPDATE_TIME, TOGGLE_PAUSE } from '../Actions/GameActions';
 
 const initialState = {
   timer: {
