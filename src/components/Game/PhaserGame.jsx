@@ -22,9 +22,10 @@ const PhaserGame = () => {
     // Load tilesheets (png name: 'tileset-img', json name: 'office-level-1')
     this.load.image(
       'tiles-img',
-      'src/assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_32x32.png'
+      'src/assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_48x48.png'
     );
-    this.load.tilemapTiledJSON('level-1-map', 'src/assets/tiles/bathroom-floor1.json');
+    this.load.image('bathroom-tiles-img', 'src/assets/tiles/bathroom_cubicles_sinks.png')
+    this.load.tilemapTiledJSON('level-1-map', 'src/assets/tiles/level_1.json');
 
     // Load spritesheet (name: 'office-dude', png and json loaded together)
     this.load.atlas(
@@ -39,10 +40,15 @@ const PhaserGame = () => {
     // Set up Phaser game scene, including player, map, etc.
 
     const map = this.make.tilemap({ key: "level-1-map" });
-    const tileset = map.addTilesetImage("tileset", "tiles-img");
+    const roomBuilderTileset = map.addTilesetImage("48x48_roombuilder_tileset", "tiles-img");
+    const bathroomTileset = map.addTilesetImage("bathroom_tileset", "bathroom-tiles-img");
 
-    map.createLayer("ground", tileset);
-    const wallsLayer = map.createLayer("walls", tileset);
+
+    map.createLayer("ground", roomBuilderTileset);
+    const wallsLayer = map.createLayer("walls", roomBuilderTileset);
+    map.createLayer("objects", bathroomTileset)
+
+    console.log(map.tilesets[1].tileData)
 
     // Workaround - Should be able to write: wallsLayer.setCollisionByProperty({collides: true}) 
     // - Can't get Tiled to create necessary JSON structure/data for this so instead having to iterate and manually add collides property to correct tiles
