@@ -39,6 +39,8 @@ export default class GameScene extends Phaser.Scene {
 
         this.officedude = setupPlayer(this) // setup player NOTE: has to follow after animations are created
 
+        this.add.image(180, 20, "health-bar") // temporary placement but should probably be in react component
+
         // colliders
         this.physics.add.collider(this.officedude, wallsLayer)
 
