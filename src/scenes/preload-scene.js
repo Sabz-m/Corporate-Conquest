@@ -11,7 +11,7 @@ export default class PreloadScene extends Phaser.Scene {
     preload() {
         // Preload assets like sprites, tilesets
 
-        // Load tilesheets (png name: 'tileset-img', json name: 'office-level-1')
+        // Load tilesheets
         this.load.image(
             "tiles-img",
             "src/assets/tiles/Modern_Office_Revamped_v1.2/1_Room_Builder_Office/Room_Builder_Office_48x48.png"
@@ -28,13 +28,18 @@ export default class PreloadScene extends Phaser.Scene {
         // Load spritesheet (name: 'office-dude', png and json loaded together)
         this.load.atlas(
             "office-dude",
-            "src/assets/sprites/office_dude_spritesheet.png",
-            "src/assets/sprites/office_dude_sprite.json"
+            "src/assets/sprites/office-dude/office_dude_spritesheet.png",
+            "src/assets/sprites/office-dude/office_dude_sprite.json"
+        )
+        // Load spritesheet (name: 'basic-enemy-bot', png and json loaded together)
+        this.load.atlas(
+            "basic-enemy-bot",
+            "src/assets/sprites/basic-enemy-bot/basic_enemy_bot_spritesheet.png",
+            "src/assets/sprites/basic-enemy-bot/basic_enemy_bot_sprite.json"
         )
     }
 
     create() {
         this.scene.start(SCENE_KEYS.GAME_SCENE)
     }
- 
 }
