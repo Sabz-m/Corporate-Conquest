@@ -6,12 +6,13 @@ import Score from './Game/HUD/Score'
 import { Routes, Route } from "react-router-dom";
 import Menu from "./Menu/Menu";
 import StartGame from "./Game/GameLoop";
-import Login from "./LogIn-SignUp/Login";
+import Login from "./LogInSignup/Login";
 import Settings from "./Settings/Settings";
 import Leaderboards from "./Leaderboards";
-import SignUp from "./LogIn-SignUp/SignUp";
+import SignUp from "./LogInSignup/SignUp";
 import CharacterSelection from "./Game/CharacterSelection";
 import LevelSelection from "./Game/LevelSelection";
+import LoginSignup from "./LogInSignup/LoginSignup";
 
 const App = () => {
   return (
@@ -25,10 +26,10 @@ const App = () => {
           path="/character-selection"
           element={<CharacterSelection />}
         ></Route>
-        <Route path="/login" element={<Login />}></Route>
+        <Route path="/login" element={<LoginSignup />}></Route>
+        <Route path="/sign-up" element={<SignUp />}></Route>
         <Route path="/settings" element={<Settings />}></Route>
         <Route path="/leaderboard" element={<Leaderboards />}></Route>
-        <Route path="/sign-up" element={<SignUp />}></Route>
       </Routes>
     </section>
     </Provider>
