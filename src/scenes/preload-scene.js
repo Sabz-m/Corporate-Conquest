@@ -25,18 +25,21 @@ export default class PreloadScene extends Phaser.Scene {
             "src/assets/tiles/level_1.json"
         )
 
-        // Load spritesheet (name: 'office-dude', png and json loaded together)
+        // Load officedude
         this.load.atlas(
             "office-dude",
             "src/assets/sprites/office-dude/office_dude_spritesheet.png",
             "src/assets/sprites/office-dude/office_dude_sprite.json"
         )
-        // Load spritesheet (name: 'basic-enemy-bot', png and json loaded together)
+        // Load enemy bot
         this.load.atlas(
             "basic-enemy-bot",
             "src/assets/sprites/basic-enemy-bot/basic_enemy_bot_spritesheet.png",
             "src/assets/sprites/basic-enemy-bot/basic_enemy_bot_sprite.json"
         )
+
+        // load health bar (might need to be added in react component, not here)
+        this.load.atlas("health-bar", "src/assets/health_bar/health_bar_spritesheet.png", "src/assets/health_bar/health_bar.json")
     }
 
     create() {
