@@ -1,8 +1,8 @@
 import React from "react";
 import { Provider } from "react-redux";
 import store from "../Store/Store";
-import GameLoop from './Game/GameLoop'
-import Score from './Game/HUD/Score'
+import GameLoop from "./Game/GameLoop";
+import Score from "./Game/HUD/Score";
 import { Routes, Route } from "react-router-dom";
 import Menu from "./Menu/Menu";
 import StartGame from "./Game/GameLoop";
@@ -15,28 +15,27 @@ import LevelSelection from "./Game/LevelSelection";
 
 const App = () => {
   return (
-    <Provider store = {store}>
-    <section>
-      <Routes>
-        <Route path="/" element={<Menu />}></Route>
-        <Route path="/start-game" element={<StartGame />}></Route>
-        <Route path="/level-selection" element={<LevelSelection />}></Route>
-        <Route
-          path="/character-selection"
-          element={<CharacterSelection />}
-        ></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/settings" element={<Settings />}></Route>
-        <Route path="/leaderboard" element={<Leaderboards />}></Route>
-        <Route path="/sign-up" element={<SignUp />}></Route>
-      </Routes>
-    </section>
+    <Provider store={store}>
+      <section>
+        <Routes>
+          <Route path="/" element={<Menu />}></Route>
+          <Route path="/start-game" element={<GameLoop />}></Route>
+          <Route path="/level-selection" element={<LevelSelection />}></Route>
+          <Route
+            path="/character-selection"
+            element={<CharacterSelection />}
+          ></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/settings" element={<Settings />}></Route>
+          <Route path="/leaderboard" element={<Leaderboards />}></Route>
+          <Route path="/sign-up" element={<SignUp />}></Route>
+        </Routes>
+      </section>
     </Provider>
   );
 };
 
 export default App;
-
 
 /*Role: The main entry point of the application.
 Purpose: Renders the overall structure of the app, including the game or login/signup screen based on the user’s authentication state.

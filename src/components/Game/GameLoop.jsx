@@ -1,24 +1,18 @@
-
-
-import React, { useEffect } from 'react';
-import PhaserGame from './PhaserGame';
-import HUD from './HUD/HUD';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import PhaserGame from "./PhaserGame";
+import HUD from "./HUD/HUD";
+import { useDispatch, useSelector } from "react-redux";
 import { startTimer, stopTimer, togglePause } from "../../Actions/GameActions";
-import { updatePlayerHealth, updatePlayerScore } from '../../Actions/PlayerActions';
-import handlePlayerDamage from '../Combat/CombatLogic';
-
-
-
-
-
-
+import {
+  updatePlayerHealth,
+  updatePlayerScore,
+} from "../../Actions/PlayerActions";
+import { handlePlayerDamage } from "../../Actions/CombatActions";
 
 const GameLoop = () => {
   const dispatch = useDispatch();
   const { gamePaused, timer } = useSelector((state) => state.game);
-  const {health, score} = useSelector((state) => state.player) //access score from redux
-
+  const { health, score } = useSelector((state) => state.player);
 
   useEffect(() => {
     if (!gamePaused) {
@@ -38,15 +32,15 @@ const GameLoop = () => {
     dispatch(togglePause()); // Toggle the game pause state
   };
 
-  //score increase - could be moved to combat logic file.
   const increaseScore = () => {
-    const newScore = score + 100; //this will need to be tied to game logic not yet defined.
-    dispatch(updatePlayerScore(newScore));
+    const newScore = score + 100;
+    dispatch(updatePlayerScore(newScore)); // Increase score by 100
   };
 
-  //health decrease from combat logic file
-  handlePlayerDamage();
-  
+  // Fix: Wrap damage logic in a function or event handler
+  const onPlayerDamage = (damageAmount) => {
+    dispatch(handlePlayerDamage(damageAmount)); // Call damage handler with specified damage
+  };
 
   return (
     <div>
@@ -55,11 +49,11 @@ const GameLoop = () => {
       <button onClick={handlePauseToggle}>
         {gamePaused ? "Resume Game" : "Pause Game"}
       </button>
-      {/* Show the timer status */}
       <p>Game is {gamePaused ? "Paused" : "Running"}</p>
       <p>Time: {timer.time}s</p>
-      <p>Score: {score}</p> {/*display score */}
+      <p>Score: {score}</p>
       <p>Health: {health}/100</p>
+      <button onClick={() => onPlayerDamage(10)}>Take Damage</button>
     </div>
   );
 };
@@ -71,13 +65,10 @@ Purpose: This is the component where the overall game logic is managed. It might
 Example: It could render the Phaser game, handle game pause/resume, and monitor the game state.
 Note: GameLoop.js is responsible for rendering the game itself, but it might delegate specific tasks to other components (e.g., PhaserGame.js for initializing the Phaser game). */
 
-
-
-export function StartGame() {
-  return (
-    <section>
-      <PhaserGame />
-    </section>
-  );
-}
-
+// export function StartGame() {
+//   return (
+//     <section>
+//       <PhaserGame />
+//     </section>
+//   );
+// }
