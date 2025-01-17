@@ -1,0 +1,59 @@
+{
+    "frames": [
+        {
+            "filename": "cubicles_f1",
+            "frame": { "x": 11, "y": 4, "w": 98, "h": 375 },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": { "x": 0, "y": 0, "w": 98, "h": 375 },
+            "sourceSize": { "w": 98, "h": 375 }
+        },
+        {
+            "filename": "cubicles_f2",
+            "frame": { "x": 157, "y": 4, "w": 104, "h": 375 },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": { "x": 0, "y": 0, "w": 104, "h": 375 },
+            "sourceSize": { "w": 104, "h": 375 }
+        },
+        {
+            "filename": "cubicles_f3",
+            "frame": { "x": 303, "y": 4, "w": 110, "h": 375 },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": { "x": 0, "y": 0, "w": 110, "h": 375 },
+            "sourceSize": { "w": 110, "h": 375 }
+        },
+        {
+            "filename": "cubicles_f4",
+            "frame": { "x": 465, "y": 4, "w": 116, "h": 375 },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": { "x": 0, "y": 0, "w": 116, "h": 375 },
+            "sourceSize": { "w": 116, "h": 375 }
+        },
+        {
+            "filename": "cubicles_f5",
+            "frame": { "x": 624, "y": 4, "w": 125, "h": 375 },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": { "x": 0, "y": 0, "w": 125, "h": 375 },
+            "sourceSize": { "w": 125, "h": 375 }
+        },
+        {
+            "filename": "cubicles_f6",
+            "frame": { "x": 792, "y": 4, "w": 125, "h": 375 },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": { "x": 0, "y": 0, "w": 125, "h": 375 },
+            "sourceSize": { "w": 125, "h": 375 }
+        }
+    ],
+    "meta": {
+        "app": "https://www.leshylabs.com/apps/sstool/",
+        "version": "Leshy SpriteSheet Tool v0.8.4",
+        "image": "cubicles.png",
+        "size": { "w": 920, "h": 384 },
+        "scale": 1
+    }
+}
