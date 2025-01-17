@@ -1,13 +1,14 @@
+import "./CharacterSelection.css";
 import { Link } from "react-router-dom";
 
 export default function CharacterSelection() {
   return (
-    <section>
-      <p>Select your character here</p>
+    <section className="character-selection">
+      <h2>Select your character</h2>
       <Link to="/start-game">
-        <button>Character 1</button>
-        <button>Character 2</button>
-        <button>Character 3</button>
+        <button className="button">Character 1</button>
+        <button className="button">Character 2</button>
+        <button className="button">Character 3</button>
       </Link>
     </section>
   );
