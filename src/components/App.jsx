@@ -8,7 +8,7 @@ import Menu from "./Menu/Menu";
 import StartGame from "./Game/GameLoop";
 import Login from "./LogInSignup/Login";
 import Settings from "./Settings/Settings";
-import Leaderboards from "./Leaderboards";
+import Leaderboards from "./Leaderboards/Leaderboards";
 import SignUp from "./LogInSignup/SignUp";
 import CharacterSelection from "./Game/CharacterSelection";
 import LevelSelection from "./Game/LevelSelection";
