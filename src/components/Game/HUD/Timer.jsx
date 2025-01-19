@@ -17,10 +17,9 @@ const Timer = () => {
     if (isRunning) {
       interval = setInterval(() => {
         dispatch(updateTime());
-      }, 1000); // Update every second
+      }, 1000);
     }
 
-    // Cleanup on unmount or when the timer is stopped
     return () => {
       clearInterval(interval);
     };
@@ -40,7 +39,6 @@ const Timer = () => {
 
   return (
     <div>
-      <h3>Timer: {time}s</h3>
       <button onClick={handleStart} disabled={isRunning}>
         Start
       </button>
@@ -48,6 +46,7 @@ const Timer = () => {
         Stop
       </button>
       <button onClick={handleReset}>Reset</button>
+      <h3>Timer: {time}s</h3>
     </div>
   );
 };

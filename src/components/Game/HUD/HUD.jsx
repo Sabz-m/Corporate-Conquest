@@ -1,15 +1,18 @@
-import React from 'react';
-import Timer from './Timer';
-import Score from './Score';
-
+import React from "react";
+import Timer from "./Timer";
+import Health from "./Health";
+import Score from "./Score";
+import Stats from "./Stats";
+import Inventory from "./Inventory";
 
 const HUD = () => {
   return (
-    <div>
-      <Timer /> {/* Display the timer */}
-      {/*<HealthBar />*/}
-      {/*<Inventory />*/}
-      <Score/>{/*<Stats />*/}
+    <div className="hud-overlay">
+      <Timer />
+      <Health />
+      <Score />
+      <Stats />
+      <Inventory />
     </div>
   );
 };
