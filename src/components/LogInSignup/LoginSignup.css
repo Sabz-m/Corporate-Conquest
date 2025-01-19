@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     margin: auto;
-    margin-top: 40px;
+    margin-top: 30px;
     width: 500px;
     background: white;
     padding-bottom: 30px;
@@ -39,10 +39,10 @@
 }
 
 .inputs{
-    margin-top: 55px;
+    margin-top: 35px;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 20px;
 }
 
 .input{
@@ -65,7 +65,7 @@
 }
 
 .forgot-password{
-    margin-top: 27px;
+    margin-top: 23px;
     color: #555555;
     font-size: 18px;
     text-align: center;
@@ -79,8 +79,8 @@
 
 .submit-container{
     display: flex;
-    gap: 30px;
-    margin: 40px auto;
+    gap: 35px;
+    margin: 20px auto;
 }
 
 .submit{
@@ -100,4 +100,9 @@
 .gray{
     background: #eaeaea;
     color: #555555;
+}
+
+.messages{
+    text-align: center;
+    color: rgb(110, 8, 8);
 }
