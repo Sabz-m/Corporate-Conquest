@@ -1,8 +1,4 @@
 import Phaser from "phaser"
-
-import Mrpas from "../utils/mrpas"
-import { useDispatch, useSelector } from "react-redux"
-import { updatePlayerScore, updatePlayerHealth } from "../Actions/PlayerActions"
 import { SCENE_KEYS } from "./scene-keys"
 import { setupLevelOneMap } from "../maps/level-1-Map"
 import { setupPlayer } from "../players/setupPlayerOfficeDude"
@@ -146,7 +142,6 @@ export default class GameScene extends Phaser.Scene {
         if (this.isPlayerAttacking) {
             this.enemyBots.getChildren().forEach((enemy) => {
                 handlePlayerAttack(officedude, enemy, this.dispatch);
-
             });
         }
     };
@@ -155,7 +150,9 @@ export default class GameScene extends Phaser.Scene {
 
     handlePlayerCollisionWithEnemy(player, enemy) {
 
+       
+       handlePlayerCollisionWithEnemy(player, enemy, this.dispatch, this.isPlayerAttacking, this.hasCollided) 
         
-        handlePlayerCollisionWithEnemy(player, enemy, this.dispatch, this.isPlayerAttacking, this.hasCollided)
+       
     }
 }
