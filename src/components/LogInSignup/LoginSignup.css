@@ -102,7 +102,14 @@
     color: #555555;
 }
 
-.messages{
+.messages .error {
     text-align: center;
     color: rgb(110, 8, 8);
+    font-weight: 600;
+}
+
+.messages .success {
+    text-align: center;
+    color: rgb(3, 90, 14);
+    font-weight: 600;
 }

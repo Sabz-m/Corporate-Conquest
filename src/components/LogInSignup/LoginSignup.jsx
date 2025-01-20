@@ -3,9 +3,11 @@ import './LoginSignup.css';
 import user_icon from '/src/assets/user.png'
 import email_icon from '/src/assets/email.png'
 import password_icon from '/src/assets/password.png'
+import { useNavigate } from "react-router-dom";
 
 
 function LoginSignup () {
+    const navigate = useNavigate();
     const [action, setAction] = useState("Login");
     const [loginState, setLoginState] = useState({
         username: '',
@@ -19,6 +21,15 @@ function LoginSignup () {
       });
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
+    const clearForm = () => {
+        setSignupState({
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+        });
+    };
 
     const handleLoginChange = (event) => {
         const {name, value} = event.target;
@@ -34,15 +45,6 @@ function LoginSignup () {
             ...prevState,
             [name]: value,
         }));
-    };
-
-    const clearForm = () => {
-        setSignupState({
-            username: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-        });
     };
 
     const handleLoginSubmit = async (event) => {
@@ -65,8 +67,13 @@ function LoginSignup () {
 
             if (response.ok) {
                 setSuccessMessage('Login successful');
-                setErrorMessage('');
-                console.log(data.token); // store the token in localStorage
+
+                localStorage.setItem("token", data.token);
+                clearForm();
+                
+                setTimeout(() => {
+                    navigate("/level-selection");
+                  }, 1000);
             } else {
                 setErrorMessage(data.message || 'Login failed');
             }
@@ -88,6 +95,7 @@ function LoginSignup () {
         if(password !== confirmPassword) {
             setErrorMessage("Passwords do not match!");
             clearForm();
+            return;
         }
 
         try {
@@ -101,11 +109,14 @@ function LoginSignup () {
 
             if (response.ok) {
                 setSuccessMessage('Registration successful');
-                clearForm();
                 
+                localStorage.setItem("token", data.token)
+                
+                clearForm();
+
                 setTimeout(() => {
-                    setSuccessMessage("");
-                }, 3000);
+                    navigate("/");
+                }, 1000);
             } else {
                 setErrorMessage(data.message || 'Registration failed');
             }
