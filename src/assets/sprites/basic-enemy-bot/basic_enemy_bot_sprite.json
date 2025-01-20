@@ -1,1 +1,203 @@
-{"frames":[{"filename":"enemybot_side_walk_f1","frame":{"x":3,"y":3,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}},{"filename":"enemybot_side_walk_f2","frame":{"x":51,"y":3,"w":36,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":36,"h":78},"sourceSize":{"w":36,"h":78}},{"filename":"enemybot_side_walk_f3","frame":{"x":96,"y":3,"w":36,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":36,"h":78},"sourceSize":{"w":36,"h":78}},{"filename":"enemybot_side_walk_f4","frame":{"x":141,"y":3,"w":36,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":36,"h":78},"sourceSize":{"w":36,"h":78}},{"filename":"enemybot_side_walk_f5","frame":{"x":186,"y":3,"w":36,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":36,"h":78},"sourceSize":{"w":36,"h":78}},{"filename":"enemybot_side_walk_f6","frame":{"x":231,"y":3,"w":36,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":36,"h":78},"sourceSize":{"w":36,"h":78}},{"filename":"enemybot_down_walk_f1","frame":{"x":3,"y":88,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}},{"filename":"enemybot_down_walk_f2","frame":{"x":48,"y":88,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}},{"filename":"enemybot_down_walk_f3","frame":{"x":93,"y":88,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}},{"filename":"enemybot_down_walk_f4","frame":{"x":138,"y":88,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}},{"filename":"enemybot_down_walk_f5","frame":{"x":183,"y":88,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}},{"filename":"enemybot_down_walk_f6","frame":{"x":228,"y":88,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}},{"filename":"enemybot_down_idle_f1","frame":{"x":0,"y":170,"w":39,"h":81},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":81},"sourceSize":{"w":39,"h":81}},{"filename":"enemybot_down_idle_f2","frame":{"x":40,"y":170,"w":39,"h":81},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":81},"sourceSize":{"w":39,"h":81}},{"filename":"enemybot_down_idle_f3","frame":{"x":80,"y":170,"w":39,"h":81},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":81},"sourceSize":{"w":39,"h":81}},{"filename":"enemybot_down_idle_f4","frame":{"x":120,"y":170,"w":39,"h":81},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":81},"sourceSize":{"w":39,"h":81}},{"filename":"enemybot_down_idle_f5","frame":{"x":160,"y":170,"w":39,"h":81},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":81},"sourceSize":{"w":39,"h":81}},{"filename":"enemybot_down_idle_f6","frame":{"x":200,"y":170,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}},{"filename":"enemybot_up_walk_f1","frame":{"x":3,"y":255,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}},{"filename":"enemybot_up_walk_f2","frame":{"x":48,"y":255,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}},{"filename":"enemybot_up_walk_f3","frame":{"x":93,"y":255,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}},{"filename":"enemybot_up_walk_f4","frame":{"x":138,"y":255,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}},{"filename":"enemybot_up_walk_f5","frame":{"x":183,"y":255,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}},{"filename":"enemybot_up_walk_f6","frame":{"x":228,"y":255,"w":39,"h":78},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":39,"h":78},"sourceSize":{"w":39,"h":78}}],"meta":{"app":"https://www.leshylabs.com/apps/sstool/","version":"Leshy SpriteSheet Tool v0.8.4","image":"basic-enemy-bot-spritesheet.png","size":{"w":270,"h":336},"scale":1}}
+{
+  "frames": [
+    {
+      "filename": "enemybot_side_walk_f1",
+      "frame": { "x": 3, "y": 3, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    },
+    {
+      "filename": "enemybot_side_walk_f2",
+      "frame": { "x": 51, "y": 3, "w": 36, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 36, "h": 78 },
+      "sourceSize": { "w": 36, "h": 78 }
+    },
+    {
+      "filename": "enemybot_side_walk_f3",
+      "frame": { "x": 96, "y": 3, "w": 36, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 36, "h": 78 },
+      "sourceSize": { "w": 36, "h": 78 }
+    },
+    {
+      "filename": "enemybot_side_walk_f4",
+      "frame": { "x": 141, "y": 3, "w": 36, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 36, "h": 78 },
+      "sourceSize": { "w": 36, "h": 78 }
+    },
+    {
+      "filename": "enemybot_side_walk_f5",
+      "frame": { "x": 186, "y": 3, "w": 36, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 36, "h": 78 },
+      "sourceSize": { "w": 36, "h": 78 }
+    },
+    {
+      "filename": "enemybot_side_walk_f6",
+      "frame": { "x": 231, "y": 3, "w": 36, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 36, "h": 78 },
+      "sourceSize": { "w": 36, "h": 78 }
+    },
+    {
+      "filename": "enemybot_down_walk_f1",
+      "frame": { "x": 3, "y": 88, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    },
+    {
+      "filename": "enemybot_down_walk_f2",
+      "frame": { "x": 48, "y": 88, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    },
+    {
+      "filename": "enemybot_down_walk_f3",
+      "frame": { "x": 93, "y": 88, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    },
+    {
+      "filename": "enemybot_down_walk_f4",
+      "frame": { "x": 138, "y": 88, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    },
+    {
+      "filename": "enemybot_down_walk_f5",
+      "frame": { "x": 183, "y": 88, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    },
+    {
+      "filename": "enemybot_down_walk_f6",
+      "frame": { "x": 228, "y": 88, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    },
+    {
+      "filename": "enemybot_down_idle_f1",
+      "frame": { "x": 0, "y": 170, "w": 39, "h": 81 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 81 },
+      "sourceSize": { "w": 39, "h": 81 }
+    },
+    {
+      "filename": "enemybot_down_idle_f2",
+      "frame": { "x": 40, "y": 170, "w": 39, "h": 81 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 81 },
+      "sourceSize": { "w": 39, "h": 81 }
+    },
+    {
+      "filename": "enemybot_down_idle_f3",
+      "frame": { "x": 80, "y": 170, "w": 39, "h": 81 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 81 },
+      "sourceSize": { "w": 39, "h": 81 }
+    },
+    {
+      "filename": "enemybot_down_idle_f4",
+      "frame": { "x": 120, "y": 170, "w": 39, "h": 81 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 81 },
+      "sourceSize": { "w": 39, "h": 81 }
+    },
+    {
+      "filename": "enemybot_down_idle_f5",
+      "frame": { "x": 160, "y": 170, "w": 39, "h": 81 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 81 },
+      "sourceSize": { "w": 39, "h": 81 }
+    },
+    {
+      "filename": "enemybot_down_idle_f6",
+      "frame": { "x": 200, "y": 170, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    },
+    {
+      "filename": "enemybot_up_walk_f1",
+      "frame": { "x": 3, "y": 255, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    },
+    {
+      "filename": "enemybot_up_walk_f2",
+      "frame": { "x": 48, "y": 255, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    },
+    {
+      "filename": "enemybot_up_walk_f3",
+      "frame": { "x": 93, "y": 255, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    },
+    {
+      "filename": "enemybot_up_walk_f4",
+      "frame": { "x": 138, "y": 255, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    },
+    {
+      "filename": "enemybot_up_walk_f5",
+      "frame": { "x": 183, "y": 255, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    },
+    {
+      "filename": "enemybot_up_walk_f6",
+      "frame": { "x": 228, "y": 255, "w": 39, "h": 78 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 39, "h": 78 },
+      "sourceSize": { "w": 39, "h": 78 }
+    }
+  ],
+  "meta": {
+    "app": "https://www.leshylabs.com/apps/sstool/",
+    "version": "Leshy SpriteSheet Tool v0.8.4",
+    "image": "basic-enemy-bot-spritesheet.png",
+    "size": { "w": 270, "h": 336 },
+    "scale": 1
+  }
+}
