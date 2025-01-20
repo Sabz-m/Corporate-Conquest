@@ -1,3 +1,33 @@
-/*Role: Handles the player’s inventory state.
-Purpose: Manages the inventory data, including the items the player has collected or used.
-Example: A reducer that adds or removes items from the player’s inventory.*/
+import { ADD_ITEM, REMOVE_ITEM, USE_ITEM } from "../Actions/InventoryActions";
+
+const initialState = {
+  inventory: [],
+};
+
+const inventoryReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_ITEM:
+      return {
+        ...state,
+        inventory: [...state.inventory, action.payload],
+      };
+    case REMOVE_ITEM:
+      return {
+        ...state,
+        inventory: state.inventory.filter(
+          (item) => item.id !== action.payload.id
+        ),
+      };
+    case USE_ITEM:
+      return {
+        ...state,
+        inventory: state.inventory.filter(
+          (item) => item.id !== action.payload.id
+        ),
+      };
+    default:
+      return state;
+  }
+};
+
+export default inventoryReducer;

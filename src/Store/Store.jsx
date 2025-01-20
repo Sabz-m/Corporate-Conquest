@@ -5,7 +5,7 @@ Example: This file creates the Redux store and exports it, providing access to t
 
 import {configureStore} from '@reduxjs/toolkit'
 import rootReducer from '../Reducers/Index'; // combine all reducers
-import {Provider} from 'react-redux'
+
 
 
 //create the store
@@ -14,7 +14,8 @@ import {Provider} from 'react-redux'
 
 const store = configureStore({ 
     
-    reducer: rootReducer
+    reducer: rootReducer,
+    devTools: process.env.NODE_ENV !== 'production'
 
 });
 

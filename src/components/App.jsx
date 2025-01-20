@@ -1,11 +1,9 @@
-import React from "react";
+
 import { Provider } from "react-redux";
 import store from "../Store/Store";
-import GameLoop from "./Game/GameLoop";
-import Score from "./Game/HUD/Score";
+import GameLoop from './Game/GameLoop'
 import { Routes, Route } from "react-router-dom";
 import Menu from "./Menu/Menu";
-import StartGame from "./Game/GameLoop";
 import Login from "./LogInSignup/Login";
 import Settings from "./Settings/Settings";
 import Leaderboards from "./Leaderboards/Leaderboards";
@@ -16,6 +14,7 @@ import LoginSignup from "./LogInSignup/LoginSignup";
 
 const App = () => {
   return (
+
     <Provider store={store}>
       <section>
         <Routes>
@@ -32,6 +31,7 @@ const App = () => {
           <Route path="/leaderboard" element={<Leaderboards />}></Route>
         </Routes>
       </section>
+
     </Provider>
   );
 };

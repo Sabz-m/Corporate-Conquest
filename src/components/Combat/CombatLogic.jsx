@@ -2,63 +2,53 @@
 Purpose: Contains the rules and logic for combat interactions, such as attacking, receiving damage, and applying effects to characters or enemies.
 Example: This might involve calculating damage based on stats, triggering combat animations, and updating the player's health after a combat action.*/
 
-// CombatManager.js (or similar file)
-import { useDispatch, useSelector } from "react-redux";
-import {
-  HANDLE_PLAYER_DAMAGE,
-  APPLY_COMBAT_EFFECT,
-} from "../../Actions/CombatActions";
-import { useEffect } from "react";
 
-// Combat logic when player takes damage
-const CombatManager = () => {
-  const dispatch = useDispatch();
-  const { health, combatEffects } = useSelector((state) => state.combat); // Get health and effects from Redux store
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { togglePlayerAttack } from '../../Actions/CombatActions';
+//import { updatePlayerHealth } from '../../Actions/PlayerActions';
 
-  const handlePlayerDamage = (damageAmount) => {
-    dispatch({
-      type: HANDLE_PLAYER_DAMAGE,
-      payload: { damage: damageAmount },
-    });
-  };
+const Combat = () => {
+    const dispatch = useDispatch();
+    const playerHealth = useSelector(state => state.player.health);
+    const enemyHealth = useSelector(state => state.combat.enemyHealth);
+    const playerIsAttacking = useSelector(state => state.combat.playerIsAttacking);
 
-  // Example: Applying poison debuff to the player
-  const applyPoisonEffect = () => {
-    dispatch({
-      type: APPLY_COMBAT_EFFECT,
-      payload: {
-        effect: {
-          type: "poison",
-          amount: 5, // Damage per tick
-          duration: 3, // Duration of the effect
-        },
-      },
-    });
-  };
+    const handleKeyPress = (e) => {
+        if (e.code === 'Space') {
+            dispatch(togglePlayerAttack(true));
+        }
+    };
 
-  useEffect(() => {
-    if (combatEffects.some((effect) => effect.type === "poison")) {
-      const poisonEffect = combatEffects.find(
-        (effect) => effect.type === "poison"
-      );
-      const poisonDamage = poisonEffect.amount;
+    const handleKeyUp = (e) => {
+        if (e.code === 'Space') {
+            dispatch(togglePlayerAttack(false))
+        }
+    };
 
-      handlePlayerDamage(poisonDamage); // Apply poison damage
+    React.useEffect(() => {
+        window.addEventListener('keydown', handleKeyPress);
+        window.addEventListener('keyup', handleKeyUp);
 
-      // If you need to remove the poison effect after duration ends
-      if (poisonEffect.duration <= 0) {
-        // Dispatch action to clear the poison effect
-      }
-    }
-  }, [combatEffects, dispatch]);
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+            window.removeEventListener('keyup', handleKeyUp);
 
-  return (
-    <div>
-      <p>Player Health: {health}</p>
-      <button onClick={() => handlePlayerDamage(10)}>Take Damage</button>
-      <button onClick={applyPoisonEffect}>Apply Poison</button>
-    </div>
-  );
+        }
+    }, [])
+
+    return (
+        <div>
+            <div>
+                <h2>Player Health: {playerHealth}</h2>
+                <h2>Enemy Health: {enemyHealth}</h2>
+            </div>
+            {playerIsAttacking && <div>Player is attacking!</div>}
+        </div>
+    );
 };
 
-export default CombatManager;
+
+
+export default Combat
+

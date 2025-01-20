@@ -1,3 +1,13 @@
-/*Role: Displays the player’s stats (like experience, level, etc.).
-Purpose: This component shows relevant player statistics, such as level, experience points, or other attributes. It keeps the player informed about their progress.
-Example: Display the player's level and experience progress bar.*/
+import React from "react";
+import { useSelector } from "react-redux";
+
+const Stats = () => {
+  const stats = useSelector((state) => state.player.stats);
+  return (
+    <div className="stats-display">
+      <h2>Stats: {stats}</h2>
+    </div>
+  );
+};
+
+export default Stats;
