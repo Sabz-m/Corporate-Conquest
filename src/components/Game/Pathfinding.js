@@ -67,10 +67,10 @@ export const findPath = (start, end, grid) => {
       const newY = node.y + move.y;
       if (
         newX >= 0 &&
-        newX < grid.length && // Check if newX is within the grid bounds
+        newX < grid.length &&
         newY >= 0 &&
-        newY < grid[newX].length && // Check if newY is within the grid bounds
-        grid[newX][newY] // Check if the tile is walkable
+        newY < grid[newX].length &&
+        grid[newX][newY]
       ) {
         neighbours.push({ x: newX, y: newY });
       }
@@ -156,4 +156,16 @@ export const moveEnemy = (enemy, tile, gridSize) => {
 
   const deltaX = targetX - enemy.x;
   const deltaY = targetY - enemy.y;
+  const tolerance = 2.5;
+
+  if (Math.abs(deltaX) <= tolerance && Math.abs(deltaY) <= tolerance) {
+    enemy.setVelocity(0, 0);
+    enemy.setPosition(targetX, targetY);
+  } else if (Math.abs(deltaX) <= tolerance) {
+    enemy.setVelocity(0, deltaY > 0 ? 120 : -120);
+  } else if (Math.abs(deltaY) <= tolerance) {
+    enemy.setVelocity(deltaX > 0 ? 120 : -120, 0);
+  } else {
+    enemy.setVelocity(deltaX > 0 ? 100 : -100, deltaY > 0 ? 100 : -100);
+  }
 };
