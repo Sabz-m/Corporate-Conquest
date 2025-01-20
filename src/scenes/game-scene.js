@@ -35,6 +35,10 @@ export default class GameScene extends Phaser.Scene {
     this.gridSize = 48;
     this.grid = [];
     this.pathGraphics = null;
+    this.enemySpawnTile = null;
+    this.isTrackingPlayer = false;
+    this.detectionRange = 5;
+    this.maxChaseRange = 8;
   }
 
   init({ dispatch }) {
@@ -100,7 +104,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.grid = generateGrid(map, collisionLayer, this.gridSize);
     console.log(this.grid);
-    // this.visualizedGrid = visualiseGrid(this, this.grid, this.gridSize);
+    this.visualizedGrid = visualiseGrid(this, this.grid, this.gridSize);
 
     this.pathGraphics = this.add.graphics({
       lineStyle: { color: 0x0000ff, width: 2 },
@@ -119,6 +123,12 @@ export default class GameScene extends Phaser.Scene {
 
     this.cameras.main.setBounds(0, 0, 1280, 2176); // arbitrary numbers NEEDS CORRECTING
     this.cameras.main.fadeIn(1000, 0, 0, 0);
+
+    this.enemySpawnTile = worldToTile(
+      this.enemyTest.x,
+      this.enemyTest.y,
+      this.gridSize
+    );
 
     // Launch the FoV scene and pass necessary data (from map and characters)
     /*    this.scene.launch(SCENE_KEYS.FOV_SCENE, {
@@ -152,18 +162,53 @@ export default class GameScene extends Phaser.Scene {
       this.gridSize
     );
 
-    const path = findPath(enemyTile, playerTile, this.grid);
+    const distanceToPlayer = Phaser.Math.Distance.Between(
+      playerTile.x,
+      playerTile.y,
+      enemyTile.x,
+      enemyTile.y
+    );
 
-    if (path && path.length > 0) {
-      //   showPath(this.pathGraphics, path, this.gridSize);
-      const nextStep = path[1];
-      if (nextStep) {
-        moveEnemy(this.enemyTest, nextStep, this.gridSize);
+    const distanceToSpawn = Phaser.Math.Distance.Between(
+      enemyTile.x,
+      enemyTile.y,
+      this.enemySpawnTile.x,
+      this.enemySpawnTile.y
+    );
+
+    if (!this.isTrackingPlayer) {
+      if (distanceToPlayer <= this.detectionRange) {
+        this.isTrackingPlayer = true;
       }
     } else {
-      // Stop the enemy if no valid path is found
-      this.enemyTest.setVelocity(0, 0);
-      this.enemyTest.anims.play("enemybot-down-idle", true); // Default idle animation
+      if (distanceToPlayer > this.maxChaseRange) {
+        const pathToSpawn = findPath(enemyTile, this.enemySpawnTile, this.grid);
+        showPath(this.pathGraphics, pathToSpawn, this.gridSize);
+        if (pathToSpawn && pathToSpawn.length > 2) {
+          const nextStep = pathToSpawn[1];
+          moveEnemy(this.enemyTest, nextStep, this.gridSize);
+        } else {
+          this.enemyTest.setVelocity(0, 0);
+          this.enemyTest.anims.play("enemybot-down-idle", true);
+        }
+        if (distanceToSpawn <= 1) {
+          // Stop tracking once back at spawn
+          this.isTrackingPlayer = false;
+        }
+      } else {
+        const pathToPlayer = findPath(enemyTile, playerTile, this.grid);
+        showPath(this.pathGraphics, pathToPlayer, this.gridSize);
+
+        if (pathToPlayer && pathToPlayer.length > 2) {
+          // Move to a tile next to the player
+          const nextStep = pathToPlayer[1]; // Second-to-last tile
+          moveEnemy(this.enemyTest, nextStep, this.gridSize);
+        } else {
+          // Stop if no valid path is found
+          this.enemyTest.setVelocity(0, 0);
+          this.enemyTest.anims.play("enemybot-down-idle", true);
+        }
+      }
     }
 
     // Initialize velocity variables
