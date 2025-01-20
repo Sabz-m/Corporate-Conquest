@@ -6,7 +6,7 @@ const Health = () => {
 
   return (
     <div>
-      <p>Health: {health}/100</p>
+      <h2>Health: {health}/100</h2>
     </div>
   );
 };

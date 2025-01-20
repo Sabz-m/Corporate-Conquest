@@ -1,7 +1,6 @@
-
 import { Provider } from "react-redux";
 import store from "../Store/Store";
-import GameLoop from './Game/GameLoop'
+import GameLoop from "./Game/GameLoop";
 import { Routes, Route } from "react-router-dom";
 import Menu from "./Menu/Menu";
 import Login from "./LogInSignup/Login";
@@ -11,10 +10,10 @@ import SignUp from "./LogInSignup/SignUp";
 import CharacterSelection from "./Game/CharacterSelection";
 import LevelSelection from "./Game/LevelSelection";
 import LoginSignup from "./LogInSignup/LoginSignup";
+import InGameSettings from "./Settings/inGameSettings";
 
 const App = () => {
   return (
-
     <Provider store={store}>
       <section>
         <Routes>
@@ -28,10 +27,10 @@ const App = () => {
             element={<CharacterSelection />}
           ></Route>
           <Route path="/settings" element={<Settings />}></Route>
+          <Route path="/inGameSettings" element={<InGameSettings />}></Route>
           <Route path="/leaderboard" element={<Leaderboards />}></Route>
         </Routes>
       </section>
-
     </Provider>
   );
 };
