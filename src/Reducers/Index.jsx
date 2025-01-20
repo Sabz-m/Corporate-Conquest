@@ -4,7 +4,7 @@ Example: It combines all the reducers and exports the root reducer for use in th
 
 
 import { combineReducers } from "redux";
-import GameReducer from './GameReducer'
+import GameReducer from "./GameReducer";
 import PlayerReducer from "./PlayerReducer";
 //import InventoryReducer from './InventoryReducer'
 import CombatReducer from './CombatReducer'
@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
     player: PlayerReducer,
     //inventory: InventoryReducer,
     combat: CombatReducer,
+
 });
 
 export default rootReducer;
-

@@ -4,7 +4,7 @@ html, body {
   width: 100vw;
   overflow: hidden;
   background-color: #232646;
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #game-container{

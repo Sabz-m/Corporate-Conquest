@@ -1,5 +1,3 @@
-/*this component is used to display the player score within the HUD*/
-
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -15,3 +13,4 @@ const ScoreDisplay = () => {
 };
 
 export default ScoreDisplay;
+

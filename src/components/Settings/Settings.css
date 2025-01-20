@@ -1,0 +1,63 @@
+body {
+  background-color: #232646;
+  font-family: "Arial", sans-serif;
+}
+
+.settings {
+  width: 300px;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+  margin: 50px auto;
+  text-align: center;
+  background-image: url("src/assets/background-image.png");
+  background-size: 330%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+h2 {
+  background: linear-gradient(to bottom, #3c3f58, #232638);
+  padding: 15px;
+  color: white;
+  font-size: 24px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.button {
+  width: 220px;
+  height: 50px;
+  margin: 15px 0;
+  background: linear-gradient(to bottom, #3c3f58, #232638);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 30px;
+  height: 30px;
+  background: white;
+  mask: url("icon-placeholder.svg");
+  mask-size: cover;
+}
+
+.button:hover {
+  background: linear-gradient(to bottom, #46506d, #2d3148);
+}
+
+.button:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px rgba(0, 0, 0, 0.3);
+}

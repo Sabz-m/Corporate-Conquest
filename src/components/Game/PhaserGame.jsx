@@ -2,13 +2,16 @@
 import React, { useEffect } from "react";
 import Phaser, { Scene } from "phaser";
 import PreloadScene from "../../scenes/preload-scene";
+import OpeningScene from "../../scenes/opening-scene";
 import GameScene from "../../scenes/game-scene";
+import FovScene from "../../scenes/fov-scene";
 import { SCENE_KEYS } from "../../scenes/scene-keys";
+
 //import Player from "./Player";
-import { useDispatch, useSelector } from "react-redux";
 //import Map from "./Map";
 //import Pathfinding from "./Pathfinding";
 //import FOV from "./FOV";
+
 
 const PhaserGame = ({dispatch}) => {
    
@@ -24,7 +27,7 @@ const PhaserGame = ({dispatch}) => {
     const config = {
       type: Phaser.CANVAS,
       pixelArt: false,
-      backgroundColor: '#000000',
+      backgroundColor: "#000000",
       scale: {
         width: 1024,
         height: 576,
@@ -36,7 +39,7 @@ const PhaserGame = ({dispatch}) => {
         arcade: { gravity: { y: 0 }, debug: true },
       },
       scene: [
-        PreloadScene, GameSceneWithDispatch
+        PreloadScene, OpeningScene, GameSceneWithDispatch
       ],
     };
 
@@ -52,7 +55,7 @@ const PhaserGame = ({dispatch}) => {
     };
   }, [dispatch]); // Empty dependency array to run only once after component mounts
 
-  return <div id="game-container" />;
+  return <div id="game-container" style={{ width: "100%", height: "100%" }} />;
 };
 
 export default PhaserGame;

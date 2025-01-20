@@ -1,0 +1,111 @@
+body {
+  background-color: #232646;
+  font-family: "Arial", sans-serif;
+}
+
+.leaderboard {
+  width: 700px;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+  margin: 50px auto;
+  text-align: center;
+  background-image: url("src/assets/background-image.png");
+  background-size: 330%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+h2 {
+  flex-grow: 1;
+  text-align: center;
+  background: linear-gradient(to bottom, #3c3f58, #232638);
+  padding: 15px;
+  color: white;
+  font-size: 24px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  margin: 10px;
+}
+
+.button {
+  width: 200px;
+  height: 50px;
+  margin: 15px 0;
+  background: linear-gradient(to bottom, #3c3f58, #232638);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 30px;
+  height: 30px;
+  background: white;
+  mask: url("icon-placeholder.svg");
+  mask-size: cover;
+}
+
+.button:hover {
+  background: linear-gradient(to bottom, #46506d, #2d3148);
+}
+
+.button:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Flexbox Header for alignment */
+.leaderboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Aligns the items vertically */
+}
+
+.leaderboard-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+/* Back Button - Make it the same height as h2 */
+.button-back {
+  width: 90px;
+  height: 50px; /* Ensure back button height matches h2 height */
+  padding: 0 10px; /* Ensure text is centered inside button */
+  background: linear-gradient(to bottom, #3c3f58, #232638);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-back svg {
+  margin-right: 10px; /* Space between icon and text */
+}
+
+.button-back:hover {
+  background: linear-gradient(to bottom, #46506d, #2d3148);
+}
+
+.button-back:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px rgba(0, 0, 0, 0.3);
+}
