@@ -36,8 +36,8 @@ const GameLoop = () => {
 
   return (
     <div>
-      <PhaserGame dispatch={dispatch}/>
       <HUD />
+      <PhaserGame dispatch={dispatch}/>
     </div>
   );
 };
