@@ -1,23 +1,27 @@
-export const HANDLE_PLAYER_DAMAGE = "HANDLE_PLAYER_DAMAGE";
-export const APPLY_COMBAT_EFFECT = "APPLY_COMBAT_EFFECT";
-export const CLEAR_COMBAT_EFFECTS = "CLEAR_COMBAT_EFFECTS";
 
-export const handlePlayerDamage = (damage) => {
+/*Role: Contains actions related to combat state.
+Purpose: Actions for handling combat-related changes, such as dealing damage, starting a fight, or resolving an attack.
+Example: Actions like startCombat, endCombat, and applyDamage.*/
+
+export const playerTakesDamage = (damage) => {
   return {
-    type: HANDLE_PLAYER_DAMAGE,
-    payload: { damage },
-  };
+    type: 'PLAYER_TAKES_DAMAGE',
+    payload: damage,
+  }
 };
 
-export const applyCombatEffect = (effect) => {
-  return {
-    type: APPLY_COMBAT_EFFECT,
-    payload: { effect },
-  };
-};
+export const enemyTakesDamage = (damage) => {
+    return {
+        type: 'ENEMY_TAKES_DAMAGE',
+        payload: damage
+    }
+}
 
-export const clearCombatEffects = () => {
-  return {
-    type: CLEAR_COMBAT_EFFECTS,
-  };
-};
+export const togglePlayerAttack = (isAttacking) => {
+    return {
+        type: 'TOGGLE_PLAYER_ATTACK',
+        payload: isAttacking
+    }
+}
+
+
