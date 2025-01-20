@@ -99,7 +99,7 @@ export default class GameScene extends Phaser.Scene {
         this.cameras.main.fadeIn(1000, 0, 0, 0)
 
         // Launch the FoV scene and pass necessary data (from map and characters)
-        /* this.scene.launch(SCENE_KEYS.FOV_SCENE, {
+     /*    this.scene.launch(SCENE_KEYS.FOV_SCENE, {
             player: this.officedude,
             enemyBots: this.enemyBots,
             map,
@@ -122,26 +122,56 @@ export default class GameScene extends Phaser.Scene {
         // Update the game loop (movement, AI, etc.)
 
         const { cursors, officedude, spacebar } = this
+        const shift = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
 
-        if (cursors.left.isDown) {
-            officedude.setVelocityX(-160)
-            officedude.anims.play("left-walk", true)
-            officedude.setFlipX(false)
-        } else if (cursors.right.isDown) {
-            officedude.setVelocityX(160)
-            officedude.anims.play("left-walk", true)
-            officedude.setFlipX(true)
-        } else if (cursors.up.isDown) {
-            officedude.setVelocityY(-160)
-            officedude.anims.play("up-walk", true)
-        } else if (cursors.down.isDown) {
-            officedude.setVelocityY(160)
-            officedude.anims.play("down-walk", true)
-        } else {
-            officedude.setVelocityX(0)
-            officedude.setVelocityY(0)
-            officedude.anims.play("down-idle", true)
+
+        // Normalize speed for diagonal movement
+        if (velocityX !== 0 && velocityY !== 0) {
+            velocityX *= Math.SQRT1_2; // Normalize diagonal X speed
+            velocityY *= Math.SQRT1_2; // Normalize diagonal Y speed
         }
+        
+        // Apply velocity to the character
+        officedude.setVelocityX(velocityX);
+        officedude.setVelocityY(velocityY);
+        
+        // Play the correct animation based on movement direction
+        if (velocityX > 0 && velocityY < 0) {
+            // Moving up-right
+            officedude.setFlipX(false); // Face right
+            officedude.anims.play(shift.isDown ? "diagonal-up-right" : "diagonal-up-right", true);
+        } else if (velocityX > 0 && velocityY > 0) {
+            // Moving down-right
+            officedude.setFlipX(false); // Face right
+            officedude.anims.play(shift.isDown ? "diagonal-down-right" : "diagonal-down-right", true);
+        } else if (velocityX < 0 && velocityY < 0) {
+            // Moving up-left (Northwest)
+            officedude.setFlipX(true); // Flip to face left
+            officedude.anims.play(shift.isDown ? "diagonal-up-right" : "diagonal-up-right", true);
+        } else if (velocityX < 0 && velocityY > 0) {
+            // Moving down-left (Southwest)
+            officedude.setFlipX(true); // Flip to face left
+            officedude.anims.play(shift.isDown ? "diagonal-down-right" : "diagonal-down-right", true);
+        } else if (velocityX > 0) {
+            // Moving right
+            officedude.setFlipX(false); // Face right
+            officedude.anims.play(shift.isDown ? "left-sprint" : "left-walk", true);
+        } else if (velocityX < 0) {
+            // Moving left
+            officedude.setFlipX(true); // Face left
+            officedude.anims.play(shift.isDown ? "left-sprint" : "left-walk", true);
+        } else if (velocityY > 0) {
+            // Moving down
+            officedude.anims.play(shift.isDown ? "down-sprint" : "down-walk", true);
+        } else if (velocityY < 0) {
+            // Moving up
+            officedude.anims.play(shift.isDown ? "up-sprint" : "up-walk", true);
+        } else {
+            // Idle
+            officedude.anims.play("down-idle", true);
+        }
+        
+
 
         if (this.isPlayerAttacking) {
             this.enemyBots.getChildren().forEach((enemy) => {
@@ -153,9 +183,7 @@ export default class GameScene extends Phaser.Scene {
 
 
 
-    handlePlayerCollisionWithEnemy(player, enemy) {
-
-        
+    handlePlayerCollisionWithEnemy(player, enemy) {        
         handlePlayerCollisionWithEnemy(player, enemy, this.dispatch, this.isPlayerAttacking, this.hasCollided)
     }
 }
