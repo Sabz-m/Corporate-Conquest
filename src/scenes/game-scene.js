@@ -88,35 +88,9 @@ export default class GameScene extends Phaser.Scene {
         // Update the game loop (movement, AI, etc.)
 
         const { cursors, officedude } = this
-        let baseSpeed = 220; // Normal movement speed
-        let sprintSpeed = 350; // Sprint movement speed
-        let speed = baseSpeed; // Current speed
-        let velocityX = 0;
-        let velocityY = 0;
-        
-        // Check if the spacebar is pressed for sprinting
-        if (cursors.space.isDown) {
-            speed = sprintSpeed;
-        } else {
-            speed = baseSpeed;
-        }
-        
-        // Handle movement input
-        if (cursors.left.isDown) {
-            velocityX = -speed;
-            officedude.setFlipX(false); // Flip character to face left
-        }
-        if (cursors.right.isDown) {
-            velocityX = speed;
-            officedude.setFlipX(true); // Flip character to face right
-        }
-        if (cursors.up.isDown) {
-            velocityY = -speed;
-        }
-        if (cursors.down.isDown) {
-            velocityY = speed;
-        }
-        
+        const shift = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+
+        // Normalize speed for diagonal movement
         if (velocityX !== 0 && velocityY !== 0) {
             velocityX *= Math.SQRT1_2; // Normalize diagonal X speed
             velocityY *= Math.SQRT1_2; // Normalize diagonal Y speed
@@ -130,33 +104,33 @@ export default class GameScene extends Phaser.Scene {
         if (velocityX > 0 && velocityY < 0) {
             // Moving up-right
             officedude.setFlipX(false); // Face right
-            officedude.anims.play(cursors.space.isDown ? "diagonal-up-right" : "diagonal-up-right", true);
+            officedude.anims.play(shift.isDown ? "diagonal-up-right" : "diagonal-up-right", true);
         } else if (velocityX > 0 && velocityY > 0) {
             // Moving down-right
             officedude.setFlipX(false); // Face right
-            officedude.anims.play(cursors.space.isDown ? "diagonal-down-right" : "diagonal-down-right", true);
+            officedude.anims.play(shift.isDown ? "diagonal-down-right" : "diagonal-down-right", true);
         } else if (velocityX < 0 && velocityY < 0) {
             // Moving up-left (Northwest)
             officedude.setFlipX(true); // Flip to face left
-            officedude.anims.play(cursors.space.isDown ? "diagonal-up-right" : "diagonal-up-right", true);
+            officedude.anims.play(shift.isDown ? "diagonal-up-right" : "diagonal-up-right", true);
         } else if (velocityX < 0 && velocityY > 0) {
             // Moving down-left (Southwest)
             officedude.setFlipX(true); // Flip to face left
-            officedude.anims.play(cursors.space.isDown ? "diagonal-down-right" : "diagonal-down-right", true);
+            officedude.anims.play(shift.isDown ? "diagonal-down-right" : "diagonal-down-right", true);
         } else if (velocityX > 0) {
             // Moving right
-            officedude.setFlipX(true); // Face right
-            officedude.anims.play(cursors.space.isDown ? "left-sprint" : "left-walk", true);
+            officedude.setFlipX(false); // Face right
+            officedude.anims.play(shift.isDown ? "left-sprint" : "left-walk", true);
         } else if (velocityX < 0) {
             // Moving left
-            officedude.setFlipX(false); // Face left
-            officedude.anims.play(cursors.space.isDown ? "left-sprint" : "left-walk", true);
+            officedude.setFlipX(true); // Face left
+            officedude.anims.play(shift.isDown ? "left-sprint" : "left-walk", true);
         } else if (velocityY > 0) {
             // Moving down
-            officedude.anims.play(cursors.space.isDown ? "down-sprint" : "down-walk", true);
+            officedude.anims.play(shift.isDown ? "down-sprint" : "down-walk", true);
         } else if (velocityY < 0) {
             // Moving up
-            officedude.anims.play(cursors.space.isDown ? "up-sprint" : "up-walk", true);
+            officedude.anims.play(shift.isDown ? "up-sprint" : "up-walk", true);
         } else {
             // Idle
             officedude.anims.play("down-idle", true);
