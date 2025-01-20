@@ -156,28 +156,36 @@ export default class GameScene extends Phaser.Scene {
             // Moving up-right
             this.officedude.setFlipX(false) // Face right
             this.officedude.anims.play(
-                shift.isDown ? "diagonal-up-right" : "diagonal-up-right",
+                shift.isDown
+                    ? "diagonal-up-right-sprint"
+                    : "diagonal-up-right-walk",
                 true
             )
         } else if (velocityX > 0 && velocityY > 0) {
             // Moving down-right
             this.officedude.setFlipX(false) // Face right
             this.officedude.anims.play(
-                shift.isDown ? "diagonal-down-right" : "diagonal-down-right",
+                shift.isDown
+                    ? "diagonal-down-right-sprint"
+                    : "diagonal-down-right-walk",
                 true
             )
         } else if (velocityX < 0 && velocityY < 0) {
             // Moving up-left (Northwest)
             this.officedude.setFlipX(true) // Flip to face left
             this.officedude.anims.play(
-                shift.isDown ? "diagonal-up-right" : "diagonal-up-right",
+                shift.isDown
+                    ? "diagonal-up-right-sprint"
+                    : "diagonal-up-right-walk",
                 true
             )
         } else if (velocityX < 0 && velocityY > 0) {
             // Moving down-left (Southwest)
             this.officedude.setFlipX(true) // Flip to face left
             this.officedude.anims.play(
-                shift.isDown ? "diagonal-down-right" : "diagonal-down-right",
+                shift.isDown
+                    ? "diagonal-down-right-sprint"
+                    : "diagonal-down-right-walk",
                 true
             )
         } else if (velocityX > 0) {
@@ -212,6 +220,7 @@ export default class GameScene extends Phaser.Scene {
         }
 
         if (this.isPlayerAttacking) {
+            this.officedude.anims.play("punch-down", true)
             this.enemyBots.getChildren().forEach((enemy) => {
                 handlePlayerAttack(this.officedude, enemy, this.dispatch)
             })
