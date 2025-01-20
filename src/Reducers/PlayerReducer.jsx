@@ -6,7 +6,7 @@ const initialState = {
     health: 100,
     position: { x: 0, y:0}, //update this to fit into the game discuss with team.
     score: 0, //score property added to player state
-    
+    hasCollided: false,
 };
 
 const PlayerReducer = (state = initialState, action) => {
@@ -20,7 +20,12 @@ const PlayerReducer = (state = initialState, action) => {
         case 'UPDATE_PLAYER_HEALTH':
             return{
                 ...state,
-                health: action.payload,
+                health: action.payload + action.payload,
+            }
+        case 'SET_HAS_COLLIDED':
+            return {
+                ...state,
+                hasCollided: action.payload,
             }
 
             default:

@@ -5,8 +5,8 @@ import PhaserGame from './PhaserGame';
 import HUD from './HUD/HUD';
 import { useDispatch, useSelector } from 'react-redux';
 import { startTimer, stopTimer, togglePause } from "../../Actions/GameActions";
-import { updatePlayerHealth, updatePlayerScore } from '../../Actions/PlayerActions';
-import handlePlayerDamage from '../Combat/CombatLogic';
+
+
 
 
 
@@ -18,7 +18,7 @@ const GameLoop = () => {
   const dispatch = useDispatch();
   const { gamePaused, timer } = useSelector((state) => state.game);
   const {health, score} = useSelector((state) => state.player) //access score from redux
-
+  
 
   useEffect(() => {
     if (!gamePaused) {
@@ -38,19 +38,11 @@ const GameLoop = () => {
     dispatch(togglePause()); // Toggle the game pause state
   };
 
-  //score increase - could be moved to combat logic file.
-  const increaseScore = () => {
-    const newScore = score + 100; //this will need to be tied to game logic not yet defined.
-    dispatch(updatePlayerScore(newScore));
-  };
-
-  //health decrease from combat logic file
-  handlePlayerDamage();
-  
+ 
 
   return (
     <div>
-      <PhaserGame />
+      <PhaserGame dispatch={dispatch}/>
       <HUD />
       <button onClick={handlePauseToggle}>
         {gamePaused ? "Resume Game" : "Pause Game"}
@@ -73,11 +65,11 @@ Note: GameLoop.js is responsible for rendering the game itself, but it might del
 
 
 
-export function StartGame() {
+/* export function StartGame() {
   return (
     <section>
       <PhaserGame />
     </section>
   );
-}
+} */
 

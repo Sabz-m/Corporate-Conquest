@@ -1,19 +1,26 @@
+
 import React, { useEffect } from "react";
-import Phaser from "phaser";
+import Phaser, { Scene } from "phaser";
 import PreloadScene from "../../scenes/preload-scene";
 import GameScene from "../../scenes/game-scene";
 import { SCENE_KEYS } from "../../scenes/scene-keys";
 //import Player from "./Player";
 import { useDispatch, useSelector } from "react-redux";
-import { updatePlayerScore, updatePlayerHealth } from "../../Actions/PlayerActions";
 //import Map from "./Map";
 //import Pathfinding from "./Pathfinding";
 //import FOV from "./FOV";
 
-const PhaserGame = () => {
-
+const PhaserGame = ({dispatch}) => {
+   
   // useEffect to initialize Phaser game
   useEffect(() => {
+    class GameSceneWithDispatch extends GameScene {
+      init(){
+        super.init({dispatch})
+         
+         
+      }
+    }
     const config = {
       type: Phaser.CANVAS,
       pixelArt: false,
@@ -28,18 +35,22 @@ const PhaserGame = () => {
         default: "arcade",
         arcade: { gravity: { y: 0 }, debug: true },
       },
+      scene: [
+        PreloadScene, GameSceneWithDispatch
+      ],
     };
 
     const game = new Phaser.Game(config);
 
-    game.scene.add(SCENE_KEYS.PRELOAD_SCENE, PreloadScene)
+   /*  game.scene.add(SCENE_KEYS.PRELOAD_SCENE, PreloadScene)
     game.scene.add(SCENE_KEYS.GAME_SCENE, GameScene)
-    game.scene.start(SCENE_KEYS.PRELOAD_SCENE)
+    game.scene.start(SCENE_KEYS.PRELOAD_SCENE) */
+
 
     return () => {
       game.destroy(true);
     };
-  }, []); // Empty dependency array to run only once after component mounts
+  }, [dispatch]); // Empty dependency array to run only once after component mounts
 
   return <div id="game-container" />;
 };
