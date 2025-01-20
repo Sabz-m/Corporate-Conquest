@@ -61,3 +61,19 @@ h2 {
   transform: translateY(4px);
   box-shadow: 0 2px rgba(0, 0, 0, 0.3);
 }
+
+.logout {
+  width: 220px;
+  height: 50px;
+  margin: 15px 0;
+  background: linear-gradient(to bottom, #3c3f58, #232638);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
