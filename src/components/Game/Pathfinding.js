@@ -2,13 +2,13 @@
 Purpose: Implements an A* algorithm or other pathfinding logic to find a route between two points, such as the player’s current location and a target destination. It may update the player’s position or AI-controlled enemies.
 Example: This file could be used to calculate and update movement paths for the player or NPCs in the game.*/
 
-export const generateGrid = (map, wallsLayer, gridSize) => {
+export const generateGrid = (map, collisionLayer, gridSize) => {
   const { width, height } = map;
   const grid = [];
   for (let x = 0; x < width; x++) {
     grid[x] = [];
     for (let y = 0; y < height; y++) {
-      const tile = wallsLayer.getTileAt(x, y);
+      const tile = collisionLayer.getTileAt(x, y);
       grid[x][y] = !tile;
     }
   }
@@ -151,9 +151,75 @@ export const showPath = (graphics, path, gridSize) => {
 };
 
 export const moveEnemy = (enemy, tile, gridSize) => {
+  if (!tile) {
+    enemy.setVelocity(0, 0);
+    enemy.anims.play("enemybot-down-idle", true);
+    return;
+  }
   const targetX = tile.x * gridSize + gridSize / 2;
   const targetY = tile.y * gridSize + gridSize / 2;
 
   const deltaX = targetX - enemy.x;
   const deltaY = targetY - enemy.y;
+  const tolerance = 2.5;
+
+  if (Math.abs(deltaX) <= tolerance && Math.abs(deltaY) <= tolerance) {
+    enemy.setVelocity(0, 0);
+    enemy.setPosition(targetX, targetY);
+    enemy.anims.play("enemybot-down-idle", true);
+  } else if (Math.abs(deltaX) <= tolerance) {
+    enemy.setVelocity(0, deltaY > 0 ? 120 : -120);
+    if (deltaY > 0) {
+      enemy.anims.play("enemybot-down-walk", true); // Moving down
+    } else {
+      enemy.anims.play("enemybot-up-walk", true); // Moving up
+    }
+  } else if (Math.abs(deltaY) <= tolerance) {
+    enemy.setVelocity(deltaX > 0 ? 120 : -120, 0);
+    if (deltaX > 0) {
+      enemy.setFlipX(true); // Face right
+      enemy.anims.play("enemybot-left-walk", true); // Moving right
+    } else {
+      enemy.setFlipX(false); // Face left
+      enemy.anims.play("enemybot-left-walk", true); // Moving left
+    }
+  } else {
+    enemy.setVelocity(deltaX > 0 ? 100 : -100, deltaY > 0 ? 100 : -100);
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Horizontal is dominant
+      if (deltaX > 0) {
+        enemy.setFlipX(true); // Face right
+        enemy.anims.play("enemybot-left-walk", true); // Moving right
+      } else {
+        enemy.setFlipX(false); // Face left
+        enemy.anims.play("enemybot-left-walk", true); // Moving left
+      }
+    } else {
+      // Vertical is dominant
+      if (deltaY > 0) {
+        enemy.anims.play("enemybot-down-walk", true); // Moving down
+      } else {
+        enemy.anims.play("enemybot-up-walk", true); // Moving up
+      }
+    }
+  }
+};
+
+export const visualiseGrid = (scene, grid, gridSize) => {
+  const graphics = scene.add.graphics();
+  graphics.clear();
+
+  for (let x = 0; x < grid.length; x++) {
+    for (let y = 0; y < grid[x].length; y++) {
+      const color = grid[x][y] ? 0x00ff00 : 0xff0000;
+      const alpha = 0.5;
+      const rectX = x * gridSize;
+      const rectY = y * gridSize;
+
+      graphics.fillStyle(color, alpha);
+      graphics.fillRect(rectX, rectY, gridSize, gridSize);
+    }
+  }
+
+  return graphics;
 };
