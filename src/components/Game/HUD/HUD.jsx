@@ -3,7 +3,7 @@ import Timer from "./Timer";
 import Health from "./Health";
 import Score from "./Score";
 import Stats from "./Stats";
-import Inventory from "./Inventory";
+// import Inventory from "./Inventory";
 
 const HUD = () => {
   return (
@@ -12,7 +12,7 @@ const HUD = () => {
       <Health />
       <Score />
       <Stats />
-      <Inventory />
+      {/* <Inventory /> */}
     </div>
   );
 };

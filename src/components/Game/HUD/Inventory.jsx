@@ -1,4 +1,4 @@
-import React from "react";
+/* import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addItem,
@@ -38,7 +38,7 @@ const Inventory = () => {
       <button onClick={() => handleRemoveItem(1)}>Remove Health Potion</button>
       <button onClick={() => handleUseItem(1)}>Use Health Potion</button>
 
-      {/* Render the inventory items */}
+      {// Render the inventory items}
       <ul>
         {inventory.map((item) => (
           <li key={item.id}>
@@ -50,4 +50,4 @@ const Inventory = () => {
   );
 };
 
-export default Inventory;
+export default Inventory; */
