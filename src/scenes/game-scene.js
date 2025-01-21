@@ -6,9 +6,21 @@ import { SCENE_KEYS } from "./scene-keys";
 import { setupLevelOneMap } from "../maps/level-1-Map";
 import { setupPlayer } from "../players/setupPlayerOfficeDude";
 import { setupEnemyBot } from "../players/setupEnemyBot";
-
 import {handleSuccessfulPlayerAttack, handleEnemyAttack, checkForGameOver, showGameOver} from "../components/Combat/handleCombat";
 import {worldToTile,findPath,generateGrid,showPath,moveEnemy,visualiseGrid,} from "../components/Game/Pathfinding";
+import {
+    handleSuccessfulPlayerAttack,
+  handlePlayerCollisionWithEnemy,
+} from "../components/Combat/handleCombat";
+import {
+  worldToTile,
+  findPath,
+  generateGrid,
+  showPath,
+  moveEnemy,
+  visualiseGrid,
+  handleEnemyMovement,
+} from "../components/Game/Pathfinding";
 import { handleMovementAnimations } from "../animations/handleMovementAnims";
 import { setupCursorControls } from "../utils/controls";
 import { updateAttackBoxPosition } from "../utils/updateAttackBoxPosition";
@@ -64,7 +76,7 @@ export default class GameScene extends Phaser.Scene {
     this.officedude = setupPlayer(this); // setup player NOTE: has to follow after animations are created
     
     // setup cubicles overlay after player (foreground)
-    this.add.sprite(960, 432, "cubicles-overlay").setOrigin(1, 1);
+    this.add.sprite(960, 432, "cubicles-overlay").setOrigin(1, 1).setDepth(200);
 
     // setup enemyBots group and add test
     this.enemyBots = this.physics.add.group(); // create enemy-bot group
@@ -108,13 +120,7 @@ export default class GameScene extends Phaser.Scene {
       }
     });
     
-    /* this.tweens.add({
-        targets: this.enemyTest,
-        tint: {from: 0xececec, to: 0x00ff00},
-        duration: 5000,
-        yoyo: true,
-        repeat: -1
-    }) */
+    
 
     // setup cameras
     this.cameras.main.startFollow(this.officedude, true);
@@ -148,6 +154,7 @@ export default class GameScene extends Phaser.Scene {
       this.officedude.y,
       this.gridSize
     );
+
 
     const enemyTile = worldToTile(
       this.enemyTest.x,
@@ -208,6 +215,25 @@ export default class GameScene extends Phaser.Scene {
 
         }
       }
+
+    this.isTrackingPlayer = handleEnemyMovement({
+      enemy: this.enemyTest,
+      playerTile,
+      spawnTile: this.enemySpawnTile,
+      grid: this.grid,
+      detectionRange: this.detectionRange,
+      maxChaseRange: this.maxChaseRange,
+      isTrackingPlayer: this.isTrackingPlayer,
+      moveEnemy,
+      gridSize: this.gridSize,
+    });
+
+    if (this.officedude.y > this.enemyTest.y){
+        console.log('below')
+        this.officedude.setDepth(101)
+    } else{
+        this.officedude.setDepth(99)
+
     }
 
     // Initialize velocity variables and set up Cursors/Keys/Controls

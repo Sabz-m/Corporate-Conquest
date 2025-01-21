@@ -44,6 +44,8 @@ export const setupPlayer = (scene) => {
       this.direction = "up";
     }
   };
+
+  player.setDepth(100)
   
 
   return player
