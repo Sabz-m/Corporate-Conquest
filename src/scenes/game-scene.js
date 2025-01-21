@@ -1,4 +1,3 @@
-
 import Phaser from "phaser"
 
 import Mrpas from "../utils/mrpas"
@@ -25,38 +24,31 @@ import { handleMovementAnimations } from "../animations/handleMovementAnims"
 import { setupCursorControls } from "../utils/controls"
 import { updateAttackBoxPosition } from "../utils/updateAttackBoxPosition"
 
-
 export default class GameScene extends Phaser.Scene {
-  
-     constructor() {
-      super({
-        key: SCENE_KEYS.GAME_SCENE,
-      });
+    constructor() {
+        super({
+            key: SCENE_KEYS.GAME_SCENE,
+        })
 
-      this.dispatch = null;
-      this.isPlayerAttacking = false;
-      this.hasCollided = false;
-      this.gridSize = 48;
-      this.grid = [];
-      this.pathGraphics = null;
-      this.enemySpawnTile = null;
-      this.isTrackingPlayer = false;
-      this.detectionRange = 5;
-      this.maxChaseRange = 8;
+        this.dispatch = null
+        this.isPlayerAttacking = false
+        this.hasCollided = false
+        this.gridSize = 48
+        this.grid = []
+        this.pathGraphics = null
+        this.enemySpawnTile = null
+        this.isTrackingPlayer = false
+        this.detectionRange = 5
+        this.maxChaseRange = 8
     }
-
- 
 
     init({ dispatch }) {
         this.dispatch = dispatch
         // console.log("Dispatch:", dispatch);
     }
 
-
-
     create() {
         // Set up Phaser game scene, including player, map, etc.
-
 
         //setup map
         const {
@@ -100,18 +92,14 @@ export default class GameScene extends Phaser.Scene {
             null,
             this
         )
-      
-      
+
         // colliders
         this.physics.add.collider(this.officedude.feetbox, collisionLayer)
-      
-        
-        // setup grid for pathfinding
-        this.grid = generateGrid(map, collisionLayer, this.gridSize);
-    
-        this.visualizedGrid = visualiseGrid(this, this.grid, this.gridSize);
 
-       
+        // setup grid for pathfinding
+        this.grid = generateGrid(map, collisionLayer, this.gridSize)
+
+        this.visualizedGrid = visualiseGrid(this, this.grid, this.gridSize)
 
         //Handle player attack input (spacebar)
         this.input.keyboard.on("keydown-SPACE", () => {
@@ -121,23 +109,20 @@ export default class GameScene extends Phaser.Scene {
                 this.triggerAttack()
             }
         })
-      
-      
+
         // setup cameras
-        this.cameras.main.startFollow(this.officedude, true);
+        this.cameras.main.startFollow(this.officedude, true)
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels) // arbitrary numbers NEEDS CORRECTING
         this.cameras.main.fadeIn(1000, 0, 0, 0)
 
-        
+        this.enemySpawnTile = worldToTile(
+            this.enemyTest.x,
+            this.enemyTest.y,
+            this.gridSize
+        )
 
-    this.enemySpawnTile = worldToTile(
-      this.enemyTest.x,
-      this.enemyTest.y,
-      this.gridSize
-    );
-
-    // Launch the FoV scene and pass necessary data (from map and characters)
-    /*    this.scene.launch(SCENE_KEYS.FOV_SCENE, {
+        // Launch the FoV scene and pass necessary data (from map and characters)
+        /*    this.scene.launch(SCENE_KEYS.FOV_SCENE, {
 
             player: this.officedude,
             enemyBots: this.enemyBots,
@@ -149,64 +134,75 @@ export default class GameScene extends Phaser.Scene {
             objectsLayerTop,
             collisionLayer,
         }) */
-     
-  }
-  
+    }
 
     update() {
-    
+        const playerTile = worldToTile(
+            this.officedude.x,
+            this.officedude.y,
+            this.gridSize
+        )
 
-    const distanceToPlayer = Phaser.Math.Distance.Between(
-      playerTile.x,
-      playerTile.y,
-      enemyTile.x,
-      enemyTile.y
-    );
+        const enemyTile = worldToTile(
+            this.enemyTest.x,
+            this.enemyTest.y,
+            this.gridSize
+        )
 
-    const distanceToSpawn = Phaser.Math.Distance.Between(
-      enemyTile.x,
-      enemyTile.y,
-      this.enemySpawnTile.x,
-      this.enemySpawnTile.y
-    );
+        const distanceToPlayer = Phaser.Math.Distance.Between(
+            playerTile.x,
+            playerTile.y,
+            enemyTile.x,
+            enemyTile.y
+        )
 
-    if (!this.isTrackingPlayer) {
-      if (distanceToPlayer <= this.detectionRange) {
-        this.isTrackingPlayer = true;
-      }
-    } else {
-      if (distanceToPlayer > this.maxChaseRange) {
-        const pathToSpawn = findPath(enemyTile, this.enemySpawnTile, this.grid);
-        showPath(this.pathGraphics, pathToSpawn, this.gridSize);
-        if (pathToSpawn && pathToSpawn.length > 2) {
-          const nextStep = pathToSpawn[1];
-          moveEnemy(this.enemyTest, nextStep, this.gridSize);
+        const distanceToSpawn = Phaser.Math.Distance.Between(
+            enemyTile.x,
+            enemyTile.y,
+            this.enemySpawnTile.x,
+            this.enemySpawnTile.y
+        )
+
+        if (!this.isTrackingPlayer) {
+            if (distanceToPlayer <= this.detectionRange) {
+                this.isTrackingPlayer = true
+            }
         } else {
-          this.enemyTest.setVelocity(0, 0);
-          this.enemyTest.anims.play("enemybot-down-idle", true);
+            if (distanceToPlayer > this.maxChaseRange) {
+                const pathToSpawn = findPath(
+                    enemyTile,
+                    this.enemySpawnTile,
+                    this.grid
+                )
+                showPath(this.pathGraphics, pathToSpawn, this.gridSize)
+
+                if (pathToSpawn && pathToSpawn.length > 2) {
+                    const nextStep = pathToSpawn[1]
+                    moveEnemy(this.enemyTest, nextStep, this.gridSize)
+                } else {
+                    this.enemyTest.setVelocity(0, 0)
+                    this.enemyTest.anims.play("enemybot-down-idle", true)
+                }
+
+                if (distanceToSpawn <= 1) {
+                    // Stop tracking once back at spawn
+                    this.isTrackingPlayer = false
+                }
+            } else {
+                const pathToPlayer = findPath(enemyTile, playerTile, this.grid)
+                showPath(this.pathGraphics, pathToPlayer, this.gridSize)
+
+                if (pathToPlayer && pathToPlayer.length > 2) {
+                    // Move to a tile next to the player
+                    const nextStep = pathToPlayer[1] // Second-to-last tile
+                    moveEnemy(this.enemyTest, nextStep, this.gridSize)
+                } else {
+                    // Stop if no valid path is found
+                    this.enemyTest.setVelocity(0, 0)
+                    this.enemyTest.anims.play("enemybot-down-idle", true)
+                }
+            }
         }
-
-        if (distanceToSpawn <= 1) {
-          // Stop tracking once back at spawn
-          this.isTrackingPlayer = false;
-
-        }
-      } else {
-        const pathToPlayer = findPath(enemyTile, playerTile, this.grid);
-        showPath(this.pathGraphics, pathToPlayer, this.gridSize);
-
-        if (pathToPlayer && pathToPlayer.length > 2) {
-          // Move to a tile next to the player
-          const nextStep = pathToPlayer[1]; // Second-to-last tile
-          moveEnemy(this.enemyTest, nextStep, this.gridSize);
-        } else {
-          // Stop if no valid path is found
-          this.enemyTest.setVelocity(0, 0);
-          this.enemyTest.anims.play("enemybot-down-idle", true);
-        }
-
-       
-        
 
         // Initialize velocity variables and set up Cursors/Keys/Controls
         let { velocityX, velocityY, shift } = setupCursorControls(this)
@@ -247,11 +243,11 @@ export default class GameScene extends Phaser.Scene {
             this.officedude.attackbox.body.enable = false
         })
 
-    if (this.isPlayerAttacking) {
-      this.enemyBots.getChildren().forEach((enemy) => {
-        handlePlayerAttack(this.officedude, enemy, this.dispatch);
-      });
-
+        if (this.isPlayerAttacking) {
+            this.enemyBots.getChildren().forEach((enemy) => {
+                handlePlayerAttack(this.officedude, enemy, this.dispatch)
+            })
+        }
     }
 
     /* handlePlayerCollisionWithEnemy(player, enemy) {
