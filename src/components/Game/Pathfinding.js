@@ -223,3 +223,65 @@ export const visualiseGrid = (scene, grid, gridSize) => {
 
   return graphics;
 };
+
+export function handleEnemyMovement({
+  enemy,
+  playerTile,
+  spawnTile,
+  grid,
+  detectionRange,
+  maxChaseRange,
+  isTrackingPlayer,
+  moveEnemy,
+  gridSize,
+}) {
+  const enemyTile = worldToTile(enemy.x, enemy.y, gridSize);
+
+  const distanceToPlayer = Phaser.Math.Distance.Between(
+    playerTile.x,
+    playerTile.y,
+    enemyTile.x,
+    enemyTile.y
+  );
+
+  const distanceToSpawn = Phaser.Math.Distance.Between(
+    enemyTile.x,
+    enemyTile.y,
+    spawnTile.x,
+    spawnTile.y
+  );
+
+  if (!isTrackingPlayer) {
+    if (distanceToPlayer <= detectionRange) {
+      isTrackingPlayer = true;
+    }
+  } else {
+    if (distanceToPlayer > maxChaseRange) {
+      const pathToSpawn = findPath(enemyTile, spawnTile, grid);
+
+      if (pathToSpawn && pathToSpawn.length > 2) {
+        const nextStep = pathToSpawn[1];
+        moveEnemy(enemy, nextStep, gridSize);
+      } else {
+        enemy.setVelocity(0, 0);
+        enemy.anims.play("enemybot-down-idle", true);
+      }
+
+      if (distanceToSpawn <= 1) {
+        isTrackingPlayer = false;
+      }
+    } else {
+      const pathToPlayer = findPath(enemyTile, playerTile, grid);
+
+      if (pathToPlayer && pathToPlayer.length > 2) {
+        const nextStep = pathToPlayer[1];
+        moveEnemy(enemy, nextStep, gridSize);
+      } else {
+        enemy.setVelocity(0, 0);
+        enemy.anims.play("enemybot-down-idle", true);
+      }
+    }
+  }
+
+  return isTrackingPlayer;
+}
