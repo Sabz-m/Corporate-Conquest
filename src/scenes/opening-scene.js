@@ -20,10 +20,10 @@ export default class OpeningScene extends Phaser.Scene {
             objectsLayerTop,
             collisionLayer,
         } = setupLevelOneMap(this) // setup map (can bring in other layers if needed)
-        
+
         //setup cursors
         this.cursors = this.input.keyboard.createCursorKeys() // set up cursor keys
-        
+
         // set up cubicles with animation
         const cubicles = this.add.sprite(960, 432, "cubicles").setOrigin(1, 1)
         this.time.delayedCall(1000, () => {
@@ -32,13 +32,13 @@ export default class OpeningScene extends Phaser.Scene {
         this.time.delayedCall(1000, () => {
             this.scene.start(SCENE_KEYS.GAME_SCENE)
         })
-        
+
         // set up player
         this.officedude = setupPlayer(this)
-        this.officedude.play('left-walk')
+        this.officedude.play("left-walk")
 
         // set up cubicles overlay(to overlay player)
-        this.add.sprite(960, 432, "cubicles-overlay").setOrigin(1, 1)
+        this.add.sprite(960, 432, "cubicles-overlay").setOrigin(1, 1).setDepth(300)
 
         // setup enemyBots group and add test
         this.enemyBots = this.physics.add.group() // create enemy-bot group
@@ -56,9 +56,8 @@ export default class OpeningScene extends Phaser.Scene {
 
         // setup cameras
         this.cameras.main.startFollow(this.officedude, true)
-        this.cameras.main.setBounds(0, 0, 1280, 2176) // arbitrary numbers NEEDS CORRECTING
+        this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels) // arbitrary numbers NEEDS CORRECTING
         this.cameras.main.fadeIn(1000, 0, 0, 0)
-
     }
 
     update() {}

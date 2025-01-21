@@ -14,7 +14,7 @@ export const setupLevelOneMap = (scene) => {
       "bathroom-tiles-img"
   )
 
-  const groundLayer = map.createLayer("ground", roomBuilderTileset)
+  const groundLayer = map.createLayer("ground", roomBuilderTileset).setDepth(-100)
   const collisionLayer = map.createLayer("collisions", roomBuilderTileset)
   collisionLayer.setAlpha(0)
   const horizontalWallsLayer = map.createLayer(
@@ -37,7 +37,7 @@ export const setupLevelOneMap = (scene) => {
   horizontalWallsLayer.setCollisionByProperty({ collides: true })
   verticalWallsLayer.setCollisionByProperty({ collides: true })
   collisionLayer.setCollisionByProperty({ collides: true })
-  objectsLayerTop.setDepth(1)
+  objectsLayerTop.setDepth(200)
 
   // Return layers for further use (e.g., collisions)
   return {

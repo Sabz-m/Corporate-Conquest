@@ -27,7 +27,6 @@ import {
 import { handleMovementAnimations } from "../animations/handleMovementAnims";
 import { setupCursorControls } from "../utils/controls";
 import { updateAttackBoxPosition } from "../utils/updateAttackBoxPosition";
-import { createLaserProjectileAnims } from "../animations/laserProjectileAnims";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -77,7 +76,7 @@ export default class GameScene extends Phaser.Scene {
     this.officedude = setupPlayer(this); // setup player NOTE: has to follow after animations are created
 
     // setup cubicles overlay after player (foreground)
-    this.add.sprite(960, 432, "cubicles-overlay").setOrigin(1, 1);
+    this.add.sprite(960, 432, "cubicles-overlay").setOrigin(1, 1).setDepth(200);
 
     // setup enemyBots group and add test
     this.enemyBots = this.physics.add.group(); // create enemy-bot group
@@ -119,9 +118,8 @@ export default class GameScene extends Phaser.Scene {
       }
     });
     
-    this.laser = this.physics.add.sprite(this.enemyTest.x, this.enemyTest.y-30, "laser-projectile")
-    createLaserProjectileAnims(this)
-    this.laser.anims.play("laser-projectile", true)
+    
+
     // setup cameras
     this.cameras.main.startFollow(this.officedude, true);
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels); // arbitrary numbers NEEDS CORRECTING
@@ -166,6 +164,13 @@ export default class GameScene extends Phaser.Scene {
       moveEnemy,
       gridSize: this.gridSize,
     });
+
+    if (this.officedude.y > this.enemyTest.y){
+        console.log('below')
+        this.officedude.setDepth(101)
+    } else{
+        this.officedude.setDepth(99)
+    }
 
     // Initialize velocity variables and set up Cursors/Keys/Controls
     let { velocityX, velocityY, shift } = setupCursorControls(this);
