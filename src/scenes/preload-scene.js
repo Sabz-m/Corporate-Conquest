@@ -58,7 +58,11 @@ export default class PreloadScene extends Phaser.Scene {
             "src/assets/sprites/office-dude/punch-down.png",
             "src/assets/sprites/office-dude/punch-down.json"
         )
-        this.l
+        this.load.atlas(
+            "punches",
+            "src/assets/sprites/office-dude/punches-spritesheet.png",
+            "src/assets/sprites/office-dude/punches.json"
+        )
         // load cubicles overlay to allow player go 'inside' cubicle
         this.load.image(
             "cubicles-overlay",

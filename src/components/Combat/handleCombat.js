@@ -3,7 +3,7 @@ import { enemyTakesDamage, playerTakesDamage } from "../../Actions/CombatActions
 import { updatePlayerScore } from "../../Actions/PlayerActions";
 import { setHasCollided } from "../../Actions/PlayerActions";
 
-export const handlePlayerCollisionWithEnemy = (player, enemy, dispatch, isPlayerAttacking, hasCollided) => {
+export const handlePlayerCollisionWithEnemy = (player, enemy, dispatch, isPlayerAttacking, hasCollided, scene) => {
      console.log( '<--collision triggered')
     if (player && enemy) {
 
@@ -51,16 +51,15 @@ export const handlePlayerCollisionWithEnemy = (player, enemy, dispatch, isPlayer
             enemy.destroy();
         }
 
-        enemy.setVelocityX(0);
+        scene.enemy.setVelocityX(0);
         enemy.setVelocityY(0);
 
     }
 };
 
 
-export const handlePlayerAttack = (player, enemy, dispatch) => {
-    console.log('in player attack')
-    if (player && enemy && player.isAttacking) {
+export const handleSuccessfulPlayerAttack = (player, enemy, dispatch) => {
+
 
         const currentScore = isNaN(player.score) ? 0 : player.score;
         // Apply damage to the enemy
@@ -69,6 +68,6 @@ export const handlePlayerAttack = (player, enemy, dispatch) => {
         // Increase player score for a successful attack
         const newScore = currentScore + 10
         dispatch(updatePlayerScore(newScore)); 
-    }
+
     
 };
