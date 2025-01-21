@@ -32,7 +32,7 @@ const PhaserGame = ({ dispatch }) => {
       },
       physics: {
         default: "arcade",
-        arcade: { gravity: { y: 0 }, debug: true },
+        arcade: { gravity: { y: 0 }, debug: false },
       },
 
       scene: [

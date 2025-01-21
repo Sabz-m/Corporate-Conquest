@@ -26,6 +26,7 @@ import {
 import { handleMovementAnimations } from "../animations/handleMovementAnims";
 import { setupCursorControls } from "../utils/controls";
 import { updateAttackBoxPosition } from "../utils/updateAttackBoxPosition";
+import { createLaserProjectileAnims } from "../animations/laserProjectileAnims";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -117,14 +118,9 @@ export default class GameScene extends Phaser.Scene {
       }
     });
     
-    /* this.tweens.add({
-        targets: this.enemyTest,
-        tint: {from: 0xececec, to: 0x00ff00},
-        duration: 5000,
-        yoyo: true,
-        repeat: -1
-    }) */
-
+    this.laser = this.physics.add.sprite(this.enemyTest.x, this.enemyTest.y-30, "laser-projectile")
+    createLaserProjectileAnims(this)
+    this.laser.anims.play("laser-projectile", true)
     // setup cameras
     this.cameras.main.startFollow(this.officedude, true);
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels); // arbitrary numbers NEEDS CORRECTING
