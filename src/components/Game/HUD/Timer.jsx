@@ -25,28 +25,9 @@ const Timer = () => {
     };
   }, [dispatch, isRunning]);
 
-  const handleStart = () => {
-    dispatch(startTimer());
-  };
-
-  const handleStop = () => {
-    dispatch(stopTimer());
-  };
-
-  const handleReset = () => {
-    dispatch(resetTimer());
-  };
-
   return (
     <div>
-      <button onClick={handleStart} disabled={isRunning}>
-        Start
-      </button>
-      <button onClick={handleStop} disabled={!isRunning}>
-        Stop
-      </button>
-      <button onClick={handleReset}>Reset</button>
-      <h3>Timer: {time}s</h3>
+      <h2>Game Time: {time}s</h2>
     </div>
   );
 };

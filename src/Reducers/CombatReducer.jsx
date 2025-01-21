@@ -2,6 +2,8 @@
 Purpose: Manages the combat-related data, including health, damage taken, and combat status.
 Example: A reducer that tracks whether the player is currently in combat and applies any combat actions like dealing damage.*/
 
+
+
 const initialState = {
     enemyHealth: 100,
     playerIsAttacking: false,
@@ -9,12 +11,6 @@ const initialState = {
 
 const CombatReducer = (state = initialState, action) => {
     switch(action.type) {
-        case 'PLAYER_TAKES_DAMAGE':
-            return {
-                ...state,
-                playerHealth: state.playerHealth - action.payload,
-            };
-
         case 'ENEMY_TAKES_DAMAGE':
             return {
                 ...state,
