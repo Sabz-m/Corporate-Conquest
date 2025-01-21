@@ -57,6 +57,10 @@ export const handlePlayerCollisionWithEnemy = (player, enemy, dispatch, isPlayer
     }
 };
 
+export const handleSuccessfulEnemyAttack = () => {
+    console.log('youve been hit!')
+}
+
 
 export const handleSuccessfulPlayerAttack = (player, enemy, dispatch) => {
 

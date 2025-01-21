@@ -1,6 +1,7 @@
 export const setupPlayer = (scene) => {
   const player = scene.physics.add.sprite(920, 130, "office-dude")
   player.play("down-idle")
+  player.body.setSize(30, 60)
 
   // Create attack box
   player.attackbox = scene.add.rectangle(player.x + 30, player.y, 20, 20)
