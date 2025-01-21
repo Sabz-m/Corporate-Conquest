@@ -109,3 +109,85 @@ h2 {
   transform: translateY(4px);
   box-shadow: 0 2px rgba(0, 0, 0, 0.3);
 }
+
+.leaderboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.leaderboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+}
+
+.button-back {
+  background-color: #ff4757;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  background-color: #1e90ff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 5px;
+}
+
+.leaderboard-table {
+  width: 90%;
+  max-width: 1000px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background: linear-gradient(to bottom, #3c3f58, #232638);
+  color: white;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+td {
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  table {
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    padding: 8px;
+  }
+}

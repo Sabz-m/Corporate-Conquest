@@ -1,61 +1,6 @@
 import { useSelector } from "react-redux";
 import { enemyTakesDamage, playerTakesDamage } from "../../Actions/CombatActions";
 import { updatePlayerScore } from "../../Actions/PlayerActions";
-import { setHasCollided } from "../../Actions/PlayerActions";
-
-export const handlePlayerCollisionWithEnemy = (player, enemy, dispatch, isPlayerAttacking, hasCollided, scene) => {
-     console.log( '<--collision triggered')
-    if (player && enemy) {
-
-        if(hasCollided) return;
-
-        // Check if health is greater than 0 to avoid going below 0
-        const currentHealth = player.health;
-        
-        if (currentHealth <= 0 || hasCollided) return; // Exit if player is already "dead"
-
-        // Only apply damage once per collision (use hasCollided flag)
-        if (!hasCollided) {
-            const currentScore =  player.score;
-
-            if (isPlayerAttacking) {
-                // Player is attacking - apply damage to enemy and increase player score
-                dispatch(enemyTakesDamage(10)); // Example damage to the enemy
-                // Add points for defeating enemy (you can modify the score increment)
-                
-                dispatch(updatePlayerScore(10)); // Update player score
-            } else {
-                // Player is not attacking - apply damage to player
-                dispatch(playerTakesDamage(5));
-                 // Prevent health from going below 0
-                ; // Apply health damage
-                // Decrease score for being hit (you can modify this behavior)
-                
-                dispatch(updatePlayerScore(-5)); // Update player score
-            }
-
-            dispatch(setHasCollided(true));
-        }
-
-        
-        if (isPlayerAttacking) {
-            enemy.setVelocityX(100);
-            enemy.setVelocityY(-50);  
-        } else {
-            player.setVelocityX(-100); 
-            player.setVelocityY(-50);  
-        }
-
-        
-        if (enemy.health <= 0) {
-            enemy.destroy();
-        }
-
-        scene.enemy.setVelocityX(0);
-        enemy.setVelocityY(0);
-
-    }
-};
 
 export const handleSuccessfulEnemyAttack = () => {
     console.log('youve been hit!')
@@ -67,11 +12,58 @@ export const handleSuccessfulPlayerAttack = (player, enemy, dispatch) => {
 
         const currentScore = isNaN(player.score) ? 0 : player.score;
         // Apply damage to the enemy
-        dispatch(enemyTakesDamage(20));  // Enemy takes 20 damage
-        
+         // Enemy takes 20 damage
+         dispatch(enemyTakesDamage(20)); 
         // Increase player score for a successful attack
         const newScore = currentScore + 10
         dispatch(updatePlayerScore(newScore)); 
 
+        
+
     
 };
+
+
+export const handleEnemyAttack = (player, enemy, dispatch) => {
+    // Check if enemy is in range of the player to attack
+    const distance = Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y);
+    if (distance < enemy.attackRange && !player.isInjured) {
+      // Apply damage to the player and update the player health
+      dispatch(playerTakesDamage(5)); 
+
+      // Prevent the player from taking damage multiple times in quick succession
+      player.isInjured = true;
+      setTimeout(() => {
+        player.isInjured = false;
+      }, 500); // 500ms cooldown between consecutive attacks
+    }
+  };
+
+
+
+
+export const checkForGameOver = (playerHealth, enemyHealth, scene) => {
+    // Check if the player is dead
+    if (playerHealth <= 0) {
+      scene.showGameOver("Player");
+    }
+    
+    // Check if the enemy is dead
+    if (enemyHealth <= 0) {
+      scene.enemyTest.destroy(); // Destroy enemy bot from the scene when health reaches 0
+      console.log("Enemy defeated");
+    }
+  };
+  
+  export const showGameOver = () => {
+    // Display Game Over message or UI
+    const gameOverText = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, `Game Over`, {
+      fontSize: '32px',
+      color: '#ff0000',
+    }).setOrigin(0.5);
+  
+    // Wait a few seconds before restarting the game
+    this.time.delayedCall(2000, () => {
+      this.scene.restart(); // Restart the scene after a short delay
+    });
+  };
