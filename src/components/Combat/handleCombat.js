@@ -2,6 +2,10 @@ import { useSelector } from "react-redux";
 import { enemyTakesDamage, playerTakesDamage } from "../../Actions/CombatActions";
 import { updatePlayerScore } from "../../Actions/PlayerActions";
 
+export const handleSuccessfulEnemyAttack = () => {
+    console.log('youve been hit!')
+}
+
 
 export const handleSuccessfulPlayerAttack = (player, enemy, dispatch) => {
 

@@ -35,7 +35,7 @@ const PhaserGame = ({ dispatch, playerHealth, enemyHealth }) => {
       },
       physics: {
         default: "arcade",
-        arcade: { gravity: { y: 0 }, debug: false },
+        arcade: { gravity: { y: 0 }, debug: true },
       },
 
       scene: [
