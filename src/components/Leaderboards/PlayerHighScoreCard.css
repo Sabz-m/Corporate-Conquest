@@ -1,0 +1,15 @@
+.playerHighScoreCard table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.playerHighScoreCard th,
+.playerHighScoreCard td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.playerHighScoreCard th {
+  background-color: #f2f2f2;
+}
