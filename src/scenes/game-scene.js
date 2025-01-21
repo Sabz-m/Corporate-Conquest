@@ -1,16 +1,13 @@
 import Phaser from "phaser";
-
 import Mrpas from "../utils/mrpas";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  updatePlayerScore,
-  updatePlayerHealth,
-} from "../Actions/PlayerActions";
+import { updatePlayerScore,updatePlayerHealth,} from "../Actions/PlayerActions";
 import { SCENE_KEYS } from "./scene-keys";
 import { setupLevelOneMap } from "../maps/level-1-Map";
 import { setupPlayer } from "../players/setupPlayerOfficeDude";
 import { setupEnemyBot } from "../players/setupEnemyBot";
-
+import {handleSuccessfulPlayerAttack, handleEnemyAttack, checkForGameOver, showGameOver} from "../components/Combat/handleCombat";
+import {worldToTile,findPath,generateGrid,showPath,moveEnemy,visualiseGrid,} from "../components/Game/Pathfinding";
 import {
     handleSuccessfulPlayerAttack,
   handlePlayerCollisionWithEnemy,
@@ -46,14 +43,17 @@ export default class GameScene extends Phaser.Scene {
     this.maxChaseRange = 8;
   }
 
-  init({ dispatch }) {
+  init({ dispatch, playerHealth, enemyHealth }) {
     this.dispatch = dispatch;
+    this.playerHealth = playerHealth;
+    this.enemyHealth = enemyHealth;
     // console.log("Dispatch:", dispatch);
   }
 
   create() {
     // Set up Phaser game scene, including player, map, etc.
-
+    console.log("Player Health:", this.playerHealth);
+    console.log("Enemy Health:", this.enemyHealth);
     //setup map
     const {
       map,
@@ -74,7 +74,7 @@ export default class GameScene extends Phaser.Scene {
 
     // set up player
     this.officedude = setupPlayer(this); // setup player NOTE: has to follow after animations are created
-
+    
     // setup cubicles overlay after player (foreground)
     this.add.sprite(960, 432, "cubicles-overlay").setOrigin(1, 1).setDepth(200);
 
@@ -87,6 +87,8 @@ export default class GameScene extends Phaser.Scene {
     );
     this.enemyBots.add(this.enemyTest);
 
+    
+    
     // colliders
 
     this.physics.add.overlap(
@@ -153,6 +155,67 @@ export default class GameScene extends Phaser.Scene {
       this.gridSize
     );
 
+
+    const enemyTile = worldToTile(
+      this.enemyTest.x,
+      this.enemyTest.y,
+      this.gridSize
+    );
+
+    const distanceToPlayer = Phaser.Math.Distance.Between(
+      playerTile.x,
+      playerTile.y,
+      enemyTile.x,
+      enemyTile.y
+    );
+
+    const distanceToSpawn = Phaser.Math.Distance.Between(
+      enemyTile.x,
+      enemyTile.y,
+      this.enemySpawnTile.x,
+      this.enemySpawnTile.y
+    );
+    
+   
+    
+    
+    if (!this.isTrackingPlayer) {
+      if (distanceToPlayer <= this.detectionRange) {
+        this.isTrackingPlayer = true;
+      }
+    } else {
+        if (distanceToPlayer > this.maxChaseRange) {
+            const pathToSpawn = findPath(enemyTile, this.enemySpawnTile, this.grid);
+        // showPath(this.pathGraphics, pathToSpawn, this.gridSize);
+
+        if (pathToSpawn && pathToSpawn.length > 2) {
+          const nextStep = pathToSpawn[1];
+          moveEnemy(this.enemyTest, nextStep, this.gridSize);
+        } else {
+          this.enemyTest.setVelocity(0, 0);
+          this.enemyTest.anims.play("enemybot-down-idle", true);
+        }
+
+        if (distanceToSpawn <= 1) {
+          // Stop tracking once back at spawn
+          this.isTrackingPlayer = false;
+        }
+      } else {
+        const pathToPlayer = findPath(enemyTile, playerTile, this.grid);
+        // showPath(this.pathGraphics, pathToPlayer, this.gridSize);
+
+        if (pathToPlayer && pathToPlayer.length > 2) {
+          // Move to a tile next to the player
+          const nextStep = pathToPlayer[1]; // Second-to-last tile
+          moveEnemy(this.enemyTest, nextStep, this.gridSize);
+        } else {
+          // Stop if no valid path is found
+              this.enemyTest.setVelocity(0, 0);
+              this.enemyTest.anims.play("enemybot-down-idle", true);
+
+        }
+      }
+
     this.isTrackingPlayer = handleEnemyMovement({
       enemy: this.enemyTest,
       playerTile,
@@ -170,6 +233,7 @@ export default class GameScene extends Phaser.Scene {
         this.officedude.setDepth(101)
     } else{
         this.officedude.setDepth(99)
+
     }
 
     // Initialize velocity variables and set up Cursors/Keys/Controls
@@ -185,6 +249,34 @@ export default class GameScene extends Phaser.Scene {
 
     // Update attack box position based on player's direction
     updateAttackBoxPosition(this);
+    
+    //check if enemy is close enough to player to attack
+    const distanceToEnemy = Phaser.Math.Distance.Between(
+      this.officedude.x,
+      this.officedude.y,
+      this.enemyTest.x,
+      this.enemyTest.y
+    );
+
+    if (distanceToEnemy < this.enemyTest.attackRange) {
+        handleEnemyAttack(this.officedude, this.enemyTest, this.dispatch); // New enemy attack logic
+      }
+
+      if(this.enemyHealth <= 0) {
+        //this.physics.world.remove(this.enemyTest);
+        if (this.enemyTest) {
+            console.log(this.enemyHealth, 'in update')
+            this.physics.world.remove(this.enemyTest);
+            this.enemyTest.body.enable = false;
+            this.enemyTest.setVisible(false);
+            this.enemyTest.destroy();
+            this.enemyTest = null
+            console.log('Enemy sprite destroyed');
+          }
+      }
+
+   
+    
   }
 
   // Add the handler function
@@ -197,6 +289,14 @@ export default class GameScene extends Phaser.Scene {
     // Handle the attack logic
     handleSuccessfulPlayerAttack(this.officedude, enemy, this.dispatch);
 
+    this.enemyHealth -=20;
+
+    console.log(this.enemyHealth, 'in handlePlayerAttack')
+    if (this.enemyHealth <= 0) {
+        console.log('Enemy defeated');
+        this.enemyTest.destroy();
+         // Optionally nullify reference to avoid accidental access later
+      }
     // Reset the flag after the attack animation ends
     this.time.delayedCall(450, () => {
       enemy.hasBeenHit = false;
@@ -236,13 +336,5 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
-  /* handlePlayerCollisionWithEnemy(player, enemy, this) {
-    handlePlayerCollisionWithEnemy(
-      player,
-      enemy,
-      this.dispatch,
-      this.isPlayerAttacking,
-      this.hasCollided
-    );
-  } */
+  
 }

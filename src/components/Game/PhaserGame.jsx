@@ -5,20 +5,23 @@ import OpeningScene from "../../scenes/opening-scene";
 import GameScene from "../../scenes/game-scene";
 import FovScene from "../../scenes/fov-scene";
 import { SCENE_KEYS } from "../../scenes/scene-keys";
+import { useSelector } from "react-redux";
 
 //import Player from "./Player";
 //import Map from "./Map";
 //import Pathfinding from "./Pathfinding";
 //import FOV from "./FOV";
 
-const PhaserGame = ({ dispatch }) => {
+const PhaserGame = ({ dispatch, playerHealth, enemyHealth }) => {
+  
   // useEffect to initialize Phaser game
   useEffect(() => {
     class GameSceneWithDispatch extends GameScene {
       init() {
-        super.init({ dispatch });
+        super.init({ dispatch, playerHealth, enemyHealth });
       }
     }
+
     const config = {
       type: Phaser.CANVAS,
       pixelArt: false,
