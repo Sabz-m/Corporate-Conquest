@@ -114,7 +114,7 @@ export const createOfficeDudeAnimations = (scene) => {
   })
     scene.anims.create({
         key: "punch-down",
-        frames: scene.anims.generateFrameNames("punch-down", {
+        frames: scene.anims.generateFrameNames("punches", {
             prefix: "_punch_down_f",
             start: 1,
             end: 3,
@@ -122,4 +122,24 @@ export const createOfficeDudeAnimations = (scene) => {
         frameRate: 15,
         repeat: -1,
     })
+    scene.anims.create({
+      key: "punch-left",
+      frames: scene.anims.generateFrameNames("punches", {
+          prefix: "_punch_side_f",
+          start: 1,
+          end: 3,
+      }),
+      frameRate: 15,
+      repeat: -1,
+  })
+  scene.anims.create({
+    key: "punch-up",
+    frames: scene.anims.generateFrameNames("punches", {
+        prefix: "_punch_up_f",
+        start: 1,
+        end: 3,
+    }),
+    frameRate: 15,
+    repeat: -1,
+})
 }

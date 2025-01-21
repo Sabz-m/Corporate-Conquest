@@ -12,7 +12,7 @@ import { setupPlayer } from "../players/setupPlayerOfficeDude";
 import { setupEnemyBot } from "../players/setupEnemyBot";
 
 import {
-  handlePlayerAttack,
+    handleSuccessfulPlayerAttack,
   handlePlayerCollisionWithEnemy,
 } from "../components/Combat/handleCombat";
 import {
@@ -116,6 +116,14 @@ export default class GameScene extends Phaser.Scene {
         this.triggerAttack();
       }
     });
+    
+    /* this.tweens.add({
+        targets: this.enemyTest,
+        tint: {from: 0xececec, to: 0x00ff00},
+        duration: 5000,
+        yoyo: true,
+        repeat: -1
+    }) */
 
     // setup cameras
     this.cameras.main.startFollow(this.officedude, true);
@@ -224,10 +232,19 @@ export default class GameScene extends Phaser.Scene {
 
   // Add the handler function
   handleAttackCollision(attackbox, enemy) {
-    if (this.isPlayerAttacking) {
-      console.log("is attacking");
-      handlePlayerAttack(this.officedude, enemy, this.dispatch);
-    }
+    // Ensure the attack only registers once per animation
+  if (this.isPlayerAttacking && !enemy.hasBeenHit) {
+    // Mark the enemy as hit for this attack
+    enemy.hasBeenHit = true;
+
+    // Handle the attack logic
+    handleSuccessfulPlayerAttack(this.officedude, enemy, this.dispatch);
+
+    // Reset the flag after the attack animation ends
+    this.time.delayedCall(450, () => {
+      enemy.hasBeenHit = false;
+    });
+  }
   }
 
   triggerAttack() {
@@ -235,7 +252,22 @@ export default class GameScene extends Phaser.Scene {
     this.officedude.attackbox.body.enable = true;
 
     // Play attack animation
-    this.officedude.anims.play("punch-down", true);
+    switch (this.officedude.direction) {
+        case "up":
+            this.officedude.anims.play("punch-up", true);
+            break
+        case "left":
+            this.officedude.anims.play("punch-left", true);
+            break
+        case "right":
+            this.officedude.anims.play("punch-left", true);
+            this.officedude.setFlipX(true) // Face right
+            break
+        default:
+            this.officedude.anims.play("punch-down", true); 
+    }
+            
+    
 
     // Set attack box position based on player's direction
     updateAttackBoxPosition(this);
@@ -245,15 +277,9 @@ export default class GameScene extends Phaser.Scene {
       this.isPlayerAttacking = false;
       this.officedude.attackbox.body.enable = false;
     });
-
-    if (this.isPlayerAttacking) {
-      this.enemyBots.getChildren().forEach((enemy) => {
-        handlePlayerAttack(this.officedude, enemy, this.dispatch);
-      });
-    }
   }
 
-  /* handlePlayerCollisionWithEnemy(player, enemy) {
+  /* handlePlayerCollisionWithEnemy(player, enemy, this) {
     handlePlayerCollisionWithEnemy(
       player,
       enemy,
