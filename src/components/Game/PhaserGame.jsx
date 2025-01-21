@@ -34,7 +34,11 @@ const PhaserGame = ({ dispatch }) => {
         default: "arcade",
         arcade: { gravity: { y: 0 }, debug: true },
       },
-      scene: [PreloadScene, OpeningScene, GameSceneWithDispatch],
+
+      scene: [
+        PreloadScene, OpeningScene, GameSceneWithDispatch, FovScene
+      ],
+
     };
 
     const game = new Phaser.Game(config);
