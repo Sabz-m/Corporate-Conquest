@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import Phaser, { Scene } from "phaser";
 import PreloadScene from "../../scenes/preload-scene";
@@ -12,16 +11,12 @@ import { SCENE_KEYS } from "../../scenes/scene-keys";
 //import Pathfinding from "./Pathfinding";
 //import FOV from "./FOV";
 
-
-const PhaserGame = ({dispatch}) => {
-   
+const PhaserGame = ({ dispatch }) => {
   // useEffect to initialize Phaser game
   useEffect(() => {
     class GameSceneWithDispatch extends GameScene {
-      init(){
-        super.init({dispatch})
-         
-         
+      init() {
+        super.init({ dispatch });
       }
     }
     const config = {
@@ -32,23 +27,21 @@ const PhaserGame = ({dispatch}) => {
         width: 1024,
         height: 576,
         parent: "game-container",
-        mode: Phaser.Scale.FIT,
+        mode: Phaser.Scale.NONE, // Prevent Phaser from messing with the layout
+        autoCenter: Phaser.Scale.CENTER_BOTH, // Ensure centered game
       },
       physics: {
         default: "arcade",
         arcade: { gravity: { y: 0 }, debug: true },
       },
-      scene: [
-        PreloadScene, OpeningScene, GameSceneWithDispatch
-      ],
+      scene: [PreloadScene, OpeningScene, GameSceneWithDispatch],
     };
 
     const game = new Phaser.Game(config);
 
-   /*  game.scene.add(SCENE_KEYS.PRELOAD_SCENE, PreloadScene)
+    /*  game.scene.add(SCENE_KEYS.PRELOAD_SCENE, PreloadScene)
     game.scene.add(SCENE_KEYS.GAME_SCENE, GameScene)
     game.scene.start(SCENE_KEYS.PRELOAD_SCENE) */
-
 
     return () => {
       game.destroy(true);

@@ -1,18 +1,13 @@
-
-
-
-import React, { useEffect } from 'react';
-import PhaserGame from './PhaserGame';
-import HUD from './HUD/HUD';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import PhaserGame from "./PhaserGame";
+import HUD from "./HUD/HUD";
+import { useDispatch, useSelector } from "react-redux";
 import { startTimer, stopTimer, togglePause } from "../../Actions/GameActions";
-
 
 const GameLoop = () => {
   const dispatch = useDispatch();
   const { gamePaused, timer } = useSelector((state) => state.game);
-  const {health, score} = useSelector((state) => state.player) //access score from redux
-  
+  const { health, score } = useSelector((state) => state.player); //access score from redux
 
   useEffect(() => {
     if (!gamePaused) {
@@ -32,15 +27,12 @@ const GameLoop = () => {
     dispatch(togglePause()); // Toggle the game pause state
   };
 
- 
-
   return (
-    <div>
-      <PhaserGame dispatch={dispatch}/>
+    <div id="game-wrapper">
+      <PhaserGame dispatch={dispatch} />
       <HUD />
     </div>
   );
 };
 
 export default GameLoop;
-
