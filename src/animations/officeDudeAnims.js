@@ -119,7 +119,7 @@ export const createOfficeDudeAnimations = (scene) => {
             start: 1,
             end: 3,
         }),
-        frameRate: 10,
+        frameRate: 15,
         repeat: -1,
     })
 }

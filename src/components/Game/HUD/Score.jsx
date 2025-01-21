@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 const ScoreDisplay = () => {
     const score = useSelector((state) => state.player.score); // Access score from redux store
-    console.log(score, '<---in score.jsx')
+    // console.log(score, '<---in score.jsx')
 
     return (
         <div className="score-display">

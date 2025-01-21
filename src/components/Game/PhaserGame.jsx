@@ -39,7 +39,7 @@ const PhaserGame = ({dispatch}) => {
         arcade: { gravity: { y: 0 }, debug: true },
       },
       scene: [
-        PreloadScene, OpeningScene, GameSceneWithDispatch
+        PreloadScene, OpeningScene, GameSceneWithDispatch, FovScene
       ],
     };
 
