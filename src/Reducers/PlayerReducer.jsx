@@ -15,14 +15,21 @@ const PlayerReducer = (state = initialState, action) => {
         case 'UPDATE_PLAYER_SCORE':
             return {
                 ...state,
-                score: action.payload, //update score with the value passed in the action
+                score: state.score + action.payload, //update score with the value passed in the action
             };
         
         case 'UPDATE_PLAYER_HEALTH':
             return{
                 ...state,
-                health: action.payload + action.payload,
+                health: action.payload,
             }
+
+        case 'PLAYER_TAKES_DAMAGE':
+            return {
+                    ...state,
+                    health: Math.max(state.health - action.payload, 0) 
+            };
+
         case 'SET_HAS_COLLIDED':
             return {
                 ...state,

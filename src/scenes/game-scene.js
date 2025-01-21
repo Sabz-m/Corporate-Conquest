@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-
 import Mrpas from "../utils/mrpas";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,6 +21,7 @@ import {
   moveEnemy,
   visualiseGrid,
 } from "../components/Game/Pathfinding";
+
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -191,9 +191,11 @@ export default class GameScene extends Phaser.Scene {
           this.enemyTest.setVelocity(0, 0);
           this.enemyTest.anims.play("enemybot-down-idle", true);
         }
+
         if (distanceToSpawn <= 1) {
           // Stop tracking once back at spawn
           this.isTrackingPlayer = false;
+
         }
       } else {
         const pathToPlayer = findPath(enemyTile, playerTile, this.grid);
@@ -305,6 +307,7 @@ export default class GameScene extends Phaser.Scene {
       this.enemyBots.getChildren().forEach((enemy) => {
         handlePlayerAttack(this.officedude, enemy, this.dispatch);
       });
+
     }
   }
 
