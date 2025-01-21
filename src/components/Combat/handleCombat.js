@@ -4,7 +4,7 @@ import { updatePlayerScore } from "../../Actions/PlayerActions";
 import { setHasCollided } from "../../Actions/PlayerActions";
 
 export const handlePlayerCollisionWithEnemy = (player, enemy, dispatch, isPlayerAttacking, hasCollided) => {
-
+     console.log( '<--collision triggered')
     if (player && enemy) {
 
         if(hasCollided) return;
@@ -19,9 +19,18 @@ export const handlePlayerCollisionWithEnemy = (player, enemy, dispatch, isPlayer
             const currentScore =  player.score;
 
             if (isPlayerAttacking) {
-                 handlePlayerAttack();
+                // Player is attacking - apply damage to enemy and increase player score
+                dispatch(enemyTakesDamage(10)); // Example damage to the enemy
+                // Add points for defeating enemy (you can modify the score increment)
+                
+                dispatch(updatePlayerScore(10)); // Update player score
             } else {
-                dispatch(playerTakesDamage(10));
+                // Player is not attacking - apply damage to player
+                dispatch(playerTakesDamage(5));
+                 // Prevent health from going below 0
+                ; // Apply health damage
+                // Decrease score for being hit (you can modify this behavior)
+                
                 dispatch(updatePlayerScore(-5)); // Update player score
             }
 
@@ -50,9 +59,16 @@ export const handlePlayerCollisionWithEnemy = (player, enemy, dispatch, isPlayer
 
 
 export const handlePlayerAttack = (player, enemy, dispatch) => {
+    console.log('in player attack')
     if (player && enemy && player.isAttacking) {
 
-        dispatch(enemyTakesDamage(10));  
-        dispatch(updatePlayerScore(10));
+        const currentScore = isNaN(player.score) ? 0 : player.score;
+        // Apply damage to the enemy
+        dispatch(enemyTakesDamage(20));  // Enemy takes 20 damage
+        
+        // Increase player score for a successful attack
+        const newScore = currentScore + 10
+        dispatch(updatePlayerScore(newScore)); 
     }
+    
 };
