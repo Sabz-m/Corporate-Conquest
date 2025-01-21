@@ -1,4 +1,3 @@
-
 import Phaser from "phaser"
 
 import Mrpas from "../utils/mrpas"
@@ -9,10 +8,8 @@ import { setupLevelOneMap } from "../maps/level-1-Map"
 import { setupPlayer } from "../players/setupPlayerOfficeDude"
 import { setupEnemyBot } from "../players/setupEnemyBot"
 
-
 import {
     handleSuccessfulPlayerAttack,
-    handlePlayerCollisionWithEnemy,
     handleSuccessfulEnemyAttack,
 } from "../components/Combat/handleCombat"
 import {
@@ -29,36 +26,33 @@ import { setupCursorControls } from "../utils/controls"
 import { updateAttackBoxPosition } from "../utils/updateAttackBoxPosition"
 
 export default class GameScene extends Phaser.Scene {
+    constructor() {
+        super({
+            key: SCENE_KEYS.GAME_SCENE,
+        })
 
-  constructor() {
-    super({
-      key: SCENE_KEYS.GAME_SCENE,
-    });
+        this.dispatch = null
+        this.isPlayerAttacking = false
+        this.hasCollided = false
+        this.gridSize = 48
+        this.grid = []
+        this.pathGraphics = null
+        this.enemySpawnTile = null
+        this.isTrackingPlayer = false
+        this.detectionRange = 5
+        this.maxChaseRange = 8
+    }
 
-    this.dispatch = null;
-    this.isPlayerAttacking = false;
-    this.hasCollided = false;
-    this.gridSize = 48;
-    this.grid = [];
-    this.pathGraphics = null;
-    this.enemySpawnTile = null;
-    this.isTrackingPlayer = false;
-    this.detectionRange = 5;
-    this.maxChaseRange = 8;
-  }
-
-  init({ dispatch, playerHealth, enemyHealth }) {
-    this.dispatch = dispatch;
-    this.playerHealth = playerHealth;
-    this.enemyHealth = enemyHealth;
-  }
-
-
+    init({ dispatch, playerHealth, enemyHealth }) {
+        this.dispatch = dispatch
+        this.playerHealth = playerHealth
+        this.enemyHealth = enemyHealth
+    }
 
     create() {
         // Set up Phaser game scene, including player, map, etc.
-      console.log("Player Health:", this.playerHealth);
-      console.log("Enemy Health:", this.enemyHealth);
+        console.log("Player Health:", this.playerHealth)
+        console.log("Enemy Health:", this.enemyHealth)
 
         //setup map
         const {
@@ -161,10 +155,6 @@ export default class GameScene extends Phaser.Scene {
             objectsLayerTop,
             collisionLayer,
         }) */
-
- 
-
-  
     }
 
     update() {
@@ -206,54 +196,46 @@ export default class GameScene extends Phaser.Scene {
 
         // Update attack box position based on player's direction
         updateAttackBoxPosition(this)
-      
-      if(this.enemyHealth <= 0) {
-        //this.physics.world.remove(this.enemyTest);
-        if (this.enemyTest) {
-            console.log(this.enemyHealth, 'in update')
-            this.physics.world.remove(this.enemyTest);
-            this.enemyTest.body.enable = false;
-            this.enemyTest.setVisible(false);
-            this.enemyTest.destroy();
-            this.enemyTest = null
-            console.log('Enemy sprite destroyed');
-          }
-      }
-    
 
+        if (this.enemyHealth <= 0) {
+            //this.physics.world.remove(this.enemyTest);
+            if (this.enemyTest) {
+                this.enemyTest.setScale(0.1)
+                // console.log(this.enemyHealth, "in update")
+                // this.physics.world.remove(this.enemyTest)
+                // this.enemyTest.body.enable = false
+                // this.enemyTest.setVisible(false)
+                // this.enemyTest.destroy()
+                // this.enemyTest = null
+                // console.log("Enemy sprite destroyed")
+            }
+        }
+    }
 
-   
+    // Add the handler function
+    handleAttackCollision(attackbox, enemy) {
+        // Ensure the attack only registers once per animation
+        if (this.isPlayerAttacking && !enemy.hasBeenHit) {
+            // Mark the enemy as hit for this attack
+            enemy.hasBeenHit = true
 
-      
+            // Handle the attack logic
+            handleSuccessfulPlayerAttack(this.officedude, enemy, this.dispatch)
 
-   
-    
-  }
+            this.enemyHealth -= 20
 
-  // Add the handler function
-  handleAttackCollision(attackbox, enemy) {
-    // Ensure the attack only registers once per animation
-  if (this.isPlayerAttacking && !enemy.hasBeenHit) {
-    // Mark the enemy as hit for this attack
-    enemy.hasBeenHit = true;
-
-    // Handle the attack logic
-    handleSuccessfulPlayerAttack(this.officedude, enemy, this.dispatch);
-
-    this.enemyHealth -=20;
-
-    console.log(this.enemyHealth, 'in handlePlayerAttack')
-    if (this.enemyHealth <= 0) {
-        console.log('Enemy defeated');
-        this.enemyTest.destroy();
-         // Optionally nullify reference to avoid accidental access later
-      }
-    // Reset the flag after the attack animation ends
-    this.time.delayedCall(450, () => {
-      enemy.hasBeenHit = false;
-    });
-  }
-  }
+            console.log(this.enemyHealth, "in handlePlayerAttack")
+            if (this.enemyHealth <= 0) {
+                console.log("Enemy defeated")
+                this.enemyTest.destroy()
+                // Optionally nullify reference to avoid accidental access later
+            }
+            // Reset the flag after the attack animation ends
+            this.time.delayedCall(450, () => {
+                enemy.hasBeenHit = false
+            })
+        }
+    }
 
     handleEnemyAttack(player, laser) {
         if (!this.officedude.hasBeenHit) {
@@ -297,5 +279,4 @@ export default class GameScene extends Phaser.Scene {
             this.officedude.attackbox.body.enable = false
         })
     }
-
 }

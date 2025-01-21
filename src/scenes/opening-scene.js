@@ -29,7 +29,7 @@ export default class OpeningScene extends Phaser.Scene {
         this.time.delayedCall(1000, () => {
             cubicles.anims.play("cubicles-door")
         })
-        this.time.delayedCall(1000, () => {
+        this.time.delayedCall(5000, () => {
             this.scene.start(SCENE_KEYS.GAME_SCENE)
         })
 
