@@ -77,3 +77,18 @@ h2 {
   box-shadow: 0 6px rgba(0, 0, 0, 0.3);
   position: relative;
 }
+
+.guest-section {
+  color: #101546;
+  font-size: 17px;
+}
+
+.guest-message a {
+  color: #080816;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.guest-message a:hover {
+  text-decoration: underline;
+}

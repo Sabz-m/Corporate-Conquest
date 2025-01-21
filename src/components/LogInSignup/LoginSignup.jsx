@@ -31,6 +31,10 @@ function LoginSignup () {
         });
     };
 
+    const cleanMessage = () => {
+        setErrorMessage("");
+    }
+
     const handleLoginChange = (event) => {
         const {name, value} = event.target;
         setLoginState((prevState) => ({
@@ -95,6 +99,11 @@ function LoginSignup () {
         if(password !== confirmPassword) {
             setErrorMessage("Passwords do not match!");
             clearForm();
+
+            setTimeout(() => {
+                cleanMessage();
+            }, 1000);
+
             return;
         }
 
