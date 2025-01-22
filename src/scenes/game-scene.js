@@ -64,14 +64,14 @@ export default class GameScene extends Phaser.Scene {
     console.log("Player Health:", this.playerHealth);
 
     this.backgroundMusic = this.sound.add("backgroundMusic", {
-      loop: false, 
+      loop: false,
       volume: 0.25,
     });
 
     this.backgroundMusic.play();
 
-    const songDuration = this.backgroundMusic.totalDuration; ]
-    const loopStartTime = songDuration - 4; 
+    const songDuration = this.backgroundMusic.totalDuration;
+    const loopStartTime = songDuration - 4;
 
     this.time.delayedCall(
       loopStartTime * 1000,
