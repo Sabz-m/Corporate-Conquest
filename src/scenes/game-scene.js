@@ -228,8 +228,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   // Add the handler function
-  handleAttackCollision(attackbox, enemy) {
-    console.log(enemy.enemyHealth, "in handle attack");
+
+  handleAttackCollision(attackbox, enemy) {    
 
     // Ensure the attack only registers once per animation
     if (this.isPlayerAttacking && !enemy.hasBeenHit) {
@@ -242,7 +242,11 @@ export default class GameScene extends Phaser.Scene {
 
       if (enemy.enemyHealth <= 0) {
         //enemy.isDestroyed = true;
-        this.enemyBots.remove(enemy, true, true);
+
+        enemy.anims.play("enemyexplodes", true)
+        this.time.delayedCall(450, () => {
+            this.enemyBots.remove(enemy, true, true)
+          });
       }
 
       // Reset the flag after the attack animation ends
