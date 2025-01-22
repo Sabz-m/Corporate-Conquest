@@ -65,7 +65,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.backgroundMusic = this.sound.add("backgroundMusic", {
       loop: false,
-      volume: 0.25,
+      volume: 0.1,
     });
 
     this.backgroundMusic.play();
@@ -225,6 +225,11 @@ export default class GameScene extends Phaser.Scene {
 
     // Update attack box position based on player's direction
     updateAttackBoxPosition(this);
+
+    if (this.enemyBots.countActive(true) === 0) {
+      this.backgroundMusic.stop();
+      this.scene.start(SCENE_KEYS.GAME_COMPLETE_SCENE);
+    }
   }
 
   // Add the handler function

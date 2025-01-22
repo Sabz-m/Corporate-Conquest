@@ -4,6 +4,7 @@ import PreloadScene from "../../scenes/preload-scene";
 import OpeningScene from "../../scenes/opening-scene";
 import GameScene from "../../scenes/game-scene";
 import FovScene from "../../scenes/fov-scene";
+import GameCompleteScene from "../../scenes/game-complete";
 import { SCENE_KEYS } from "../../scenes/scene-keys";
 import { useSelector } from "react-redux";
 
@@ -13,7 +14,6 @@ import { useSelector } from "react-redux";
 //import FOV from "./FOV";
 
 const PhaserGame = ({ dispatch, playerHealth, enemyHealth }) => {
-  
   // useEffect to initialize Phaser game
   useEffect(() => {
     class GameSceneWithDispatch extends GameScene {
@@ -39,9 +39,12 @@ const PhaserGame = ({ dispatch, playerHealth, enemyHealth }) => {
       },
 
       scene: [
-        PreloadScene, OpeningScene, GameSceneWithDispatch, FovScene
+        PreloadScene,
+        OpeningScene,
+        GameSceneWithDispatch,
+        FovScene,
+        GameCompleteScene,
       ],
-
     };
 
     const game = new Phaser.Game(config);
