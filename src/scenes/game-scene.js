@@ -218,6 +218,7 @@ export default class GameScene extends Phaser.Scene {
     if (this.isPlayerAttacking && !enemy.hasBeenHit) {
       // Mark the enemy as hit for this attack
       enemy.hasBeenHit = true;
+      
 
       // Handle the attack logic
       handleSuccessfulPlayerAttack(this.officedude, enemy, this.dispatch);
