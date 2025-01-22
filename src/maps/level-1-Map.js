@@ -17,6 +17,7 @@ export const setupLevelOneMap = (scene) => {
   const groundLayer = map.createLayer("ground", roomBuilderTileset).setDepth(-100)
   const collisionLayer = map.createLayer("collisions", roomBuilderTileset)
   collisionLayer.setAlpha(0)
+
   const horizontalWallsLayer = map.createLayer(
       "horizontal-walls",
       roomBuilderTileset
