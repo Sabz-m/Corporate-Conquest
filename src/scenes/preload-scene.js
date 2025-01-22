@@ -52,6 +52,11 @@ export default class PreloadScene extends Phaser.Scene {
             "src/assets/sprites/basic-enemy-bot/basic_enemy_bot_spritesheet.png",
             "src/assets/sprites/basic-enemy-bot/basic_enemy_bot_sprite.json"
         )
+        this.load.atlas(
+            "enemyattack",
+            "src/assets/sprites/basic-enemy-bot/enemyattack.png",
+            "src/assets/sprites/basic-enemy-bot/enemyattack.json"
+        )
         // load cubicles (tiled animation didn't work) with animation frames and JSON
         this.load.atlas(
             "cubicles",
