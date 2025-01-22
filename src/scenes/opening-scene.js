@@ -49,7 +49,7 @@ export default class OpeningScene extends Phaser.Scene {
         this.time.delayedCall(1000, () => {
             cubicles.anims.play("cubicles-door")
         })
-        this.time.delayedCall(500, () => {
+        this.time.delayedCall(5000, () => {
             this.scene.start(SCENE_KEYS.GAME_SCENE)
         })
 
@@ -61,7 +61,7 @@ export default class OpeningScene extends Phaser.Scene {
         this.add
             .sprite(960, 432, "cubicles-overlay")
             .setOrigin(1, 1)
-            .setDepth(300)
+            .setDepth(200)
 
         // setup enemyBots group and add test
         this.enemyBots = this.physics.add.group() // create enemy-bot group
