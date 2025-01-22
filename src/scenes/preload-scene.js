@@ -74,6 +74,10 @@ export default class PreloadScene extends Phaser.Scene {
             "cubicles-overlay",
             "src/assets/sprites/cubicles/cubicles_overlay.png"
         )
+        this.load.image(
+            "carpark-background",
+            "src/assets/tiles/pixel-carpark.png"
+        )
     }
 
     create() {
