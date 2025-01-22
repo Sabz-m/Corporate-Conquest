@@ -41,6 +41,11 @@ export default class PreloadScene extends Phaser.Scene {
             "src/assets/sprites/office-dude/office_dude_spritesheet.png",
             "src/assets/sprites/office-dude/office_dude_sprite.json"
         )
+        this.load.atlas(
+            "office-dude-2",
+            "src/assets/sprites/office-dude/office_dude_2_spritesheet.png",
+            "src/assets/sprites/office-dude/office_dude_2_sprite.json"
+        )
         // load 'basic enemy bot', player one character with animation frames and JSON
         this.load.atlas(
             "basic-enemy-bot",
@@ -53,20 +58,25 @@ export default class PreloadScene extends Phaser.Scene {
             "src/assets/sprites/cubicles/cubicles.png",
             "src/assets/sprites/cubicles/cubicles.json"
         )
-        this.load.atlas(
-            "punch-down",
-            "src/assets/sprites/office-dude/punch-down.png",
-            "src/assets/sprites/office-dude/punch-down.json"
-        )
+
         this.load.atlas(
             "punches",
             "src/assets/sprites/office-dude/punches-spritesheet.png",
             "src/assets/sprites/office-dude/punches.json"
         )
+        this.load.atlas(
+            "laser-projectile",
+            "src/assets/sprites/lasers/laser-projectile.png",
+            "src/assets/sprites/lasers/lasers.json"
+        )
         // load cubicles overlay to allow player go 'inside' cubicle
         this.load.image(
             "cubicles-overlay",
             "src/assets/sprites/cubicles/cubicles_overlay.png"
+        )
+        this.load.image(
+            "carpark-background",
+            "src/assets/tiles/pixel-carpark.png"
         )
     }
 

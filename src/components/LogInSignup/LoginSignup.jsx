@@ -32,7 +32,7 @@ function LoginSignup () {
     };
 
     const cleanMessage = () => {
-        setErrorMessage("");
+        setErrorMessage("");    //,,,,,,,,,,,,,,,,,,,,,
     }
 
     const handleLoginChange = (event) => {
@@ -41,6 +41,7 @@ function LoginSignup () {
             ...prevState,
             [name]: value,
         }));
+        setErrorMessage("");
     };
 
     const handleSignupChange = (event) => {
@@ -74,7 +75,7 @@ function LoginSignup () {
 
                 localStorage.setItem("token", data.token);
                 clearForm();
-                
+                setErrorMessage("");
                 setTimeout(() => {
                     navigate("/level-selection");
                   }, 1000);

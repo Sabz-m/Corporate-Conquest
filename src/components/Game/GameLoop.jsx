@@ -8,6 +8,7 @@ const GameLoop = () => {
   const dispatch = useDispatch();
   const { gamePaused, timer } = useSelector((state) => state.game);
   const { health, score } = useSelector((state) => state.player); //access score from redux
+  const {enemyHealth} = useSelector((state) => state.combat)
 
   useEffect(() => {
     if (!gamePaused) {
@@ -29,7 +30,7 @@ const GameLoop = () => {
 
   return (
     <div id="game-wrapper">
-      <PhaserGame dispatch={dispatch} />
+      <PhaserGame dispatch={dispatch} playerHealth={health} enemyHealth={enemyHealth} />
       <HUD />
     </div>
   );

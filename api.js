@@ -1,15 +1,16 @@
 import axios from "axios";
 
 const gameApi = axios.create({
-  baseURL: "",
+  baseURL: "https://corporate-conquest-db.onrender.com/api",
 });
 
 export const getLeaderboard = () => {
   return gameApi
-    .get("/leaderboards", {
+    .get("/leaderboard", {
       params: {},
     })
-    .then(({ data: { leaderboard } }) => {
-      return leaderboard;
+    .then(({ data: { entries } }) => {
+      console.log(entries);
+      return entries;
     });
 };
