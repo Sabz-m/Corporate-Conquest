@@ -2,9 +2,14 @@ import { useSelector } from "react-redux";
 import { enemyTakesDamage, playerTakesDamage } from "../../Actions/CombatActions";
 import { updatePlayerScore } from "../../Actions/PlayerActions";
 
-export const handleSuccessfulEnemyAttack = () => {
-    console.log('youve been hit!')
+export const handleSuccessfulEnemyAttack = (dispatch) => {
+  dispatch(playerTakesDamage(5)); 
+
+  // Prevent the player from taking damage multiple times in quick succession
+  
 }
+
+
 
 
 export const handleSuccessfulPlayerAttack = (player, enemy, dispatch) => {
@@ -13,7 +18,7 @@ export const handleSuccessfulPlayerAttack = (player, enemy, dispatch) => {
         const currentScore = isNaN(player.score) ? 0 : player.score;
         // Apply damage to the enemy
          // Enemy takes 20 damage
-         dispatch(enemyTakesDamage(20)); 
+         
         // Increase player score for a successful attack
         const newScore = currentScore + 10
         dispatch(updatePlayerScore(newScore)); 
@@ -24,20 +29,14 @@ export const handleSuccessfulPlayerAttack = (player, enemy, dispatch) => {
 };
 
 
-export const handleEnemyAttack = (player, enemy, dispatch) => {
+/* export const handleEnemyAttack = (player, enemy, dispatch) => {
     // Check if enemy is in range of the player to attack
     const distance = Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y);
     if (distance < enemy.attackRange && !player.isInjured) {
       // Apply damage to the player and update the player health
-      dispatch(playerTakesDamage(5)); 
-
-      // Prevent the player from taking damage multiple times in quick succession
-      player.isInjured = true;
-      setTimeout(() => {
-        player.isInjured = false;
-      }, 500); // 500ms cooldown between consecutive attacks
+      // 500ms cooldown between consecutive attacks
     }
-  };
+  }; */
 
 
 
