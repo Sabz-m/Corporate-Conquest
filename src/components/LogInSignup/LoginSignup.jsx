@@ -31,10 +31,6 @@ function LoginSignup () {
         });
     };
 
-    const cleanMessage = () => {
-        setErrorMessage("");    //,,,,,,,,,,,,,,,,,,,,,
-    }
-
     const handleLoginChange = (event) => {
         const {name, value} = event.target;
         setLoginState((prevState) => ({
@@ -91,7 +87,6 @@ function LoginSignup () {
         event.preventDefault();
         const { username, email, password, confirmPassword } = signupState;
 
-
         if(!username || !email || !password || !confirmPassword) {
             setErrorMessage("Please fill in all the fields!")
             return;
@@ -102,7 +97,7 @@ function LoginSignup () {
             clearForm();
 
             setTimeout(() => {
-                cleanMessage();
+                setErrorMessage("");
             }, 1000);
 
             return;
@@ -135,6 +130,24 @@ function LoginSignup () {
         }
         
     }
+
+    const switchToLogin = (event) => {
+        if (action === "Sign Up") {
+            setAction("Login");
+            navigate("/login")
+        } else {
+            handleLoginSubmit(event);
+        }
+    };
+    
+    const switchToSignup = (event) => {
+        if (action === "Login") {
+            setAction("Sign Up");
+            navigate("/register");
+        } else {
+            handleSignupSubmit(event);
+        }
+    };
 
     return (
         <div className="container">
@@ -187,20 +200,22 @@ function LoginSignup () {
                     {errorMessage && <p className="error">{errorMessage}</p>}
                     {successMessage && <p className="success">{successMessage}</p>}
                 </div>
+
             <div className="submit-container">
-                <div className={action === "Login" ? "submit gray" : "submit"}
-                onClick={(event) => {action === "Sign Up" ? handleSignupSubmit(event) : setAction("Sign Up")}}>
-                    Sign Up
-                    </div>
-                <div className={action === "Sign Up" ? "submit gray" : "submit"}
-                onClick={(event) => {action === "Login" ? handleLoginSubmit(event) : setAction("Login")}}>
-                    Login
-                    </div>
+            <div
+                className={action === "Login" ? "submit gray" : "submit"}
+                onClick={switchToSignup}>
+                Sign Up
+            </div>
+            <div
+                className={action === "Sign Up" ? "submit gray" : "submit"}
+                onClick={switchToLogin}>
+                Login
+            </div>
             </div>
         </div>
     )
 }
-
 
 
 export default LoginSignup;

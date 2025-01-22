@@ -21,6 +21,7 @@ const App = () => {
           <Route path="/start-game" element={<GameLoop />}></Route>
           <Route path="/level-selection" element={<LevelSelection />}></Route>
           <Route path="/login" element={<LoginSignup />}></Route>
+          <Route path="/register" element={<LoginSignup />}></Route>
           <Route path="/sign-up" element={<SignUp />}></Route>
           <Route
             path="/character-selection"
