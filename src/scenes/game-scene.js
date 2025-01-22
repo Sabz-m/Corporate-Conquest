@@ -177,7 +177,7 @@ export default class GameScene extends Phaser.Scene {
         moveEnemy,
         gridSize: this.gridSize,
       });
-      if (this.officedude.y > this.enemy.y) {
+      if (this.officedude.y > enemy.y) {
         this.officedude.setDepth(101);
       } else {
         this.officedude.setDepth(99);
