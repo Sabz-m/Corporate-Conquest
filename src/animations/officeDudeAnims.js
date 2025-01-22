@@ -1,5 +1,5 @@
 export const createOfficeDudeAnimations = (scene) => {
-    const playerSelected = "-2"
+    const playerSelected = ""
     scene.anims.create({
         key: "down-idle",
         frames: scene.anims.generateFrameNames(`office-dude${playerSelected}`, {
