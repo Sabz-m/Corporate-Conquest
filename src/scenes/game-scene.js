@@ -236,6 +236,18 @@ export default class GameScene extends Phaser.Scene {
       // Mark the enemy as hit for this attack
       enemy.hasBeenHit = true;
 
+      
+      if(enemy && enemy.active) {
+      const knockbackDistance = 300;
+      const knockbackDirection =new Phaser.Math.Vector2(
+        enemy.x - this.officedude.x,
+        enemy.y - this.officedude.y
+      ).normalize();
+      enemy.setVelocity(knockbackDirection.x * knockbackDistance, knockbackDirection.y * knockbackDistance);
+
+      enemy.setTint(0xff0000)
+
+
       // Handle the attack logic
       handleSuccessfulPlayerAttack(this.officedude, enemy, this.dispatch);
       enemy.enemyHealth -= 20;
@@ -249,22 +261,43 @@ export default class GameScene extends Phaser.Scene {
           });
       }
 
-      // Reset the flag after the attack animation ends
-      this.time.delayedCall(450, () => {
+      this.time.delayedCall(550, () => {
         enemy.hasBeenHit = false;
+        enemy.clearTint();
       });
+      
+      if(enemy.active){
+        this.time.delayedCall(500, () => {
+          enemy.setVelocity(0,0);
+        });
+      }
+    }// Reset the flag after the attack animation ends
     }
   }
 
   handleEnemyAttack(player, laser) {
     if (!this.officedude.hasBeenHit) {
       this.officedude.hasBeenHit = true;
+      const knockbackDistance = 200; // Adjust as needed for desired knockback strength
+    const knockbackDirection = new Phaser.Math.Vector2(
+      this.officedude.x - laser.x,
+      this.officedude.y - laser.y
+    ).normalize(); // Get direction from laser to player (opposite for knockback)
+    this.officedude.setVelocity(knockbackDirection.x * knockbackDistance, knockbackDirection.y * knockbackDistance);
+
+    this.officedude.setTint(0xff0000)
+
+    
       handleSuccessfulEnemyAttack(this.dispatch);
       laser.setVisible(false);
       laser.setPosition(-1000, -1000); // Move laser off-screen
       laser.setVelocity(0, 0);
       this.time.delayedCall(1000, () => {
         this.officedude.hasBeenHit = false;
+        this.officedude.clearTint();
+        this.time.delayedCall(500, () => {
+          this.officedude.setVelocity(0,0);
+        })
       });
     }
   }

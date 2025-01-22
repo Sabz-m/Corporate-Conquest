@@ -22,7 +22,7 @@ export const handleSuccessfulPlayerAttack = (player, enemy, dispatch) => {
         // Increase player score for a successful attack
         const newScore = currentScore + 10
         dispatch(updatePlayerScore(newScore)); 
-
+          
         
 
     
