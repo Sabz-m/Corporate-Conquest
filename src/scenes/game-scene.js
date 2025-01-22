@@ -65,7 +65,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.backgroundMusic = this.sound.add("backgroundMusic", {
       loop: false,
-      volume: 0.25,
+      volume: 0.05,
     });
 
     this.backgroundMusic.play();
@@ -229,49 +229,51 @@ export default class GameScene extends Phaser.Scene {
 
   // Add the handler function
 
-  handleAttackCollision(attackbox, enemy) {    
-
+  handleAttackCollision(attackbox, enemy) {
     // Ensure the attack only registers once per animation
     if (this.isPlayerAttacking && !enemy.hasBeenHit) {
       // Mark the enemy as hit for this attack
       enemy.hasBeenHit = true;
 
-      
-      if(enemy && enemy.active) {
-      const knockbackDistance = 300;
-      const knockbackDirection =new Phaser.Math.Vector2(
-        enemy.x - this.officedude.x,
-        enemy.y - this.officedude.y
-      ).normalize();
-      enemy.setVelocity(knockbackDirection.x * knockbackDistance, knockbackDirection.y * knockbackDistance);
+      if (enemy && enemy.active) {
+        const knockbackDistance = 300;
+        const knockbackDirection = new Phaser.Math.Vector2(
+          enemy.x - this.officedude.x,
+          enemy.y - this.officedude.y
+        ).normalize();
+        enemy.setVelocity(
+          knockbackDirection.x * knockbackDistance,
+          knockbackDirection.y * knockbackDistance
+        );
 
-      enemy.setTint(0xff0000)
+        enemy.setTint(0xff0000);
 
+        // Handle the attack logic
+        handleSuccessfulPlayerAttack(this.officedude, enemy, this.dispatch);
+        enemy.enemyHealth -= 20;
 
-      // Handle the attack logic
-      handleSuccessfulPlayerAttack(this.officedude, enemy, this.dispatch);
-      enemy.enemyHealth -= 20;
+        if (enemy.enemyHealth <= 0) {
+          //enemy.isDestroyed = true;
 
-      if (enemy.enemyHealth <= 0) {
-        //enemy.isDestroyed = true;
-
-        enemy.anims.play("enemyexplodes", true)
-        this.time.delayedCall(450, () => {
-            this.enemyBots.remove(enemy, true, true)
+          enemy.anims.play("enemyexplodes", true);
+          this.time.delayedCall(450, () => {
+            this.enemyBots.remove(enemy, true, true);
           });
-      }
+        }
 
-      this.time.delayedCall(550, () => {
-        enemy.hasBeenHit = false;
-        enemy.clearTint();
-      });
-      
-      if(enemy.active){
-        this.time.delayedCall(500, () => {
-          enemy.setVelocity(0,0);
+        this.time.delayedCall(550, () => {
+          enemy.hasBeenHit = false;
+          enemy.clearTint();
         });
-      }
-    }// Reset the flag after the attack animation ends
+
+        if (enemy.active) {
+          this.time.delayedCall(500, () => {
+            if (enemy.active) {
+              enemy.setVelocity(0, 0);
+            }
+          });
+        }
+      } // Reset the flag after the attack animation ends
     }
   }
 
@@ -279,15 +281,17 @@ export default class GameScene extends Phaser.Scene {
     if (!this.officedude.hasBeenHit) {
       this.officedude.hasBeenHit = true;
       const knockbackDistance = 200; // Adjust as needed for desired knockback strength
-    const knockbackDirection = new Phaser.Math.Vector2(
-      this.officedude.x - laser.x,
-      this.officedude.y - laser.y
-    ).normalize(); // Get direction from laser to player (opposite for knockback)
-    this.officedude.setVelocity(knockbackDirection.x * knockbackDistance, knockbackDirection.y * knockbackDistance);
+      const knockbackDirection = new Phaser.Math.Vector2(
+        this.officedude.x - laser.x,
+        this.officedude.y - laser.y
+      ).normalize(); // Get direction from laser to player (opposite for knockback)
+      this.officedude.setVelocity(
+        knockbackDirection.x * knockbackDistance,
+        knockbackDirection.y * knockbackDistance
+      );
 
-    this.officedude.setTint(0xff0000)
+      this.officedude.setTint(0xff0000);
 
-    
       handleSuccessfulEnemyAttack(this.dispatch);
       laser.setVisible(false);
       laser.setPosition(-1000, -1000); // Move laser off-screen
@@ -296,8 +300,8 @@ export default class GameScene extends Phaser.Scene {
         this.officedude.hasBeenHit = false;
         this.officedude.clearTint();
         this.time.delayedCall(500, () => {
-          this.officedude.setVelocity(0,0);
-        })
+          this.officedude.setVelocity(0, 0);
+        });
       });
     }
   }
