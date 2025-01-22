@@ -51,6 +51,5 @@ export const createEnemyBotAnims = (scene) => {
             end: 8,
         }),
         frameRate: 10,
-        repeat: -1,
     })
 }

@@ -80,7 +80,7 @@ export default class GameScene extends Phaser.Scene {
     this.officedude = setupPlayer(this); // setup player NOTE: has to follow after animations are created
 
     // setup cubicles overlay after player (foreground)
-    this.add.sprite(960, 432, "cubicles-overlay").setOrigin(1, 1);
+    this.add.sprite(960, 432, "cubicles-overlay").setOrigin(1, 1).setDepth(200)
 
     this.enemyBots = this.physics.add.group();
 

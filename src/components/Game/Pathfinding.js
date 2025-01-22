@@ -153,7 +153,9 @@ export const showPath = (graphics, path, gridSize) => {
 export const moveEnemy = (enemy, tile, gridSize) => {
   if (!tile) {
     enemy.setVelocity(0, 0);
+    if(!enemy.isAttacking){
     enemy.anims.play("enemybot-down-idle", true);
+    }
     return;
   }
   const targetX = tile.x * gridSize + gridSize / 2;
@@ -166,7 +168,9 @@ export const moveEnemy = (enemy, tile, gridSize) => {
   if (Math.abs(deltaX) <= tolerance && Math.abs(deltaY) <= tolerance) {
     enemy.setVelocity(0, 0);
     enemy.setPosition(targetX, targetY);
-    enemy.anims.play("enemybot-down-idle", true);
+    if(!enemy.isAttacking){
+      enemy.anims.play("enemybot-down-idle", true);
+      }
   } else if (Math.abs(deltaX) <= tolerance) {
     enemy.setVelocity(0, deltaY > 0 ? 120 : -120);
     if (deltaY > 0) {
@@ -264,7 +268,9 @@ export function handleEnemyMovement({
         moveEnemy(enemy, nextStep, gridSize);
       } else {
         enemy.setVelocity(0, 0);
-        enemy.anims.play("enemybot-down-idle", true);
+        if(!enemy.isAttacking){
+          enemy.anims.play("enemybot-down-idle", true);
+        }
       }
 
       if (distanceToSpawn <= 1) {
@@ -278,7 +284,9 @@ export function handleEnemyMovement({
         moveEnemy(enemy, nextStep, gridSize);
       } else {
         enemy.setVelocity(0, 0);
+        if(!enemy.isAttacking){
         enemy.anims.play("enemybot-down-idle", true);
+        }
         enemy.attack(playerTile, gridSize, pathToPlayer)
       }
     }
