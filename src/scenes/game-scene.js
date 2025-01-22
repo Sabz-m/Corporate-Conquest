@@ -225,6 +225,7 @@ export default class GameScene extends Phaser.Scene {
       if (enemy.enemyHealth <= 0 ) {
         //enemy.isDestroyed = true;
         enemy.anims.play("enemyexplodes", true)
+        enemy.setScale(1.5)
         this.time.delayedCall(450, () => {
             this.enemyBots.remove(enemy, true, true)
           });
