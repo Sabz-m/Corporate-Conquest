@@ -57,8 +57,8 @@ export const createEnemyBotAnims = (scene) => {
         frames: scene.anims.generateFrameNames("enemyexplodes", {
             prefix: "enemyexplodes_f",
             start: 1,
-            end: 15,
+            end: 4,
         }),
-        frameRate: 3,
+        frameRate: 15,
     })
 }

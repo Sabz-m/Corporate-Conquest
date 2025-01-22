@@ -279,14 +279,14 @@ export function handleEnemyMovement({
     } else {
       const pathToPlayer = findPath(enemyTile, playerTile, grid);
 
-      if (pathToPlayer && pathToPlayer.length > 3) {
+      if (pathToPlayer && pathToPlayer.length > 5) {
         const nextStep = pathToPlayer[1];
         moveEnemy(enemy, nextStep, gridSize);
       } else {
         enemy.setVelocity(0, 0);
-        if(!enemy.isAttacking){
-        enemy.anims.play("enemybot-down-idle", true);
-        }
+        // if(!enemy.isAttacking){
+        // enemy.anims.play("enemybot-down-idle", true);
+        // }
         enemy.attack(playerTile, gridSize, pathToPlayer)
       }
     }

@@ -31,6 +31,7 @@ export const setupEnemyBot = (scene, x, y) => {
         // Wait for the attack animation to finish before releasing the laser
         scene.time.delayedCall(800, () => {
             const laser = enemyBot.laser
+            laser.setScale(1.5)
 
             // Add the laser to the laser group
             scene.laserGroup.add(laser)

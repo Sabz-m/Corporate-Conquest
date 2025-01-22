@@ -49,17 +49,17 @@ export default class OpeningScene extends Phaser.Scene {
         this.time.delayedCall(3000, () => {
             cubicles.anims.play("cubicles-door")
         })
-        
+
         // set up player
         this.officedude = setupPlayer(this)
         this.officedude.play("left-walk")
-        
+
         // set up cubicles overlay(to overlay player)
         this.add
-        .sprite(960, 432, "cubicles-overlay")
-        .setOrigin(1, 1)
-        .setDepth(200)
-        
+            .sprite(960, 432, "cubicles-overlay")
+            .setOrigin(1, 1)
+            .setDepth(200)
+
         // setup enemyBots group and add test
         this.enemyBots = this.physics.add.group() // create enemy-bot group
         const enemyTest = setupEnemyBot(
@@ -68,38 +68,43 @@ export default class OpeningScene extends Phaser.Scene {
             this.scale.height / 1.5 // arbitrary numbers to keep it close to player
         )
         this.enemyBots.add(enemyTest)
-        
+
         // colliders
         this.physics.add.collider(this.officedude, collisionLayer)
-        
+
         // Setup cameras
         this.cameras.main
-        .setScroll(
-            this.officedude.x - this.scale.width / 2 - 200,
-            this.officedude.y - this.scale.height / 2 + 600
+            .setScroll(
+                this.officedude.x - this.scale.width / 2 - 200,
+                this.officedude.y - this.scale.height / 2 + 600
             ) // Center camera on the player
             .fadeIn(1000, 0, 0, 0) // Fade in over 1 second
-        this.cameras.main.pan(this.officedude.x - 200, this.officedude.y +100, 4000)
+        this.cameras.main.pan(
+            this.officedude.x - 200,
+            this.officedude.y + 100,
+            4000
+        )
 
-        const textBoxBackground = this.add.graphics();
-        textBoxBackground.fillStyle(0x000000, 0.8); // Black background with some transparency
-        textBoxBackground.fillRect(50, 400, 700, 150); // Position and size
+        const textBoxBackground = this.add.graphics()
+        textBoxBackground.fillStyle(0x000000, 0.8) // Black background with some transparency
+        textBoxBackground.fillRect(50, 400, 700, 150) // Position and size
 
         // Add the text object
-        this.textBoxText = this.add.text(70, 420, '', {
-        font: '20px Arial',
-        color: '#ffffff',
-        wordWrap: { width: 660 }, // Wrap the text inside the box
-        });
+        this.textBoxText = this.add.text(70, 420, "", {
+            font: "20px Arial",
+            color: "#ffffff",
+            wordWrap: { width: 660 }, // Wrap the text inside the box
+        })
 
         // Text to display
-        const dialogue = "Welcome to the office dungeon! Prepare yourself for adventure...";
+        const dialogue =
+            "Welcome to the office dungeon! Prepare yourself for adventure..."
 
         animateAspectRatioBars(this)
 
         // Start the typewriter effect
         // typeText(this);
-        
+
         this.time.delayedCall(500, () => {
             this.scene.start(SCENE_KEYS.GAME_SCENE)
         })
@@ -107,13 +112,6 @@ export default class OpeningScene extends Phaser.Scene {
 
     update() {}
 }
-
-
-
-
-
-
-
 
 // const typeText = (scene) => {
 //   const textArray = scene.text.split('');
@@ -136,31 +134,30 @@ export default class OpeningScene extends Phaser.Scene {
 //   });
 // }
 
-
 const animateAspectRatioBars = (scene) => {
     scene.time.delayedCall(5000, () => {
         scene.tweens.add({
             targets: scene.topBar,
-            y:  {
+            y: {
                 from: 0,
                 start: 0,
-                to: -100
+                to: -100,
             },
-            duration: 3000, 
-            ease: "Sine.easeInOut", 
+            duration: 3000,
+            ease: "Sine.easeInOut",
             onComplete: () => {
-                scene.topBar.setVisible(false) 
+                scene.topBar.setVisible(false)
             },
         })
         scene.tweens.add({
             targets: scene.bottomBar,
-            y:  {
+            y: {
                 from: scene.scale.height - 100,
                 start: scene.scale.height - 100,
-                to: scene.scale.height
+                to: scene.scale.height,
             },
-            duration: 3000, 
-            ease: "Sine.easeInOut", 
+            duration: 3000,
+            ease: "Sine.easeInOut",
             onComplete: () => {
                 scene.topBar.setVisible(false)
             },
