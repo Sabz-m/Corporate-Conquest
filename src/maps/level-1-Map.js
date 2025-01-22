@@ -39,6 +39,7 @@ export const setupLevelOneMap = (scene) => {
   verticalWallsLayer.setCollisionByProperty({ collides: true })
   collisionLayer.setCollisionByProperty({ collides: true })
   objectsLayerTop.setDepth(200)
+  objectsLayerBottom.setDepth(50)
 
   // Return layers for further use (e.g., collisions)
   return {
