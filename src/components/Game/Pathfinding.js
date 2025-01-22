@@ -285,3 +285,35 @@ export function handleEnemyMovement({
 
   return isTrackingPlayer;
 }
+
+export const separateEnemies = (enemyGroup, minDistance) => {
+  enemyGroup.getChildren().forEach((enemyA) => {
+    enemyGroup.getChildren().forEach((enemyB) => {
+      if (enemyA !== enemyB) {
+        const dx = enemyA.x - enemyB.x;
+        const dy = enemyA.y - enemyB.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < minDistance) {
+          if (Math.abs(dx) > Math.abs(dy)) {
+            if (dx > 0) {
+              enemyA.x += minDistance - distance;
+              enemyB.x -= minDistance - distance;
+            } else {
+              enemyA.x -= minDistance - distance;
+              enemyB.x += minDistance - distance;
+            }
+          } else {
+            if (dy > 0) {
+              enemyA.y += minDistance - distance;
+              enemyB.y -= minDistance - distance;
+            } else {
+              enemyA.y -= minDistance - distance;
+              enemyB.y += minDistance - distance;
+            }
+          }
+        }
+      }
+    });
+  });
+};

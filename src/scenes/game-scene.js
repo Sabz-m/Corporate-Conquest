@@ -12,7 +12,7 @@ import { setupPlayer } from "../players/setupPlayerOfficeDude";
 import { setupEnemyBot } from "../players/setupEnemyBot";
 
 import {
-    handleSuccessfulPlayerAttack,
+  handleSuccessfulPlayerAttack,
   handlePlayerCollisionWithEnemy,
 } from "../components/Combat/handleCombat";
 import {
@@ -23,6 +23,7 @@ import {
   moveEnemy,
   visualiseGrid,
   handleEnemyMovement,
+  separateEnemies,
 } from "../components/Game/Pathfinding";
 import { handleMovementAnimations } from "../animations/handleMovementAnims";
 import { setupCursorControls } from "../utils/controls";
@@ -78,16 +79,20 @@ export default class GameScene extends Phaser.Scene {
     // setup cubicles overlay after player (foreground)
     this.add.sprite(960, 432, "cubicles-overlay").setOrigin(1, 1);
 
-    // setup enemyBots group and add test
-    this.enemyBots = this.physics.add.group(); // create enemy-bot group
-    this.enemyTest = setupEnemyBot(
-      this,
-      this.scale.width / 1.5,
-      this.scale.height / 1.5 // arbitrary numbers to keep it close to player
-    );
-    this.enemyBots.add(this.enemyTest);
+    this.enemyBots = this.physics.add.group();
 
-    // colliders
+    const enemySpawnPoints = [
+      { x: 680, y: 400 },
+      { x: 960, y: 750 },
+      { x: 400, y: 850 },
+    ];
+
+    enemySpawnPoints.forEach((spawnPoint) => {
+      const enemy = setupEnemyBot(this, spawnPoint.x, spawnPoint.y);
+      enemy.spawnTile = worldToTile(spawnPoint.x, spawnPoint.y, this.gridSize);
+      enemy.isTrackingPlayer = false;
+      this.enemyBots.add(enemy);
+    });
 
     this.physics.add.overlap(
       this.officedude.attackbox,
@@ -117,7 +122,7 @@ export default class GameScene extends Phaser.Scene {
         this.triggerAttack();
       }
     });
-    
+
     /* this.tweens.add({
         targets: this.enemyTest,
         tint: {from: 0xececec, to: 0x00ff00},
@@ -130,12 +135,6 @@ export default class GameScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.officedude, true);
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels); // arbitrary numbers NEEDS CORRECTING
     this.cameras.main.fadeIn(1000, 0, 0, 0);
-
-    this.enemySpawnTile = worldToTile(
-      this.enemyTest.x,
-      this.enemyTest.y,
-      this.gridSize
-    );
 
     // Launch the FoV scene and pass necessary data (from map and characters)
     /*    this.scene.launch(SCENE_KEYS.FOV_SCENE, {
@@ -159,17 +158,21 @@ export default class GameScene extends Phaser.Scene {
       this.gridSize
     );
 
-    this.isTrackingPlayer = handleEnemyMovement({
-      enemy: this.enemyTest,
-      playerTile,
-      spawnTile: this.enemySpawnTile,
-      grid: this.grid,
-      detectionRange: this.detectionRange,
-      maxChaseRange: this.maxChaseRange,
-      isTrackingPlayer: this.isTrackingPlayer,
-      moveEnemy,
-      gridSize: this.gridSize,
+    this.enemyBots.getChildren().forEach((enemy) => {
+      enemy.isTrackingPlayer = handleEnemyMovement({
+        enemy,
+        playerTile,
+        spawnTile: enemy.spawnTile, // Use the enemy's individual spawn tile
+        grid: this.grid,
+        detectionRange: this.detectionRange,
+        maxChaseRange: this.maxChaseRange,
+        isTrackingPlayer: enemy.isTrackingPlayer, // Use the enemy's individual tracking state
+        moveEnemy,
+        gridSize: this.gridSize,
+      });
     });
+
+    separateEnemies(this.enemyBots, 48);
 
     // Initialize velocity variables and set up Cursors/Keys/Controls
     let { velocityX, velocityY, shift } = setupCursorControls(this);
@@ -189,18 +192,18 @@ export default class GameScene extends Phaser.Scene {
   // Add the handler function
   handleAttackCollision(attackbox, enemy) {
     // Ensure the attack only registers once per animation
-  if (this.isPlayerAttacking && !enemy.hasBeenHit) {
-    // Mark the enemy as hit for this attack
-    enemy.hasBeenHit = true;
+    if (this.isPlayerAttacking && !enemy.hasBeenHit) {
+      // Mark the enemy as hit for this attack
+      enemy.hasBeenHit = true;
 
-    // Handle the attack logic
-    handleSuccessfulPlayerAttack(this.officedude, enemy, this.dispatch);
+      // Handle the attack logic
+      handleSuccessfulPlayerAttack(this.officedude, enemy, this.dispatch);
 
-    // Reset the flag after the attack animation ends
-    this.time.delayedCall(450, () => {
-      enemy.hasBeenHit = false;
-    });
-  }
+      // Reset the flag after the attack animation ends
+      this.time.delayedCall(450, () => {
+        enemy.hasBeenHit = false;
+      });
+    }
   }
 
   triggerAttack() {
@@ -209,21 +212,19 @@ export default class GameScene extends Phaser.Scene {
 
     // Play attack animation
     switch (this.officedude.direction) {
-        case "up":
-            this.officedude.anims.play("punch-up", true);
-            break
-        case "left":
-            this.officedude.anims.play("punch-left", true);
-            break
-        case "right":
-            this.officedude.anims.play("punch-left", true);
-            this.officedude.setFlipX(true) // Face right
-            break
-        default:
-            this.officedude.anims.play("punch-down", true); 
+      case "up":
+        this.officedude.anims.play("punch-up", true);
+        break;
+      case "left":
+        this.officedude.anims.play("punch-left", true);
+        break;
+      case "right":
+        this.officedude.anims.play("punch-left", true);
+        this.officedude.setFlipX(true); // Face right
+        break;
+      default:
+        this.officedude.anims.play("punch-down", true);
     }
-            
-    
 
     // Set attack box position based on player's direction
     updateAttackBoxPosition(this);
