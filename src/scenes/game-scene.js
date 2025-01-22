@@ -52,11 +52,35 @@ export default class GameScene extends Phaser.Scene {
     this.playerHealth = playerHealth;
     //this.enemyHealth = enemyHealth;
   }
+  preload() {
+    this.load.audio(
+      "backgroundMusic",
+      "src/assets/audio/gaming-music-8-bit-console-play-background-intro-theme-278382.mp3"
+    );
+  }
 
   create() {
     // Set up Phaser game scene, including player, map, etc.
     console.log("Player Health:", this.playerHealth);
-    
+
+    this.backgroundMusic = this.sound.add("backgroundMusic", {
+      loop: false,
+      volume: 0.25,
+    });
+
+    this.backgroundMusic.play();
+
+    const songDuration = this.backgroundMusic.totalDuration;
+    const loopStartTime = songDuration - 4;
+
+    this.time.delayedCall(
+      loopStartTime * 1000,
+      () => {
+        this.backgroundMusic.play({ seek: 0 });
+      },
+      [],
+      this
+    );
 
     //setup map
     const {
@@ -80,7 +104,7 @@ export default class GameScene extends Phaser.Scene {
     this.officedude = setupPlayer(this); // setup player NOTE: has to follow after animations are created
 
     // setup cubicles overlay after player (foreground)
-    this.add.sprite(960, 432, "cubicles-overlay").setOrigin(1, 1).setDepth(200)
+    this.add.sprite(960, 432, "cubicles-overlay").setOrigin(1, 1).setDepth(200);
 
     this.enemyBots = this.physics.add.group();
 
@@ -98,14 +122,14 @@ export default class GameScene extends Phaser.Scene {
       enemy.spawnTile = worldToTile(spawnPoint.x, spawnPoint.y, this.gridSize);
       enemy.isTrackingPlayer = false;
       this.enemyBots.add(enemy);
-      console.log(enemy.enemyHealth , 'in spawn points')
+      console.log(enemy.enemyHealth, "in spawn points");
     });
 
     // colliders and overlaps
     this.physics.add.collider(this.officedude.feetbox, collisionLayer);
     this.physics.add.overlap(
       this.officedude.attackbox,
-      this.enemyBots, 
+      this.enemyBots,
       this.handleAttackCollision,
       null,
       this
@@ -168,7 +192,6 @@ export default class GameScene extends Phaser.Scene {
     );
 
     this.enemyBots.getChildren().forEach((enemy) => {
-      
       enemy.isTrackingPlayer = handleEnemyMovement({
         enemy,
         playerTile,
@@ -185,7 +208,6 @@ export default class GameScene extends Phaser.Scene {
       } else {
         this.officedude.setDepth(99);
       }
-     
     });
 
     separateEnemies(this.enemyBots, 48);
@@ -203,21 +225,17 @@ export default class GameScene extends Phaser.Scene {
 
     // Update attack box position based on player's direction
     updateAttackBoxPosition(this);
-
-    
-    
   }
 
-  
-
   // Add the handler function
-  handleAttackCollision(attackbox, enemy) {
-    console.log(enemy.enemyHealth, 'in handle attack')
-    
+
+  handleAttackCollision(attackbox, enemy) {    
+
     // Ensure the attack only registers once per animation
     if (this.isPlayerAttacking && !enemy.hasBeenHit) {
       // Mark the enemy as hit for this attack
       enemy.hasBeenHit = true;
+
       
       if(enemy && enemy.active) {
       const knockbackDistance = 300;
@@ -228,15 +246,19 @@ export default class GameScene extends Phaser.Scene {
       enemy.setVelocity(knockbackDirection.x * knockbackDistance, knockbackDirection.y * knockbackDistance);
 
       enemy.setTint(0xff0000)
-      
+
 
       // Handle the attack logic
       handleSuccessfulPlayerAttack(this.officedude, enemy, this.dispatch);
-      enemy.enemyHealth -=20
+      enemy.enemyHealth -= 20;
 
-      if (enemy.enemyHealth <= 0 ) {
+      if (enemy.enemyHealth <= 0) {
         //enemy.isDestroyed = true;
-        this.enemyBots.remove(enemy, true, true)
+
+        enemy.anims.play("enemyexplodes", true)
+        this.time.delayedCall(450, () => {
+            this.enemyBots.remove(enemy, true, true)
+          });
       }
 
       this.time.delayedCall(550, () => {
@@ -309,6 +331,4 @@ export default class GameScene extends Phaser.Scene {
       this.officedude.attackbox.body.enable = false;
     });
   }
-
-
 }

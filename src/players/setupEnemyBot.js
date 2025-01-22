@@ -36,7 +36,7 @@ export const setupEnemyBot = (scene, x, y) => {
             scene.laserGroup.add(laser)
 
             // Position the laser near the enemyBot
-            laser.setPosition(enemyBot.x, enemyBot.y - 30)
+            laser.setPosition(enemyBot.x, enemyBot.y - 10)
             laser.setVisible(true)
 
             // Calculate target direction

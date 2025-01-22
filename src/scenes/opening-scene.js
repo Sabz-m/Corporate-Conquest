@@ -46,23 +46,20 @@ export default class OpeningScene extends Phaser.Scene {
 
         // set up cubicles with animation
         const cubicles = this.add.sprite(960, 432, "cubicles").setOrigin(1, 1)
-        this.time.delayedCall(1000, () => {
+        this.time.delayedCall(3000, () => {
             cubicles.anims.play("cubicles-door")
         })
-        this.time.delayedCall(500, () => {
-            this.scene.start(SCENE_KEYS.GAME_SCENE)
-        })
-
+        
         // set up player
         this.officedude = setupPlayer(this)
         this.officedude.play("left-walk")
-
+        
         // set up cubicles overlay(to overlay player)
         this.add
-            .sprite(960, 432, "cubicles-overlay")
-            .setOrigin(1, 1)
-            .setDepth(200)
-
+        .sprite(960, 432, "cubicles-overlay")
+        .setOrigin(1, 1)
+        .setDepth(200)
+        
         // setup enemyBots group and add test
         this.enemyBots = this.physics.add.group() // create enemy-bot group
         const enemyTest = setupEnemyBot(
@@ -71,40 +68,57 @@ export default class OpeningScene extends Phaser.Scene {
             this.scale.height / 1.5 // arbitrary numbers to keep it close to player
         )
         this.enemyBots.add(enemyTest)
-
+        
         // colliders
         this.physics.add.collider(this.officedude, collisionLayer)
-
+        
         // Setup cameras
         this.cameras.main
-            .setScroll(
-                this.officedude.x - this.scale.width / 2 - 200,
-                this.officedude.y - this.scale.height / 2 + 500
+        .setScroll(
+            this.officedude.x - this.scale.width / 2 - 200,
+            this.officedude.y - this.scale.height / 2 + 600
             ) // Center camera on the player
             .fadeIn(1000, 0, 0, 0) // Fade in over 1 second
-        this.cameras.main.pan(this.officedude.x - 200, this.officedude.y, 4000)
+        this.cameras.main.pan(this.officedude.x - 200, this.officedude.y +100, 4000)
+        
+        animateAspectRatioBars(this)
 
-        this.time.delayedCall(5000, () => {
-            this.tweens.add({
-                targets: this.topBar, // The target of the tween
-                y: -200, // Move the bar out of the screen (adjust as needed)
-                duration: 5000, // Tween duration in milliseconds
-                ease: "Sine.easeInOut", // Smooth easing function
-                onComplete: () => {
-                    this.topBar.setVisible(false) // Optional: Hide it after animation
-                },
-            })
-            this.tweens.add({
-                targets: this.bottomBar, // The target of the tween
-                y:  700, // Move the bar out of the screen (adjust as needed)
-                duration: 5000, // Tween duration in milliseconds
-                ease: "Sine.easeInOut", // Smooth easing function
-                onComplete: () => {
-                    this.topBar.setVisible(false) // Optional: Hide it after animation
-                },
-            })
+        this.time.delayedCall(500, () => {
+            this.scene.start(SCENE_KEYS.GAME_SCENE)
         })
     }
-
+    
     update() {}
+}
+
+
+const animateAspectRatioBars = (scene) => {
+    scene.time.delayedCall(5000, () => {
+        scene.tweens.add({
+            targets: scene.topBar,
+            y:  {
+                from: 0,
+                start: 0,
+                to: -100
+            },
+            duration: 3000, 
+            ease: "Sine.easeInOut", 
+            onComplete: () => {
+                scene.topBar.setVisible(false) 
+            },
+        })
+        scene.tweens.add({
+            targets: scene.bottomBar,
+            y:  {
+                from: scene.scale.height - 100,
+                start: scene.scale.height - 100,
+                to: scene.scale.height
+            },
+            duration: 3000, 
+            ease: "Sine.easeInOut", 
+            onComplete: () => {
+                scene.topBar.setVisible(false)
+            },
+        })
+    })
 }
