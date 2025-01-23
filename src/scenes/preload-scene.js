@@ -104,6 +104,11 @@ export default class PreloadScene extends Phaser.Scene {
             "src/assets/sprites/key/key.png",
             "src/assets/sprites/key/key.json"
         )
+        this.load.atlas(
+            "elevator",
+            "src/assets/sprites/elevator/elevator.png",
+            "src/assets/sprites/elevator/elevator.json"
+        )
     }
 
     create() {
