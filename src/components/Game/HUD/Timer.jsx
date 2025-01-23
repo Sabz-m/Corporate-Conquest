@@ -13,21 +13,28 @@ const Timer = () => {
 
   useEffect(() => {
     let interval;
-
     if (isRunning) {
       interval = setInterval(() => {
         dispatch(updateTime());
       }, 1000);
     }
-
-    return () => {
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, [dispatch, isRunning]);
+
+  const formatTime = (seconds) => {
+    const hrs = Math.floor(seconds / 3600)
+      .toString()
+      .padStart(2, "0");
+    const mins = Math.floor((seconds % 3600) / 60)
+      .toString()
+      .padStart(2, "0");
+    const secs = (seconds % 60).toString().padStart(2, "0");
+    return `${hrs}:${mins}:${secs}`;
+  };
 
   return (
     <div>
-      <h2>Game Time: {time}s</h2>
+      <h2>Game Time: {formatTime(time)}</h2>
     </div>
   );
 };
