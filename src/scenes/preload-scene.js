@@ -10,11 +10,14 @@ export default class PreloadScene extends Phaser.Scene {
             key: SCENE_KEYS.PRELOAD_SCENE,
         })
     }
-    
+
     preload() {
         // Preload assets like sprites, tilesets
-        
-        this.load.image("textbox-background", "src/assets/ui_buttons/textBackground.png")
+
+        this.load.image(
+            "textbox-background",
+            "src/assets/ui_buttons/textBackground.png"
+        )
         // load tilesheet roombuilder: walls, ground, ground shadows, collision tile
         this.load.image(
             "tiles-img",
@@ -96,6 +99,11 @@ export default class PreloadScene extends Phaser.Scene {
             "carpark-background",
             "src/assets/tiles/pixel-carpark.png"
         )
+        this.load.atlas(
+            "key",
+            "src/assets/sprites/key/key.png",
+            "src/assets/sprites/key/key.json"
+        )
     }
 
     create() {
@@ -103,6 +111,17 @@ export default class PreloadScene extends Phaser.Scene {
         createCubiclesAnims(this)
         createOfficeDudeAnimations(this) // create player animations
         createEnemyBotAnims(this) // create enemy-bot animations
+
+        this.anims.create({
+            key: "key",
+            frames: this.anims.generateFrameNames("key", {
+                prefix: "key",
+                start: 1,
+                end: 12,
+            }),
+            frameRate: 10,
+            repeat: -1,
+        })
 
         this.scene.start(SCENE_KEYS.OPENING_SCENE)
     }
