@@ -100,6 +100,9 @@ export default class GameScene extends Phaser.Scene {
         // set up player
         this.officedude = setupPlayer(this) // setup player NOTE: has to follow after animations are created
 
+        //setup group for active bullets
+        this.bulletsGroup = this.physics.add.group();
+
         // setup cubicles overlay after player (foreground)
         this.add
             .sprite(960, 432, "cubicles-overlay")
@@ -186,6 +189,12 @@ export default class GameScene extends Phaser.Scene {
             objectsLayerTop,
             collisionLayer,
         }) */
+
+            this.input.on("pointerdown", (pointer) => {
+                // console.log('clicked')
+                this.isPlayerAttacking = true
+                this.handleShoot(pointer);
+            });
     }
 
     update() {
@@ -320,17 +329,17 @@ export default class GameScene extends Phaser.Scene {
         // Play attack animation
         switch (this.officedude.direction) {
             case "up":
-                this.officedude.anims.play("punch-up", true)
+                this.officedude.anims.play("attack-up", true)
                 break
             case "left":
-                this.officedude.anims.play("punch-left", true)
+                this.officedude.anims.play("attack-left", true)
                 break
             case "right":
-                this.officedude.anims.play("punch-left", true)
+                this.officedude.anims.play("attack-left", true)
                 this.officedude.setFlipX(true)
                 break
             default:
-                this.officedude.anims.play("punch-down", true)
+                this.officedude.anims.play("attack-down", true)
         }
 
         // Set attack box position based on player's direction
@@ -340,6 +349,84 @@ export default class GameScene extends Phaser.Scene {
         this.time.delayedCall(450, () => {
             this.isPlayerAttacking = false
             this.officedude.attackbox.body.enable = false
+        })
+    }
+
+    spawnProjectile(direction) {
+        // Create a projectile at the player's current position
+        const bullet = this.bulletsGroup.create(
+            this.officedude.x,
+            this.officedude.y,
+            "bullet" // The key for your bullet sprite in the atlas
+        );
+    
+        // Set velocity for the bullet
+        const speed = 500; // Adjust for desired speed
+        bullet.body.setVelocity(direction.x * speed, direction.y * speed);
+    
+        // Optional: Set lifespan to remove bullet after traveling far
+        this.time.delayedCall(5000, () => bullet.destroy());
+    
+        // Adjust physics body
+        bullet.setCircle(4); // Adjust for bullet size
+        bullet.body.setCollideWorldBounds(true);
+        bullet.body.onWorldBounds = true;
+    
+        // Remove bullet on world bounds collision
+        bullet.body.world.on("worldbounds", () => {
+            bullet.destroy();
+        });
+    
+        // Add collision detection with enemies
+        this.physics.add.overlap(
+            bullet,
+            this.enemyBots,
+            (bullet, enemy) => {
+                enemy.enemyHealth -= 20; // Damage the enemy
+                bullet.destroy(); // Destroy bullet on impact
+                if (enemy.enemyHealth <= 0) {
+                    enemy.anims.play("enemyexplodes", true);
+                    enemy.setScale(1.5);
+                    this.time.delayedCall(450, () => {
+                        this.enemyBots.remove(enemy, true, true);
+                    });
+                }
+            },
+            null,
+            this
+        );
+    }
+
+    handleShoot(pointer) {
+        // Calculate direction vector from player to pointer
+        const direction = new Phaser.Math.Vector2(
+            pointer.worldX - this.officedude.x,
+            pointer.worldY - this.officedude.y
+        ).normalize();
+    
+        // Spawn the projectile
+        this.spawnProjectile(direction);
+    
+        // Play shooting animation based on direction
+        const angle = Phaser.Math.Angle.Between(
+            this.officedude.x,
+            this.officedude.y,
+            pointer.worldX,
+            pointer.worldY
+        );
+        if (angle > -Math.PI / 4 && angle <= Math.PI / 4) {
+            this.officedude.anims.play("shoot-left", true);
+            this.officedude.setFlipX(true);
+        } else if (angle > Math.PI / 4 && angle <= (3 * Math.PI) / 4) {
+            this.officedude.anims.play("shoot-down", true);
+        } else if (angle > -(3 * Math.PI) / 4 && angle <= -Math.PI / 4) {
+            this.officedude.anims.play("shoot-up", true);
+        } else {
+            this.officedude.anims.play("shoot-left", true);
+            this.officedude.setFlipX(false);
+        }
+        this.time.delayedCall(450, () => {
+            this.isPlayerAttacking = false
         })
     }
 }

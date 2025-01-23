@@ -10,10 +10,11 @@ export default class PreloadScene extends Phaser.Scene {
             key: SCENE_KEYS.PRELOAD_SCENE,
         })
     }
-
+    
     preload() {
         // Preload assets like sprites, tilesets
-
+        
+        this.load.image("textbox-background", "src/assets/ui_buttons/textBackground.png")
         // load tilesheet roombuilder: walls, ground, ground shadows, collision tile
         this.load.image(
             "tiles-img",
@@ -46,6 +47,13 @@ export default class PreloadScene extends Phaser.Scene {
             "src/assets/sprites/office-dude/office_dude_2_spritesheet.png",
             "src/assets/sprites/office-dude/office_dude_2_sprite.json"
         )
+        this.load.atlas(
+            "office-dude-gun",
+            "src/assets/sprites/office-dude/officedudewithgun.png",
+            "src/assets/sprites/office-dude/officedudewithgun.json"
+        )
+        this.load.image("bullet", "src/assets/sprites/lasers/bullet.png")
+
         // load 'basic enemy bot', player one character with animation frames and JSON
         this.load.atlas(
             "basic-enemy-bot",

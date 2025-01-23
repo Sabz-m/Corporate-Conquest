@@ -10,10 +10,7 @@ export default class OpeningScene extends Phaser.Scene {
     }
 
     create() {
-        const background = this.add
-            .sprite(320, 400, "carpark-background")
-            .setDepth(-1000)
-            .setScale(1)
+        
         //setup map
         const {
             map,
@@ -85,25 +82,25 @@ export default class OpeningScene extends Phaser.Scene {
             4000
         )
 
-        const textBoxBackground = this.add.graphics()
-        textBoxBackground.fillStyle(0x000000, 0.8) // Black background with some transparency
-        textBoxBackground.fillRect(50, 400, 700, 150) // Position and size
+     
 
         // Add the text object
-        this.textBoxText = this.add.text(70, 420, "", {
-            font: "20px Arial",
+        const textBoxBackground = this.add.image(50, this.scale.height - 200, 'textbox-background').setScrollFactor(0).setDepth(500).setOrigin(0).setAlpha(0.8)
+        this.textBoxText = this.add.text(90, this.scale.height - 170, "", {
+            font: "40px Monogram",
             color: "#ffffff",
-            wordWrap: { width: 660 }, // Wrap the text inside the box
-        })
+            wordWrap: { width: 850 }, // Wrap the text inside the box
+        }).setScrollFactor(0).setDepth(501)
+
+        console.log(this.scale.width - 100)
 
         // Text to display
-        const dialogue =
-            "Welcome to the office dungeon! Prepare yourself for adventure..."
+        this.text = "Welcome to the office dungeon! Prepare yourself for adventure..."
 
         animateAspectRatioBars(this)
 
-        // Start the typewriter effect
-        // typeText(this);
+        //Start the typewriter effect
+        typeText(this);
 
         this.time.delayedCall(500, () => {
             this.scene.start(SCENE_KEYS.GAME_SCENE)
@@ -113,29 +110,29 @@ export default class OpeningScene extends Phaser.Scene {
     update() {}
 }
 
-// const typeText = (scene) => {
-//   const textArray = scene.text.split('');
-//   let index = 0;
+const typeText = (scene) => {
+  const textArray = scene.text.split('');
+  let index = 0;
 
-//   // Timer to add characters one by one
-//   scene.time.addEvent({
-//     delay: 50, // Delay between each character (in ms)
-//     callback: () => {
-//       scene.textBoxText.text += textArray[index];
-//       index++;
+  // Timer to add characters one by one
+  scene.time.addEvent({
+    delay: 50, // Delay between each character (in ms)
+    callback: () => {
+      scene.textBoxText.text += textArray[index];
+      index++;
 
-//       // Stop the timer once all characters are displayed
-//       if (index === textArray.length) {
-//         scene.time.removeAllEvents();
-//       }
-//     },
-//     callbackScope: this,
-//     loop: true,
-//   });
-// }
+      // Stop the timer once all characters are displayed
+      if (index === textArray.length) {
+        scene.time.removeAllEvents();
+      }
+    },
+    callbackScope: this,
+    loop: true,
+  });
+}
 
 const animateAspectRatioBars = (scene) => {
-    scene.time.delayedCall(5000, () => {
+    scene.time.delayedCall(10000, () => {
         scene.tweens.add({
             targets: scene.topBar,
             y: {
