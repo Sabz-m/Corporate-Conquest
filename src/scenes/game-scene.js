@@ -96,7 +96,21 @@ export default class GameScene extends Phaser.Scene {
     //setup cursors
     this.cursors = this.input.keyboard.createCursorKeys(); // set up cursor keys
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.SPACE);
+    //set up the key sprite
+    this.key = this.physics.add.sprite(500, 500, 'key', 'key1');
+    this.key.setCollideWorldBounds(true);
+    this.key.setVisible(true);
+    this.key.anims.play("key", true);
 
+    //overlap for key and player
+    this.physics.add.overlap(this.officedude, this.key, this.collectKey, null, this);
+    
+    //set up door sprite
+    this.door = this.physics,add.sprite(800,500, 'door');
+    this.door.setCollideWorldBounds(true); 
+
+    //set up overlap check for interacting with the door
+    this.physics.add.overlap(this.officedude, this.door, this.openDoor, null, this);
     // setup cubicles with door open (background)
     this.add.sprite(960, 432, "cubicles", "cubicles_f6").setOrigin(1, 1);
 
@@ -198,6 +212,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
+
+    console.log(this.officedude.x, this.officedude.y ,'coordinates')
     const playerFeetTile = worldToTile(
       this.officedude.feetbox.x,
       this.officedude.feetbox.y,
@@ -432,5 +448,23 @@ export default class GameScene extends Phaser.Scene {
     this.time.delayedCall(450, () => {
       this.isPlayerAttacking = false;
     });
+  }
+
+  collectKey(player, key) {
+    key.setVisible(false);
+    key.setActive(false);
+
+    this.hasKey = true;
+
+    console.log('key collected!');
+  }
+
+  openDoor(player, door) {
+    if (this.hasKey) {
+      door.setVisible(false)
+      console.log("door is open");
+    } else {
+      console.log('you need a key to open this door')
+    }
   }
 }

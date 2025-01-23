@@ -123,6 +123,8 @@ export default class PreloadScene extends Phaser.Scene {
             repeat: -1,
         })
 
+        
+
         this.scene.start(SCENE_KEYS.OPENING_SCENE)
     }
 }
