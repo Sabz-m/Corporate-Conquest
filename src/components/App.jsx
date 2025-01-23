@@ -11,6 +11,7 @@ import CharacterSelection from "./Game/CharacterSelection";
 import LevelSelection from "./Game/LevelSelection";
 import LoginSignup from "./LogInSignup/LoginSignup";
 import InGameSettings from "./Settings/inGameSettings";
+import ComingSoonPage from "./Menu/ComingSoon";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/settings" element={<Settings />}></Route>
           <Route path="/inGameSettings" element={<InGameSettings />}></Route>
           <Route path="/leaderboard" element={<Leaderboards />}></Route>
+          <Route path="/coming-soon" element={<ComingSoonPage />}></Route>
         </Routes>
       </section>
     </Provider>

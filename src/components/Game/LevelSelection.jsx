@@ -21,9 +21,9 @@ export default function LevelSelection() {
   const closeLogoutModal = () => setShowLogoutModal(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("token")
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
-    navigate("/login")
+    navigate("/login");
   };
 
   return (
@@ -31,14 +31,19 @@ export default function LevelSelection() {
       <h2>Select your level</h2>
       <Link to="/character-selection">
         <button className="button">level 1</button>
+      </Link>
+      <Link to="/coming-soon">
         <button className="button">level 2</button>
+      </Link>
+      <Link to="/coming-soon">
         <button className="button">level 3</button>
       </Link>
 
       {!isLoggedIn && (
         <div className="guest-section">
           <p className="guest-message">
-            You are logged in as a guest. Please <Link to="/login">Log in</Link> to access more features.
+            You are logged in as a guest. Please <Link to="/login">Log in</Link>{" "}
+            to access more features.
           </p>
         </div>
       )}
