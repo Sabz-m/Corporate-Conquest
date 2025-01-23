@@ -33,9 +33,9 @@ const Timer = () => {
   };
 
   return (
-    <div>
-      <h2>Game Time: {formatTime(time)}</h2>
-    </div>
+    
+      <p>{formatTime(time)}</p>
+    
   );
 };
 

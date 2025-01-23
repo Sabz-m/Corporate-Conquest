@@ -5,9 +5,9 @@ const Health = () => {
   const health = useSelector((state) => state.player.health);
 
   return (
-    <div>
-      <h2>Health: {health}/100</h2>
-    </div>
+    
+      <p>Health: {health}/100</p>
+  
   );
 };
 

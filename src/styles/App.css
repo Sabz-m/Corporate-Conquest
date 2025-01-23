@@ -45,41 +45,81 @@ body {
 }
 
 .timer-score {
+  display: flex;
+  flex-direction: row;
+  background: url('../assets/ui_buttons/textBackground.png') no-repeat center center;
+  opacity: 0.8;
+  border-radius: 10px;
+  background-size: cover;
+  width: auto;
+  height: auto;
   position: absolute;
   top: 20px;
   left: 20px;
   color: white;
-  font-size: 24px;
+  padding: 16px;
+  font-size: 16px;
   z-index: 10000;
 }
 
+.timer-score p{
+  margin: 10px 0;  /* Adds spacing between paragraphs */
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;  /* Makes the text bold */
+  color: white;  /* Ensures the text color remains white */
+  
+}
+
 .health {
+  background: url('../assets/ui_buttons/textBackground.png') no-repeat center center;
+  opacity: 0.8;
+  background-size: contain;
   position: absolute;
   bottom: 20px;
   left: 20px;
   color: white;
-  font-size: 24px;
+  font-size: 16px;
   z-index: 10000;
 }
 
+
+
+.health p {
+  margin: 10px 0;  /* Adds spacing between paragraphs */
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;  /* Makes the text bold */
+  color: white;  /* Ensures the text color remains white */
+}
+
 .settings-button {
+  background: url('../assets/ui_buttons/textBackground.png') no-repeat center center;
+  opacity: 0.8;
+  background-size: auto;
   position: absolute;
   top: 20px;
-  right: 20px;
+  right: 30px;
   width: 50px;
   height: 50px;
-  background: linear-gradient(to bottom, #3c3f58, #232638);
   color: white;
   font-size: 24px;
   border: none;
-  border-radius: 50%;
+  border-radius: 20px;
   cursor: pointer;
-  box-shadow: 0 6px rgba(0, 0, 0, 0.3);
   z-index: 10000;
   display: flex;
   justify-content: center;
   align-items: center;
   pointer-events: auto;
+}
+
+.svg-inline--fa {
+	display: var(--fa-display, inline-block);
+	height: 1em;
+	overflow: visible;
+	vertical-align: -0.125em;
+	margin-left: 10px;
 }
 
 .settings-button:hover {
