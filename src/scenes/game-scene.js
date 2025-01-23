@@ -207,6 +207,7 @@ export default class GameScene extends Phaser.Scene {
         this.cameras.main.startFollow(this.officedude, true)
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels) // arbitrary numbers NEEDS CORRECTING
         this.cameras.main.fadeIn(1000, 0, 0, 0)
+        this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
         // Launch the FoV scene and pass necessary data (from map and characters)
         /*    this.scene.launch(SCENE_KEYS.FOV_SCENE, {
@@ -257,7 +258,7 @@ export default class GameScene extends Phaser.Scene {
             if (this.officedude.y > enemy.y) {
                 this.officedude.setDepth(101)
             } else {
-                this.officedude.setDepth(99)
+                this.officedude.setDepth(101)
             }
         })
 
@@ -401,7 +402,9 @@ export default class GameScene extends Phaser.Scene {
         // Set velocity for the bullet
         const speed = 500 // Adjust for desired speed
         bullet.body.setVelocity(direction.x * speed, direction.y * speed)
-
+        bullet.setDepth(102);
+        bullet.setScale(2);
+        bullet.setTint(0xff0000)
         // Optional: Set lifespan to remove bullet after traveling far
         this.time.delayedCall(5000, () => bullet.destroy())
 
@@ -411,7 +414,7 @@ export default class GameScene extends Phaser.Scene {
         bullet.body.onWorldBounds = true
 
         // Remove bullet on world bounds collision
-        bullet.body.world.on("worldbounds", () => {
+        bullet.body.world.on("worldbounds", (bullet) => {
             bullet.destroy()
         })
 
