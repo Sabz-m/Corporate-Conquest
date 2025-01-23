@@ -5,7 +5,13 @@ body {
   overflow: hidden;
   background-color: #232646;
   font-family: Arial, Helvetica, sans-serif;
+  font-family: "Monogram", Arial, sans-serif;
 }
+@font-face {
+  font-family: "Monogram";
+  src: url("../assets/fonts/monogram.ttf") format("truetype");
+}
+
 
 #game-container {
   display: flex;
