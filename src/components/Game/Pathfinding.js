@@ -153,8 +153,8 @@ export const showPath = (graphics, path, gridSize) => {
 export const moveEnemy = (enemy, tile, gridSize) => {
   if (!tile) {
     enemy.setVelocity(0, 0);
-    if(!enemy.isAttacking){
-    enemy.anims.play("enemybot-down-idle", true);
+    if (!enemy.isAttacking) {
+      enemy.anims.play("enemybot-down-idle", true);
     }
     return;
   }
@@ -168,9 +168,9 @@ export const moveEnemy = (enemy, tile, gridSize) => {
   if (Math.abs(deltaX) <= tolerance && Math.abs(deltaY) <= tolerance) {
     enemy.setVelocity(0, 0);
     enemy.setPosition(targetX, targetY);
-    if(!enemy.isAttacking){
+    if (!enemy.isAttacking) {
       enemy.anims.play("enemybot-down-idle", true);
-      }
+    }
   } else if (Math.abs(deltaX) <= tolerance) {
     enemy.setVelocity(0, deltaY > 0 ? 120 : -120);
     if (deltaY > 0) {
@@ -231,6 +231,7 @@ export const visualiseGrid = (scene, grid, gridSize) => {
 export function handleEnemyMovement({
   enemy,
   playerTile,
+  playerFeetTile,
   spawnTile,
   grid,
   detectionRange,
@@ -242,8 +243,8 @@ export function handleEnemyMovement({
   const enemyTile = worldToTile(enemy.x, enemy.y, gridSize);
 
   const distanceToPlayer = Phaser.Math.Distance.Between(
-    playerTile.x,
-    playerTile.y,
+    playerFeetTile.x,
+    playerFeetTile.y,
     enemyTile.x,
     enemyTile.y
   );
@@ -268,7 +269,7 @@ export function handleEnemyMovement({
         moveEnemy(enemy, nextStep, gridSize);
       } else {
         enemy.setVelocity(0, 0);
-        if(!enemy.isAttacking){
+        if (!enemy.isAttacking) {
           enemy.anims.play("enemybot-down-idle", true);
         }
       }
@@ -277,7 +278,7 @@ export function handleEnemyMovement({
         isTrackingPlayer = false;
       }
     } else {
-      const pathToPlayer = findPath(enemyTile, playerTile, grid);
+      const pathToPlayer = findPath(enemyTile, playerFeetTile, grid);
 
       if (pathToPlayer && pathToPlayer.length > 5) {
         const nextStep = pathToPlayer[1];
@@ -287,7 +288,7 @@ export function handleEnemyMovement({
         // if(!enemy.isAttacking){
         // enemy.anims.play("enemybot-down-idle", true);
         // }
-        enemy.attack(playerTile, gridSize, pathToPlayer)
+        enemy.attack(playerTile, gridSize, pathToPlayer);
       }
     }
   }

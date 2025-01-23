@@ -118,6 +118,10 @@ export default class GameScene extends Phaser.Scene {
       { x: 680, y: 400 },
       { x: 960, y: 750 },
       { x: 400, y: 850 },
+      { x: 115, y: 920 },
+      { x: 1175, y: 1200 },
+      { x: 930, y: 1390 },
+      { x: 1050, y: 1855 },
     ];
 
     enemySpawnPoints.forEach((spawnPoint) => {
@@ -194,6 +198,12 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
+    const playerFeetTile = worldToTile(
+      this.officedude.feetbox.x,
+      this.officedude.feetbox.y,
+      this.gridSize
+    );
+
     const playerTile = worldToTile(
       this.officedude.x,
       this.officedude.y,
@@ -204,6 +214,7 @@ export default class GameScene extends Phaser.Scene {
       enemy.isTrackingPlayer = handleEnemyMovement({
         enemy,
         playerTile,
+        playerFeetTile,
         spawnTile: enemy.spawnTile, // Use the enemy's individual spawn tile
         grid: this.grid,
         detectionRange: this.detectionRange,
