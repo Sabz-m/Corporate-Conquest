@@ -128,6 +128,17 @@ export default class PreloadScene extends Phaser.Scene {
             repeat: -1,
         })
 
+        this.anims.create({
+            key: "elevator-open",
+            frames: this.anims.generateFrameNames("elevator", {
+                prefix: "elevator",
+                start: 1,
+                end: 5,
+            }),
+            frameRate: 10,
+        })
+
+
         
 
         this.scene.start(SCENE_KEYS.OPENING_SCENE)
