@@ -100,7 +100,20 @@ export default class OpeningScene extends Phaser.Scene {
     typeText(this);
 
     this.time.delayedCall(1000, () => {
-      this.scene.start(SCENE_KEYS.GAME_SCENE);
+      
+      console.log('Transitioning to game-scene...');
+
+    // Make sure we're stopping the opening scene first
+    this.scene.stop(SCENE_KEYS.OPENING_SCENE); 
+
+    // Start the game-scene
+    this.scene.start(SCENE_KEYS.GAME_SCENE);  
+
+    // Optional: Remove opening scene if not needed anymore
+    this.scene.remove(SCENE_KEYS.OPENING_SCENE); 
+
+    console.log('Game scene started');
+      
     });
   }
 
