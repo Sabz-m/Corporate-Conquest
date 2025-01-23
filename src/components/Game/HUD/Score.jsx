@@ -6,9 +6,9 @@ const ScoreDisplay = () => {
     // console.log(score, '<---in score.jsx')
 
     return (
-        <div className="score-display">
-            <h2>Score: {score}</h2> {/* Display the score in HUD */}
-        </div>
+      
+            <p>Score: {score}</p> 
+        
     );
 };
 
