@@ -10,12 +10,19 @@ import {
   faRefresh,
   faPlay,
 } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { resetGame } from "../../Actions/GameActions";
 
 export default function InGameSettings() {
+  const dispatch = useDispatch();
   const [isSoundOn, setIsSoundOn] = useState(true);
 
   const toggleSound = () => {
     setIsSoundOn((prevState) => !prevState);
+  };
+
+  const handleRestart = () => {
+    dispatch(resetGame()); // Reset game state (timer + score)
   };
 
   return (
@@ -29,7 +36,7 @@ export default function InGameSettings() {
           />
           Resume
         </button>
-        <Link to="/start-game">
+        <Link to="/start-game" onClick={handleRestart}>
           <button className="button">
             <FontAwesomeIcon icon={faRefresh} style={{ marginRight: "10px" }} />
             Restart

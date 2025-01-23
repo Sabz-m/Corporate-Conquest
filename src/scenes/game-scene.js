@@ -94,11 +94,24 @@ export default class GameScene extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys() // set up cursor keys
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.SPACE)
 
+        //set up the key sprite
+        this.key = this.physics.add.sprite(1055, 2000, "key")
+        // this.key.setCollideWorldBounds(true)
+        this.key.setVisible(true)
+        this.key.anims.play("key", true)
+
+        //set up elevator sprite
+        this.elevator = this.physics.add.sprite(288, 768, "elevator")
+        // this.elevator.setCollideWorldBounds(true)
+
         // setup cubicles with door open (background)
         this.add.sprite(960, 432, "cubicles", "cubicles_f6").setOrigin(1, 1)
 
         // set up player
         this.officedude = setupPlayer(this) // setup player NOTE: has to follow after animations are created
+
+        //setup group for active bullets
+        this.bulletsGroup = this.physics.add.group()
 
         // setup cubicles overlay after player (foreground)
         this.add
@@ -115,6 +128,10 @@ export default class GameScene extends Phaser.Scene {
             { x: 680, y: 400 },
             { x: 960, y: 750 },
             { x: 400, y: 850 },
+            { x: 115, y: 920 },
+            { x: 1175, y: 1200 },
+            { x: 930, y: 1390 },
+            { x: 1050, y: 1855 },
         ]
 
         enemySpawnPoints.forEach((spawnPoint) => {
@@ -135,6 +152,23 @@ export default class GameScene extends Phaser.Scene {
             this.officedude.attackbox,
             this.enemyBots,
             this.handleAttackCollision,
+            null,
+            this
+        )
+        //set up overlap check for interacting with the elevator
+        this.physics.add.overlap(
+            this.officedude,
+            this.elevator,
+            this.openElevator,
+            null,
+            this
+        )
+
+        // overlap for key and player
+        this.physics.add.overlap(
+            this.officedude,
+            this.key,
+            this.collectKey,
             null,
             this
         )
@@ -186,9 +220,21 @@ export default class GameScene extends Phaser.Scene {
             objectsLayerTop,
             collisionLayer,
         }) */
+
+        this.input.on("pointerdown", (pointer) => {
+            // console.log('clicked')
+            this.isPlayerAttacking = true
+            this.handleShoot(pointer)
+        })
     }
 
     update() {
+        const playerFeetTile = worldToTile(
+            this.officedude.feetbox.x,
+            this.officedude.feetbox.y,
+            this.gridSize
+        )
+
         const playerTile = worldToTile(
             this.officedude.x,
             this.officedude.y,
@@ -199,6 +245,7 @@ export default class GameScene extends Phaser.Scene {
             enemy.isTrackingPlayer = handleEnemyMovement({
                 enemy,
                 playerTile,
+                playerFeetTile,
                 spawnTile: enemy.spawnTile, // Use the enemy's individual spawn tile
                 grid: this.grid,
                 detectionRange: this.detectionRange,
@@ -320,17 +367,17 @@ export default class GameScene extends Phaser.Scene {
         // Play attack animation
         switch (this.officedude.direction) {
             case "up":
-                this.officedude.anims.play("punch-up", true)
+                this.officedude.anims.play("attack-up", true)
                 break
             case "left":
-                this.officedude.anims.play("punch-left", true)
+                this.officedude.anims.play("attack-left", true)
                 break
             case "right":
-                this.officedude.anims.play("punch-left", true)
+                this.officedude.anims.play("attack-left", true)
                 this.officedude.setFlipX(true)
                 break
             default:
-                this.officedude.anims.play("punch-down", true)
+                this.officedude.anims.play("attack-down", true)
         }
 
         // Set attack box position based on player's direction
@@ -341,5 +388,110 @@ export default class GameScene extends Phaser.Scene {
             this.isPlayerAttacking = false
             this.officedude.attackbox.body.enable = false
         })
+    }
+
+    spawnProjectile(direction) {
+        // Create a projectile at the player's current position
+        const bullet = this.bulletsGroup.create(
+            this.officedude.x,
+            this.officedude.y,
+            "bullet" // The key for your bullet sprite in the atlas
+        )
+
+        // Set velocity for the bullet
+        const speed = 500 // Adjust for desired speed
+        bullet.body.setVelocity(direction.x * speed, direction.y * speed)
+
+        // Optional: Set lifespan to remove bullet after traveling far
+        this.time.delayedCall(5000, () => bullet.destroy())
+
+        // Adjust physics body
+        bullet.setCircle(4) // Adjust for bullet size
+        bullet.body.setCollideWorldBounds(true)
+        bullet.body.onWorldBounds = true
+
+        // Remove bullet on world bounds collision
+        bullet.body.world.on("worldbounds", () => {
+            bullet.destroy()
+        })
+
+        // Add collision detection with enemies
+        this.physics.add.overlap(
+            bullet,
+            this.enemyBots,
+            (bullet, enemy) => {
+                enemy.enemyHealth -= 20 // Damage the enemy
+                bullet.destroy()
+                handleSuccessfulPlayerAttack(
+                    this.officedude,
+                    enemy,
+                    this.dispatch
+                )
+                if (enemy.enemyHealth <= 0) {
+                    enemy.anims.play("enemyexplodes", true)
+                    enemy.setScale(1.5)
+                    this.time.delayedCall(450, () => {
+                        this.enemyBots.remove(enemy, true, true)
+                    })
+                }
+            },
+            null,
+            this
+        )
+    }
+
+    handleShoot(pointer) {
+        // Calculate direction vector from player to pointer
+        const direction = new Phaser.Math.Vector2(
+            pointer.worldX - this.officedude.x,
+            pointer.worldY - this.officedude.y
+        ).normalize()
+
+        // Spawn the projectile
+        this.spawnProjectile(direction)
+
+        // Play shooting animation based on direction
+        const angle = Phaser.Math.Angle.Between(
+            this.officedude.x,
+            this.officedude.y,
+            pointer.worldX,
+            pointer.worldY
+        )
+        if (angle > -Math.PI / 4 && angle <= Math.PI / 4) {
+            this.officedude.anims.play("shoot-left", true)
+            this.officedude.setFlipX(true)
+        } else if (angle > Math.PI / 4 && angle <= (3 * Math.PI) / 4) {
+            this.officedude.anims.play("shoot-down", true)
+        } else if (angle > -(3 * Math.PI) / 4 && angle <= -Math.PI / 4) {
+            this.officedude.anims.play("shoot-up", true)
+        } else {
+            this.officedude.anims.play("shoot-left", true)
+            this.officedude.setFlipX(false)
+        }
+        this.time.delayedCall(450, () => {
+            this.isPlayerAttacking = false
+        })
+    }
+
+    collectKey(player, key) {
+        if (!this.hasKey) {
+            key.setVisible(false)
+
+            this.hasKey = true
+
+            console.log("key collected!")
+        }
+    }
+
+    openElevator(player, elevator) {
+        if (!elevator.hasOpened) {
+            if (this.hasKey) {
+                elevator.anims.play("elevator-open")
+                console.log("elevator is open")
+                elevator.hasOpened = true
+            } else {
+                console.log("you need a key to open this elevator")
+            }
+        }
     }
 }
