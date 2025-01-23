@@ -1,4 +1,11 @@
-import { START_TIMER, STOP_TIMER, RESET_TIMER, UPDATE_TIME, TOGGLE_PAUSE } from '../Actions/GameActions';
+import {
+  START_TIMER,
+  STOP_TIMER,
+  RESET_TIMER,
+  UPDATE_TIME,
+  TOGGLE_PAUSE,
+  RESET_GAME,
+} from "../Actions/GameActions";
 
 const initialState = {
   timer: {
@@ -45,8 +52,10 @@ const GameReducer = (state = initialState, action) => {
     case TOGGLE_PAUSE:
       return {
         ...state,
-        gamePaused: !state.gamePaused, // Toggle the paused state
+        gamePaused: !state.gamePaused,
       };
+    case RESET_GAME:
+      return { ...state, timer: { time: 0, isRunning: false } };
     default:
       return state;
   }
