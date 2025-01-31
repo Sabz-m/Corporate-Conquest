@@ -1,12 +1,27 @@
+Corporate Conquest
 
-# React + Vite
+Corporate Conquest is a top-down roguelike where AI enforcers have been deployed to keep workers in line. Your mission? Fight back against these oppressive AI forces, navigate through challenging levels, and battle your way to the final boss. Can you overthrow the system and rise to the top?
+Tech Stack
+Front End
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+    Phaser 3 – Game rendering and mechanics
+    React & Redux – UI and state management
+    JavaScript
 
-Currently, two official plugins are available:
+Back End
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+    Node.js & Express – Server-side logic
+    PostgreSQL – Database for storing player data
+    Passport.js – User authentication
+
+Features
+
+    Challenging AI Enemies – Engage in intense combat with AI enforcers (Pathfinding built with the A* algorithm)
+    Leaderboard – See how you rank against other players
+    Progressive Difficulty – Battle through levels with increasing challenges
+    Secure Authentication – Log in with Passport.js to track your progress
+
+Jump in, fight back, and claim your place at the top! 🚀
 
 
 src/components/
